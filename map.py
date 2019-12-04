@@ -126,7 +126,15 @@ class map:
 
 if __name__ == "__main__":
 	game = map('testing')
+	print(f"\n{game.name}\n")
 	game.print_map()
 	game.check_cuboid(game.current_cuboid, 'test')
-	print(game.get_nerby_cuboids())
+
+	nerby_cubids_data = game.get_nerby_cuboids()
+	
+	for element in nerby_cubids_data:
+		print()
+		print(element)
+		print(nerby_cubids_data[element])
+		print()
 
