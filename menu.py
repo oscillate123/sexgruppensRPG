@@ -1,5 +1,6 @@
 from os import system, name
 import sys, time
+from map import map as m
 
 
 def clear_screen():
@@ -120,7 +121,8 @@ def start_menu():
 
                 if spawn_selected == True:
                     print_slow(f"Your spawnpoint is {spawn_point}")
-                    #start game
-                    break
+                    m.user_grid_req = grid_size
+                    import map
+                    #break
 
 start_menu()
