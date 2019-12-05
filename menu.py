@@ -1,7 +1,7 @@
 from os import system, name
 import sys, time
-from map import map as m
-
+#from map import map as m
+from map import *
 
 def clear_screen():
     if name == 'nt':
@@ -93,7 +93,7 @@ def start_menu():
                     spawn_selected=False
                     clear_screen()
                     print_slow(" -----------------")
-                    print_slow(f"You have now choosen your hero:{hero_name} and you are ready for your adventure")
+                    print_slow(f"You have now choosen your hero {hero_name} and you are ready for your adventure")
                     print_slow("Pick a spawn point on the map: ")
                     print_slow("# 1 for NorthWest")
                     print_slow("# 2 for NorthEast")
@@ -109,20 +109,20 @@ def start_menu():
                 if spawn_select == 1:
                     spawn_point = "NW"
                     spawn_selected = True
-                if spawn_select == 2:
+                elif spawn_select == 2:
                     spawn_point = "NE"
                     spawn_selected = True
-                if spawn_select == 3:
+                elif spawn_select == 3:
                     spawn_point = "SW"
                     spawn_selected = True
-                if spawn_select == 4:
+                elif spawn_select == 4:
                     spawn_point = "SE"
                     spawn_selected = True
 
                 if spawn_selected == True:
                     print_slow(f"Your spawnpoint is {spawn_point}")
-                    m.user_grid_req = grid_size
-                    import map
-                    #break
+                    
+                    
+                    return grid_size, spawn_point, hero_name
 
 start_menu()
