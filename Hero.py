@@ -2,8 +2,8 @@
 class Hero:
     def __init__(self):
         self.name = name
-        self.initiativ = initiative
-        self.health = healthpoints
+        self.initiative = initiative
+        self.health = health
         self.attack = attack
         self.agility = agility
 
@@ -23,7 +23,7 @@ class Hero:
 class Knight(Hero):
     def __init__(self, hero_name):
         self.name = hero_name
-        self.initiativ = 5
+        self.initiative = 5
         self.health = 9
         self.attack = 6
         self.agility = 4
@@ -39,7 +39,7 @@ class Knight(Hero):
 class Wizard(Hero):
     def __init__(self, hero_name):
         self.name = hero_name
-        self.initiativ = 6
+        self.initiative = 6
         self.health = 4
         self.attack = 9
         self.agility = 5
@@ -51,7 +51,7 @@ class Wizard(Hero):
 class Rouge(Hero):
     def __init__(self, hero_name):
         self.name = hero_name
-        self.initiativ = 7
+        self.initiative = 7
         self.health = 5
         self.attack = 5
         self.agility = 7
