@@ -1,17 +1,18 @@
 from os import system, name
 import sys, time
 from map import map as m
+from Character import Knight
 
 
 def clear_screen():
     if name == 'nt':
-        _= system('cls')
+        _ = system('cls')
     else:
         _ = system('clear')
 
 
 def print_slow(str):
-    str=str+"\n"
+    str = str+"\n"
     for letter in str:
         sys.stdout.write(letter)
         sys.stdout.flush()
@@ -75,7 +76,13 @@ def start_menu():
                 if hero_select == 1:
                     hero_selected = True
                     print_slow("You have choosen the Knight! ")
-                    hero_name = "Knight"
+                    print_slow("Give it a name! ")
+                    hero_name = input("\n --> ")
+                    knight = Knight(hero_name, 5, 9, 6, 4, 0)
+                    print_slow("\nYour hero! \n")
+                    print_slow(hero_name)
+                    knight.print_stats()
+                    #hero_name = "Knight"
                     #print_slow knight.stats()
                 elif hero_select == 2:
                     hero_selected = True
