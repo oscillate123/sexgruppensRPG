@@ -1,6 +1,6 @@
 
 class Hero:
-    def __init__(self, name, initiative, health, attack, agility):
+    def __init__(self):
         self.name = name
         self.initiativ = initiative
         self.health = healthpoints
@@ -21,6 +21,13 @@ class Hero:
         pass
 
 class Knight(Hero):
+    def __init__(self, hero_name):
+        self.name = hero_name
+        self.initiativ = 5
+        self.health = 9
+        self.attack = 6
+        self.agility = 4
+
     #Blocks the first attack of every battle.
     def special_skill(self, round):
         if round == 1:
@@ -30,11 +37,25 @@ class Knight(Hero):
             return False
 
 class Wizard(Hero):
+    def __init__(self, hero_name):
+        self.name = hero_name
+        self.initiativ = 6
+        self.health = 4
+        self.attack = 9
+        self.agility = 5
+
     #Always 80% chance to escape a battle
     def special_skill(self):
         print("LightBeem")
 
 class Rouge(Hero):
+    def __init__(self, hero_name):
+        self.name = hero_name
+        self.initiativ = 7
+        self.health = 5
+        self.attack = 5
+        self.agility = 7
+
     #Critical hit. Have a 25% chance of doing 2x damage every turn.
     def special_skill(self):
         print("CriticalHit")
