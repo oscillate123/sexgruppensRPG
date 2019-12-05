@@ -141,11 +141,12 @@ def spawn_menu():
 		spawn_selected = True
 		spawn_coordinates = [5, 5]
 
-	if spawn_selected == True:
+	if spawn_selected:
 		current_run = map(name="demo_run")
 		current_run.update_current_cuboid(coordinate=spawn_coordinates)
 		map_object = current_run.check_cuboid(coordinate=current_run.current_cuboid, option='return')
 		print_slow(f"Your spawnpoint is on the {map_object}, at coordinate {current_run.current_cuboid}")
+		current_run.print_map()
 		# start game
 		return current_run
 
