@@ -154,9 +154,10 @@ if __name__ == "__main__":
 	game.check_cuboid(game.current_cuboid, option='test')
 	nerby_cubids_data = game.get_nerby_cuboids()
 	
+	print()
+
 	for element in nerby_cubids_data:
 		time.sleep(1)
-		print()
 		print(element)
 		print(nerby_cubids_data[element])
 		print()
