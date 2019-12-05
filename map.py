@@ -150,14 +150,9 @@ if __name__ == "__main__":
 	print(f"below we test class attributes, methods and static methods. we print the results for manual correction")
 	print(f"\n{game.name}\n")
 
-	time.sleep(5)
-
 	game.print_map()
 	game.check_cuboid(game.current_cuboid, option='test')
-
 	nerby_cubids_data = game.get_nerby_cuboids()
-
-	time.sleep(2)
 	
 	for element in nerby_cubids_data:
 		time.sleep(1)
@@ -166,17 +161,11 @@ if __name__ == "__main__":
 		print(nerby_cubids_data[element])
 		print()
 
-	time.sleep(2)
-
 	game.update_current_cuboid(coordinate=[1, 1])
 	print(game.current_cuboid)
 	game.check_cuboid(game.current_cuboid, option='test')
 
-	time.sleep(2)
-
 	print('updating current_cuboid from [1, 1] --> [4, 3]')
-
-	time.sleep(2)
 
 	game.update_current_cuboid(coordinate=[4, 3])
 	print(game.current_cuboid)
