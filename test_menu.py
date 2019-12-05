@@ -147,8 +147,8 @@ def spawn_menu():
 		map_object = current_run.check_cuboid(coordinate=current_run.current_cuboid, option='return')
 		print_slow(f"Your spawnpoint is on the {map_object}, at coordinate {current_run.current_cuboid}")
 		current_run.print_map()
-		# start game
-		return current_run
+		input()# start game
+		#return current_run
 
 
 start_menu()
