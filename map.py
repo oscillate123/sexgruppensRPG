@@ -119,9 +119,14 @@ class map:
 			}
 		return nearby_cubiods_data
 
-	def update_current_cuboid(self, coordinate):
+	def update_current_cuboid(self, coordinate, mode):
 		# used for updating the self.current_cuboid coordinate
-		pass
+		self.current_cuboid = coordinate
+
+		if mode == "return":
+			return self.current_cuboid
+		else:
+			pass
 
 
 if __name__ == "__main__":
