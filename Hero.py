@@ -1,7 +1,7 @@
 
 class Hero:
-    def __init__(self):
-        self.name = name
+    def __init__(self, hero_name):
+        self.hero_name = hero_name
         self.initiative = initiative
         self.health = health
         self.attack = attack
@@ -9,8 +9,9 @@ class Hero:
 
     def print_stats(self):
         print("-----------------")
-        print(f"  Class : {self.__class__.__name__}  ")
+        print(f"Class : {self.__class__.__name__}  ")
         print("-----------------\n")
+        print(f"Name : {self.hero_name}\n")
         print(f"Initiative : {self.initiative}")
         print(f"Health : {self.health}")
         print(f"Attack : {self.attack}")
@@ -22,7 +23,7 @@ class Hero:
 
 class Knight(Hero):
     def __init__(self, hero_name):
-        self.name = hero_name
+        self.hero_name = hero_name
         self.initiative = 5
         self.health = 9
         self.attack = 6
@@ -38,7 +39,7 @@ class Knight(Hero):
 
 class Wizard(Hero):
     def __init__(self, hero_name):
-        self.name = hero_name
+        self.hero_name = hero_name
         self.initiative = 6
         self.health = 4
         self.attack = 9
@@ -50,7 +51,7 @@ class Wizard(Hero):
 
 class Rouge(Hero):
     def __init__(self, hero_name):
-        self.name = hero_name
+        self.hero_name = hero_name
         self.initiative = 7
         self.health = 5
         self.attack = 5
