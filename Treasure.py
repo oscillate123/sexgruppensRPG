@@ -31,8 +31,6 @@ class Treasure:
 
         print(total_loot)
 
-
-
         print(f"TOTAL LOOT : {total_loot}")
 
 t = Treasure()
