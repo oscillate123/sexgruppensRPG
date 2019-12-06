@@ -2,11 +2,17 @@ from os import system, name
 import sys, time
 from map import map as m
 from Character import Knight
+from Monsters import *
+
+
 
 
 def clear_screen():
     if name == 'nt':
         _ = system('cls')
+
+        m = GiantSpider()
+
     else:
         _ = system('clear')
 
@@ -38,6 +44,7 @@ def start_menu():
         
         if (sub_meny ==3):
             print_slow("BYEEEEEEEE")
+
             exit()
 
         if (sub_meny ==1):
