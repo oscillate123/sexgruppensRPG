@@ -9,12 +9,10 @@ class Treasure:
         self.small_treasure_chest = 20
 
     def generate_treasure(self):
-
         total_loot = 0
         picked_points = []
 
-        for i in range(6):
-
+        for i in range(5):
             value_points = [2, 6, 10, 14, 20, 0]
             probabilities = [0.4, 0.2, 0.15, 0.1, 0.05, 0.10]
 
