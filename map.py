@@ -2,8 +2,16 @@
 
 class map:
 
+	# list of methods in this class
+	# method : check_cuboid 	--> check what kind of map object the cuboid is (options are available)
+	# method : get_nerby_cuboids--> check what kind of map objects nerby cuboids are
+	# method : print_map		--> print the map_grid in console
+	# method : map_grid 		--> return the attribute map_grid (its a two-dimensional array)
+	# method : update_current_cuboid --> updates the current cuboid coordinate (options are available)
+
 	def __init__(self, name):
 		self.name = name
+		# provide the map a name (like de_dust2 ;D)
 
 		self.user_grid_req = 5
 		# self.user_grid_req = randrange(4, 9)
@@ -27,6 +35,7 @@ class map:
 		# class attributes that indicates what nerby cuboids are on the grid
 
 	@staticmethod
+	# used for supporting the map class
 	def grid_generator(number):
 		length = []
 
@@ -45,6 +54,7 @@ class map:
 		return length
 
 	@staticmethod
+	# used for supporting the map class
 	def number_pos_or_neg(number):
 		if number > -1:
 			return number
@@ -59,26 +69,25 @@ class map:
 			print(y)
 		return
 
-	def check_cuboid(self, coordinate, mode):
+	def check_cuboid(self, coordinate, option):
 		y, x = coordinate
 
 		y = self.number_pos_or_neg(y)
 		x = self.number_pos_or_neg(x)
 
-		mode = mode
 		shrug = r'¯\_(ツ)_/¯'
 		error = f"error! in map.check_cuboid. Name: {self.name} {shrug}"
 
 		if y is not False and x is not False:
 
-			if mode == "test":
+			if option == "test":
 				if self.map_grid[y][x] == '#':
 					print("Room")
 				elif self.map_grid[y][x] == '_':
 					print("Edge")
 				else:
 					print(error)
-			elif mode == "options":
+			elif option == "return":
 				if self.map_grid[y][x] == '#':
 					return "room"
 				elif self.map_grid[y][x] == '_':
@@ -90,51 +99,76 @@ class map:
 				return error
 
 		else:
-			if mode == "test":
+			if option == "test":
 				print('Out of map')
-			elif mode == "options":
+			elif option == "return":
 				return 'Out of map'
 			else:
 				print(error)
 				return error
 
 	def get_nerby_cuboids(self):
+		# provides a dictionary with the data of above, below, right and left cuboids
 		nearby_cubiods_data = {
 			'above': {
 				'coordinate': self.cuboid_above,
-				'map object type': self.check_cuboid(self.cuboid_above, 'options')
+				'map_object_type': self.check_cuboid(self.cuboid_above, option='return')
 				},
 			'below': {
 				'coordinate': self.cuboid_below,
-				'map object type': self.check_cuboid(self.cuboid_below, 'options')
+				'map_object_type': self.check_cuboid(self.cuboid_below, option='return')
 				},
 			'right': {
 				'coordinate': self.cuboid_right,
-				'map object type': self.check_cuboid(self.cuboid_right, 'options')
+				'map_object_type': self.check_cuboid(self.cuboid_right, option='return')
 				},
 			'left': {
 				'coordinate': self.cuboid_left,
-				'map object type': self.check_cuboid(self.cuboid_left, 'options')
+				'map_object_type': self.check_cuboid(self.cuboid_left, option='return')
 				}
 			}
 		return nearby_cubiods_data
 
-	def update_current_cuboid(self, coordinate):
+	def update_current_cuboid(self, coordinate, option='empty'):
 		# used for updating the self.current_cuboid coordinate
-		pass
+		# mode='empty' is a default value, so we are not forced to provide option everytime we invoke the method
+		self.current_cuboid = coordinate
+
+		if option == "return":
+			return self.current_cuboid
+		else:
+			pass
 
 
 if __name__ == "__main__":
-	game = map('testing')
-	print(f"\n{game.name}\n")
-	game.print_map()
-	game.check_cuboid(game.current_cuboid, 'test')
+	import time
 
+	# this code will only run if you run the file directly.
+	# If you refer/invoke the class, below code will not run.
+
+	game = map('default_map_5x5')
+	print(f"below we test class attributes, methods and static methods. we print the results for manual correction")
+	print(f"\n{game.name}\n")
+
+	game.print_map()
+	game.check_cuboid(game.current_cuboid, option='test')
 	nerby_cubids_data = game.get_nerby_cuboids()
 	
+	print()
+
 	for element in nerby_cubids_data:
-		print()
+		time.sleep(1)
 		print(element)
 		print(nerby_cubids_data[element])
 		print()
+
+	game.update_current_cuboid(coordinate=[1, 1])
+	print(game.current_cuboid)
+	game.check_cuboid(game.current_cuboid, option='test')
+
+	print('updating current_cuboid from [1, 1] --> [4, 3]')
+
+	game.update_current_cuboid(coordinate=[4, 3])
+	print(game.current_cuboid)
+	game.check_cuboid(game.current_cuboid, option='test')
 
