@@ -32,13 +32,8 @@ class Skeleton(Monster):
 class Orc(Monster):
     def __init__(self):
         super().__init__(6, 3, 4, 4, 10)
-    pass
 
 
 class Troll(Monster):
     def __init__(self):
         super().__init__(2, 4, 7, 2, 5)
-    pass
-
-
-
