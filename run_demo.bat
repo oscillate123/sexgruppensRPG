@@ -1,1 +1,1 @@
-python test_menu.py
+python demo_menu.py
