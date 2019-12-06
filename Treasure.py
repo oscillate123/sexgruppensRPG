@@ -1,6 +1,5 @@
 from numpy.random import choice
 
-
 class Treasure:
     def __init__(self):
         self.coins = 2
