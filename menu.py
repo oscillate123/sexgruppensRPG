@@ -1,6 +1,6 @@
 from os import system, name
 import sys, time
-from map import map as map
+from map import map as m
 from Monsters import *
 from Hero import *
 import json
@@ -134,7 +134,6 @@ def start_menu():
                     print_slow("You have choosen the Knight! ")
                     print_slow("Give it a name! ")
                     hero_name = input("\n --> ")
-                    # knight = Knight(hero_name, 5, 9, 6, 4, 0)
                     knight = Knight(hero_name)
                     print_slow("\nYour hero! \n")
                     knight.print_stats()
@@ -185,14 +184,11 @@ def start_menu():
                     spawn_selected = True
 
                 if spawn_selected == True:
-                    pass
-                    #current_run = map(name="demo_run")
-                    #current_run.update_current_cuboid(coordinate=spawn_coordinates)
-                    #map_object = current_run.check_cuboid(coordinate=current_run.current_cuboid, option='return')
-                    #print_slow(f"Your spawnpoint is on the {map_object}, at coordinate {current_run.current_cuboid}")
-                    #current_run.print_map()
-                    #input()  # start game
-                # return current_run
+                    print_slow(f"Your spawnpoint is {spawn_point}")
+                    m.user_grid_req = grid_size
+                    import map
+                    # break
+
 
 
 start_menu()
