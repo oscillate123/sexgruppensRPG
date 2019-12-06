@@ -1,5 +1,5 @@
 class Hero:
-    def __init__(self, name, initiative, health, attack, agility):
+    def __init__(self):
         self.name = name
         self.initiative = initiative
         self.health = health
@@ -21,7 +21,7 @@ class Hero:
 
 class Knight(Hero):
     def __init__(self, hero_name):
-        super().__init__(name= hero_name, initiative= 5)
+        super().__init__()
         self.name = hero_name
         self.initiative = 5
         self.health = 9
