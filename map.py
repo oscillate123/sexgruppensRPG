@@ -1,5 +1,5 @@
 # from random import randrange
-import menu
+#import menu
 #from menu import grid_size
 class map:
 

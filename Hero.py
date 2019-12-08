@@ -58,7 +58,7 @@ class Wizard(Hero):
 
 class Rouge(Hero):
     def __init__(self, hero_name):
-        super().__init__(hero_name, 7, 5, 5, 7, 0)
+        super().__init__(hero_name, 7, 5, 5, 7, 0, "Rouge")
 
 
     #Critical hit. Have a 25% chance of doing 2x damage every turn.
