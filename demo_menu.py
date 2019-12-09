@@ -5,26 +5,6 @@ from Monsters import *
 from Hero import *
 import json
 
-with open("saved_heroes.json", "r") as open_file:
-    dict_list = json.load(open_file)
-    saved_character_list = []
-    created_character_list = []
-
-    for item in dict_list:
-        if item["Type"] == "Knight":
-            knight = Knight(item["Name"])
-            knight.score = item["Score"]
-            saved_character_list.append(knight)
-		
-		#if item["Type"] == "Rouge":
-			#rouge = Rouge(item["Name"])
-			#rouge.score = item["Score"]
-			#saved_character_list.append(rouge)
-
-# förstår inte hur man gör för att kunna spara alla typer av heroes och kunna ladda dem ;( 
-# får upp "inconsistent use of tabs or spacs in indentation" ifall man lägger de två if satserna tsm. (som ovan)
-# och går ej att göra en egen open för vardera hero, behöver nån universall sats för att lösa det?
-# PLEASE SEND HELP !!!
 
 with open("saved_heroes.json","r") as open_file:
 	dict_list = json.load(open_file)
@@ -35,9 +15,16 @@ with open("saved_heroes.json","r") as open_file:
 			rouge = Rouge(item["Name"])
 			rouge.score = item["Score"]
 			saved_character_list.append(rouge)
+		elif item["Type"] == "Knight":
+			knight = Knight(item["Name"])
+			knight.score = item["Score"]
+			saved_character_list.append(knight)
+		elif item["Type"] == "Wizard":
+			wizard = Wizard(item["Name"])
+			wizard.score = item["Score"]
+			saved_character_list.append(wizard)
+
 		
-
-
 # Here starts all the help functions for the program
 
 def clear_screen():
@@ -162,8 +149,8 @@ def hero_menu():
 	print_slow("Welcome to Dungeon run now it's time to choose your hero: ")
 	print_slow("The available options are as follows :")
 	print_slow("# 1 for Knight")
-	print_slow("# 2 for Thief")
-	print_slow("# 3 for Magician")
+	print_slow("# 2 for Rogue")
+	print_slow("# 3 for Wizard")
 	print_slow(" -----------------")
 	try:
 		hero_select = int(input('\n --> '))
@@ -184,7 +171,7 @@ def hero_menu():
 
 	elif (hero_select == 2):
 		hero_selected = True
-		print_slow("You have choosen the Thief! ")
+		print_slow("You have choosen the Rogue! ")
 		print_slow("Give your hero a name! ")
 		hero_name = input("\n --> ")
 		rouge = Rouge(hero_name)
@@ -195,9 +182,16 @@ def hero_menu():
 		created_character_list.append(rouge)
 	elif (hero_select == 3):
 		hero_selected = True
-		print_slow("you have choosen the Magician! ")
-		hero_name = "Magician"
-		# print_slow magician.stats()
+		print_slow("You have choosen the Wizard! ")
+		print_slow("Give your hero a name! ")
+		hero_name = input("\n --> ")
+		wizard = Wizard(hero_name)
+		wizard.print_stats()
+		print_slow(" -----------------")
+		input("Press enter to continue")
+		wizard.add_hero_dict(dict_list)
+		created_character_list.append(wizard)
+		
 	else:
 		print_slow("Wrong input! Please read the instructions")
 	if hero_selected is True:
