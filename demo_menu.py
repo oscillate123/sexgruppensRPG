@@ -80,8 +80,6 @@ def ask_to_save():
 	print_slow("# 1 Save")
 	print_slow("# 2 Continue exploring")
 
-    #answer = validate_int()
-
 	if (answer == 1):
 		save_character()
 	else:
@@ -103,7 +101,7 @@ def start_menu():
         if (sub_meny == 1):
             hero_name = hero_menu()
 
-            if hero_name != False:
+            if hero_name == True:
                 grid_select = grid_menu()
                 spawn_point = spawn_menu()
 
@@ -186,54 +184,57 @@ def hero_menu():
             choice, hero_name = choose_hero("Rouge")
 
         #Nödlösning med en int och str orkade inte mer...
-        if choice == '9' or 9:
-            hero_selected = False
-            return False
+        if choice == '9':
+            continue
+
+        if hero_select == 9:
+            break
 
         if hero_selected is True:
-            return hero_name
+            return True
 
 def spawn_menu():
-	clear_screen()
-	spawn_selected = False
-	spawn_select = 0
-	spawn_coordinates = []
+    clear_screen()
+    spawn_selected = False
+    spawn_select = 0
+    spawn_coordinates = []
 
-	print_slow(" -----------------")
-	print_slow("Pick a spawn point on the map: ")
-	print_slow("# 1 for NorthWest")
-	print_slow("# 2 for NorthEast")
-	print_slow("# 3 for SouthWest")
-	print_slow("# 4 for SouthEast")
-	print_slow(" -----------------")
+    print_slow(" -----------------")
+    print_slow("Pick a spawn point on the map: ")
+    print_slow("# 1 for NorthWest")
+    print_slow("# 2 for NorthEast")
+    print_slow("# 3 for SouthWest")
+    print_slow("# 4 for SouthEast")
+    print_slow(" -----------------")
 
-	spawn_select = validate_int()
+    spawn_select = validate_int()
 
-	if spawn_select == 1:
-		spawn_point = "NW"
-		spawn_selected = True
-		spawn_coordinates = [0, 0]
-	elif spawn_select == 2:
-		spawn_point = "NE"
-		spawn_selected = True
-		spawn_coordinates = [0, 5]
-	elif spawn_select == 3:
-		spawn_point = "SW"
-		spawn_selected = True
-		spawn_coordinates = [5, 0]
-	elif spawn_select == 4:
-		spawn_point = "SE"
-		spawn_selected = True
-		spawn_coordinates = [5, 5]
+    if spawn_select == 1:
+        spawn_point = "NW"
+        spawn_selected = True
+        spawn_coordinates = [0, 0]
+    elif spawn_select == 2:
+        spawn_point = "NE"
+        spawn_selected = True
+        spawn_coordinates = [0, 5]
+    elif spawn_select == 3:
+        spawn_point = "SW"
+        spawn_selected = True
+        spawn_coordinates = [5, 0]
+    elif spawn_select == 4:
+        spawn_point = "SE"
+        spawn_selected = True
+        spawn_coordinates = [5, 5]
 
-	if spawn_selected:
-		current_run = map(name="demo_run")
-		current_run.update_current_cuboid(coordinate=spawn_coordinates)
-		map_object = current_run.check_cuboid(coordinate=current_run.current_cuboid, option='return')
-		print_slow(f"Your spawnpoint is on the {map_object}, at coordinate {current_run.current_cuboid}")
-		current_run.print_map()
-		ask_to_save()
-		input()
+    if spawn_selected:
+        current_run = map(name="demo_run")
+        current_run.update_current_cuboid(coordinate=spawn_coordinates)
+        map_object = current_run.check_cuboid(coordinate=current_run.current_cuboid, option='return')
+        print_slow(f"Your spawnpoint is on the {map_object}, at coordinate {current_run.current_cuboid}")
+        current_run.print_map()
+        ask_to_save() #REMOVE?
+        save_character() #Added
+        input()
 
 if __name__ == "__main__":
     start_menu()
