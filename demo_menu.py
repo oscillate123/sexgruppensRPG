@@ -4,6 +4,7 @@ from map import map as map
 from Monsters import *
 from Hero import *
 import json
+from other_functions import*
 
 with open("saved_heroes.json", "r") as open_file:
     dict_list = json.load(open_file)
@@ -15,13 +16,13 @@ with open("saved_heroes.json", "r") as open_file:
             knight = Knight(item["Name"])
             knight.score = item["Score"]
             saved_character_list.append(knight)
-		
+
 		#if item["Type"] == "Rouge":
 			#rouge = Rouge(item["Name"])
 			#rouge.score = item["Score"]
 			#saved_character_list.append(rouge)
 
-# förstår inte hur man gör för att kunna spara alla typer av heroes och kunna ladda dem ;( 
+# förstår inte hur man gör för att kunna spara alla typer av heroes och kunna ladda dem ;(
 # får upp "inconsistent use of tabs or spacs in indentation" ifall man lägger de två if satserna tsm. (som ovan)
 # och går ej att göra en egen open för vardera hero, behöver nån universall sats för att lösa det?
 # PLEASE SEND HELP !!!
@@ -35,23 +36,8 @@ with open("saved_heroes.json","r") as open_file:
 			rouge = Rouge(item["Name"])
 			rouge.score = item["Score"]
 			saved_character_list.append(rouge)
-		
-
 
 # Here starts all the help functions for the program
-
-def clear_screen():
-	if name == 'nt':
-		_ = system('cls')
-	else:
-		_ = system('clear')
-
-def print_slow(str):
-	str = str + "\n"
-	for letter in str:
-		sys.stdout.write(letter)
-		sys.stdout.flush()
-		time.sleep(0.02)
 
 def load_hero():
 	if len(saved_character_list) != 0:
@@ -59,7 +45,9 @@ def load_hero():
 		for item in saved_character_list:
 			print(item)
 		print("Write the name of the hero you want to play with!")
-		name_select = input("\n --> ")
+
+        name_select = validate_str()
+        
 		for item in saved_character_list:
 			item = str(item)
 			if name_select in item:
@@ -83,7 +71,7 @@ def save_character():
 		for item in created_character_list:
 			print(item)
 		print("Type in the name of the hero you want to save!")
-		name_select = input("\n --> ")
+		name_select = validate_str()
 		for item in created_character_list:
 			item = str(item)
 			if name_select in item:
@@ -97,10 +85,9 @@ def ask_to_save():
 	print_slow(" do you want to save your character at this point?")
 	print_slow("# 1 Save")
 	print_slow("# 2 Continue exploring")
-	try:
-		answer = int(input('\n --> '))
-	except ValueError:
-		print_slow("Wrong input")
+
+    #answer = validate_int()
+
 	if (answer == 1):
 		save_character()
 	else:
@@ -118,11 +105,8 @@ def start_menu():
 		print_slow("# 2 Load Game")
 		print_slow("# 3 Quit")
 		print_slow(" -----------------")
-		try:
-			sub_meny = int(input('\n --> '))
-		except ValueError:
-			print_slow("Wrong input")
-			continue
+
+		sub_meny = validate_int()
 
 		if (sub_meny == 1):
 			hero_name = hero_menu()
@@ -147,7 +131,7 @@ def grid_menu():
 	print_slow("# 5 for 5x5 grid")
 	print_slow("# 8 for 8x8 grid")
 	print_slow(" -----------------")
-	grid_select = int(input('\n --> '))
+	grid_select = validate_int()
 	if grid_select != 4 and grid_select != 5 and grid_select != 8:
 		print_slow("Wrong input please follow the instructions correctly")
 	else:
@@ -165,16 +149,14 @@ def hero_menu():
 	print_slow("# 2 for Thief")
 	print_slow("# 3 for Magician")
 	print_slow(" -----------------")
-	try:
-		hero_select = int(input('\n --> '))
-	except ValueError:
-		print_slow("Wrong input")
+
+	hero_select = validate_int()
 
 	if (hero_select == 1):
 		hero_selected = True
 		print_slow("You have choosen the Knight! ")
 		print_slow("Give your hero a name! ")
-		hero_name = input("\n --> ")
+		hero_name = validate_str()
 		knight = Knight(hero_name)
 		knight.print_stats()
 		print_slow(" -----------------")
@@ -217,10 +199,8 @@ def spawn_menu():
 	print_slow("# 4 for SouthEast")
 	print_slow(" -----------------")
 
-	try:
-		spawn_select = int(input('\n --> '))
-	except ValueError:
-		print_slow("Wrong input")
+
+	spawn_select = validate_int()
 
 	if spawn_select == 1:
 		spawn_point = "NW"
@@ -249,8 +229,8 @@ def spawn_menu():
 		input()# start game
 		#return current_run
 
-
-start_menu()
-# grid_menu()
-# hero_menu()
-# spawn_menu()11
+if __name__ == "__main__":
+    start_menu()
+    # grid_menu()
+    # hero_menu()
+    # spawn_menu()11
