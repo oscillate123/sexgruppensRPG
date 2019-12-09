@@ -1,5 +1,6 @@
 # from random import randrange
-
+#import menu
+#from menu import grid_size
 class map:
 
 	# list of methods in this class
@@ -13,10 +14,10 @@ class map:
 		self.name = name
 		# provide the map a name (like de_dust2 ;D)
 
-		self.user_grid_req = 5
+		self.user_grid_req = 4 #grid_size
 		# self.user_grid_req = randrange(4, 9)
 		# replace self.user_grid_req = 5 with above line if you want random map size
-		# you also need to uncomment "from random import randrange" on line 1
+		# you also need to uncomment "from random import randrange" on l1ine 111111
 
 		self.map_grid_number = self.user_grid_req + 2 
 		# +2 because we want to make edges
