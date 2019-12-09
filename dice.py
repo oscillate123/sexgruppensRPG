@@ -9,4 +9,4 @@ def n_dice(number_of_dice):
     return dice_sum
 
 #For debug
-print(f"Total dice : {dice_many(6)}")
+print(f"Total dice : {n_dice(6)}")
