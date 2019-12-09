@@ -8,19 +8,61 @@ import json
 
 with open("saved_heroes.json", "r") as open_file:
     dict_list = json.load(open_file)
-    saved_character_list = []
-    created_character_list = []
+    saved_heroes_list = []
+    created_heroes_list = []
     for item in dict_list:
         if item["Type"] == "Knight":
             knight = Knight(item["Name"])
             knight.score = item["Score"]
-            saved_character_list.append(knight)
+            saved_heroes_list.append(knight)
+        elif item["Type"] == "Wizard":
+            wizard = Wizard(item["Name"])
+            wizard.score = item["Score"]
+            saved_heroes_list.append(wizard)
+        elif item["Type"] == "Rouge":
+            thief = Rouge(item["Name"])
+            thief.score = item["Score"]
+            saved_heroes_list.append(thief)
 
 
 def save_character():
-    with open("saved_heroes.json", "w") as close_file:
-        json.dump(dict_list, close_file)
-        close_file.close()
+    if len(created_heroes_list) != 0:
+        print("Created heroes: ")
+        for item in created_heroes_list:
+            print(item)
+        print("Type in the name of the hero you want to save!")
+        name_select = input("\n --> ")
+        if name_select not in saved_heroes_list:
+            #print(f"The hero {name_select} has already been saved!")
+            for item in created_heroes_list:
+                item = str(item)
+                if name_select in item:
+                    saved_heroes_list.append(item)
+                    print("Hero saved!\n")
+        with open("saved_heroes.json", "w") as close_file:
+            json.dump(dict_list, close_file)
+            close_file.close()
+    else:
+        print("A hero needs to be created in order to be saved!\n")
+
+
+def load_hero():
+    if len(saved_heroes_list) != 0:
+        print("Saved heroes: \n")
+        for item in saved_heroes_list:
+            print(item)
+        print("Write the name of the hero you want to play with!")
+        name_select = input("\n --> ")
+        for item in saved_heroes_list:
+            item = str(item)
+            if name_select in item:
+                print(f"The hero '{name_select}' has been selected!")
+            else:
+                continue
+                #print(f"No hero with the name '{name_select}' has been saved!")
+
+    else:
+        print("No heroes saved!")
 
 
 def clear_screen():
@@ -63,38 +105,12 @@ def start_menu():
             exit()
 
         elif (sub_meny == 2):
+            load_hero()
 
-            if len(saved_character_list) != 0:
-                print("Saved heroes: \n")
-                for item in saved_character_list:
-                    print(item)
-                print("Write the name of the hero you want to play with!")
-                name_select = input("\n --> ")
-                for item in saved_character_list:
-                    item = str(item)
-                    if name_select in item:
-                        print(f"The hero '{name_select}' has been selected!")
-                  #  else:
-                 #       break
-                #print(f"No hero with the name '{name_select}' has been saved!")
-            else:
-                print("No heroes saved!")
 
         elif (sub_meny == 3):
-            if len(created_character_list) != 0:
-                print("Created heroes: ")
-                for item in created_character_list:
-                    print(item)
-                print("Type in the name of the hero you want to save!")
-                name_select = input("\n --> ")
-                for item in created_character_list:
-                    item = str(item)
-                    if name_select in item:
-                        saved_character_list.append(item)
-                save_character()
-                print("Hero saved!\n")
-            else:
-                print("A hero needs to be created in order to be saved!\n")
+            save_character()
+
 
         elif (sub_meny == 1):
             clear_screen()
@@ -132,25 +148,33 @@ def start_menu():
                 if hero_select == 1:
                     hero_selected = True
                     print_slow("You have choosen the Knight! ")
-                    print_slow("Give it a name! ")
+                    print_slow("Give your hero a name! ")
                     hero_name = input("\n --> ")
                     knight = Knight(hero_name)
                     print_slow("\nYour hero! \n")
                     knight.print_stats()
                     knight.add_hero_dict(dict_list)
-                    created_character_list.append(knight)
-                    # hero_name = "Knight"
-                    # print_slow knight.stats()
+                    created_heroes_list.append(knight)
                 elif hero_select == 2:
                     hero_selected = True
-                    print_slow("you have choosen the Thief! ")
-                    hero_name = "Thief"
-                    # print_slow thief.stats()
+                    print_slow("You have choosen the Thief! ")
+                    print_slow("Give your hero a name!")
+                    hero_name = input("\n --> ")
+                    thief = Rouge(hero_name)
+                    print_slow("\n Your hero!\n")
+                    thief.print_stats()
+                    thief.add_hero_dict(dict_list)
+                    created_heroes_list.append(thief)
                 elif hero_select == 3:
                     hero_selected = True
-                    print_slow("you have choosen the Magician! ")
-                    hero_name = "Magician"
-                    # print_slow magician.stats()
+                    print_slow("You have choosen the Wizard! ")
+                    print_slow("Give your hero a name! ")
+                    hero_name = input("\n --> ")
+                    wizard = Wizard(hero_name)
+                    print_slow("\n Your hero!\n")
+                    wizard.print_stats()
+                    wizard.add_hero_dict(dict_list)
+                    created_heroes_list.append(wizard)
                 else:
                     print_slow("Wrong input! Please read the instructions")
                 if hero_selected is True:
