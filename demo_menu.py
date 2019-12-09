@@ -150,7 +150,7 @@ def hero_menu():
 	print_slow("The available options are as follows :")
 	print_slow("# 1 for Knight")
 	print_slow("# 2 for Rogue")
-	print_slow("# 3 for Wizard)
+	print_slow("# 3 for Wizard")
 	print_slow(" -----------------")
 	try:
 		hero_select = int(input('\n --> '))
