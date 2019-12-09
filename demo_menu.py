@@ -6,12 +6,6 @@ from Hero import *
 import json
 
 
-
-# förstår inte hur man gör för att kunna spara alla typer av heroes och kunna ladda dem ;( 
-# får upp "inconsistent use of tabs or spacs in indentation" ifall man lägger de två if satserna tsm. (som ovan)
-# och går ej att göra en egen open för vardera hero, behöver nån universall sats för att lösa det?
-# PLEASE SEND HELP !!!
-
 with open("saved_heroes.json","r") as open_file:
 	dict_list = json.load(open_file)
 	saved_character_list = []
@@ -31,8 +25,6 @@ with open("saved_heroes.json","r") as open_file:
 			saved_character_list.append(wizard)
 
 		
-
-
 # Here starts all the help functions for the program
 
 def clear_screen():
