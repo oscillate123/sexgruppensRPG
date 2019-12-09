@@ -17,48 +17,37 @@ with open("saved_heroes.json", "r") as open_file:
             knight.score = item["Score"]
             saved_character_list.append(knight)
 
-		#if item["Type"] == "Rouge":
-			#rouge = Rouge(item["Name"])
-			#rouge.score = item["Score"]
-			#saved_character_list.append(rouge)
-
-# förstår inte hur man gör för att kunna spara alla typer av heroes och kunna ladda dem ;(
-# får upp "inconsistent use of tabs or spacs in indentation" ifall man lägger de två if satserna tsm. (som ovan)
-# och går ej att göra en egen open för vardera hero, behöver nån universall sats för att lösa det?
-# PLEASE SEND HELP !!!
-
 with open("saved_heroes.json","r") as open_file:
 	dict_list = json.load(open_file)
 	saved_character_list = []
 	created_character_list = []
+
 	for item in dict_list:
 		if item["Type"] == "Rouge":
 			rouge = Rouge(item["Name"])
 			rouge.score = item["Score"]
 			saved_character_list.append(rouge)
 
-# Here starts all the help functions for the program
-
 def load_hero():
-	if len(saved_character_list) != 0:
-		print("Saved heroes: \n")
-		for item in saved_character_list:
-			print(item)
-		print("Write the name of the hero you want to play with!")
+    if len(saved_character_list) != 0:
+        print("Saved heroes: \n")
+
+        for item in saved_character_list:
+            print(item)
+        print("Write the name of the hero you want to play with!")
 
         name_select = validate_str()
-        
-		for item in saved_character_list:
-			item = str(item)
-			if name_select in item:
-				print(f"The hero '{name_select}' has been selected!")
-				print_slow(" -----------------")
-				input("Press enter to continue")
-			#  else:
-			#       break
-		#print(f"No hero with the name '{name_select}' has been saved!")
-	else:
-		print("No heroes saved!")
+
+        for item in saved_character_list:
+            item = str(item)
+
+            if name_select in item:
+                print(f"The hero '{name_select}' has been selected!")
+                print_slow(" -----------------")
+                input("Press enter to continue")
+
+        else:
+            print("No heroes saved!")
 
 def save_character_to_json():
     with open("saved_heroes.json", "w") as close_file:
@@ -68,14 +57,19 @@ def save_character_to_json():
 def save_character():
 	if len(created_character_list) != 0:
 		print("Created heroes: ")
+
 		for item in created_character_list:
 			print(item)
 		print("Type in the name of the hero you want to save!")
+
 		name_select = validate_str()
+
 		for item in created_character_list:
 			item = str(item)
+
 			if name_select in item:
 				saved_character_list.append(item)
+
 			save_character_to_json()
 			print("Hero saved!\n")
 	else:
@@ -93,34 +87,34 @@ def ask_to_save():
 	else:
 		return
 
-# Here starts the menu functions
-
 def start_menu():
-	while True:
-		grid_size = 0
-		clear_screen()
-		print_slow(" \n Dungeon Run \n")
-		print_slow(" -----------------")
-		print_slow("# 1 New Game")
-		print_slow("# 2 Load Game")
-		print_slow("# 3 Quit")
-		print_slow(" -----------------")
+    while True:
+        grid_size = 0
+        clear_screen()
+        print_slow(" \n Dungeon Run \n")
+        print_slow(" -----------------")
+        print_slow("# 1 New Game")
+        print_slow("# 2 Load Game")
+        print_slow("# 3 Quit")
+        print_slow(" -----------------")
 
-		sub_meny = validate_int()
+        sub_meny = validate_int()
 
-		if (sub_meny == 1):
-			hero_name = hero_menu()
-			grid_select = grid_menu()
-			spawn_point = spawn_menu()
-		elif (sub_meny == 2):
-			load_hero()
-			grid_select = grid_menu()
-			spawn_point = spawn_menu()
+        if (sub_meny == 1):
+            hero_name = hero_menu()
 
-		elif (sub_meny == 3):
-			print_slow("BYEEEEEEEE")
-			exit()
+            if hero_name != False:
+                grid_select = grid_menu()
+                spawn_point = spawn_menu()
 
+        elif (sub_meny == 2):
+            load_hero()
+            grid_select = grid_menu()
+            spawn_point = spawn_menu()
+
+        elif (sub_meny == 3):
+            print_slow("BYEEEEEEEE")
+            exit()
 
 def grid_menu():
 	clear_screen()
@@ -132,58 +126,72 @@ def grid_menu():
 	print_slow("# 8 for 8x8 grid")
 	print_slow(" -----------------")
 	grid_select = validate_int()
+
 	if grid_select != 4 and grid_select != 5 and grid_select != 8:
 		print_slow("Wrong input please follow the instructions correctly")
 	else:
 		return grid_select
 
+def choose_hero(hero_class):
+
+    print_slow(f"You have choosen the {hero_class}!")
+    print_slow("Give your hero a name! ")
+
+    hero_name = validate_str()
+
+    if hero_class == "Knight":
+        hero = Knight(hero_name)
+    if hero_class == "Wizard":
+        hero = Wizard(hero_name)
+    if hero_class == "Rouge":
+        hero = Rouge(hero_name)
+
+    hero.print_stats()
+    print_slow(" -----------------")
+
+    knight.add_hero_dict(dict_list)
+    created_character_list.append(knight)
+
+    choice = input("Press enter to continue or 9 to choose another Hero ")
+
+    return choice, hero.hero_name
 
 def hero_menu():
-	clear_screen()
-	hero_selected = False
-	hero_name = str
-	print_slow(" -----------------")
-	print_slow("Welcome to Dungeon run now it's time to choose your hero: ")
-	print_slow("The available options are as follows :")
-	print_slow("# 1 for Knight")
-	print_slow("# 2 for Thief")
-	print_slow("# 3 for Magician")
-	print_slow(" -----------------")
+    while(True):
+        clear_screen()
+        hero_selected = False
+        choice = 0
+        hero_name = ""
+        print_slow(" -----------------")
+        print_slow("Welcome to Dungeon run now it's time to choose your hero: ")
+        print_slow("The available options are as follows :")
+        print_slow("# 1 for Knight")
+        print_slow("# 2 for Wizard")
+        print_slow("# 3 for Rouge")
+        print_slow("# 9 Back to main meny")
+        print_slow(" -----------------")
 
-	hero_select = validate_int()
+        hero_select = validate_int()
 
-	if (hero_select == 1):
-		hero_selected = True
-		print_slow("You have choosen the Knight! ")
-		print_slow("Give your hero a name! ")
-		hero_name = validate_str()
-		knight = Knight(hero_name)
-		knight.print_stats()
-		print_slow(" -----------------")
-		input("Press enter to continue")
-		knight.add_hero_dict(dict_list)
-		created_character_list.append(knight)
+        if (hero_select == 1):
+            hero_selected = True
+            choice, hero_name = choose_hero("Knight")
 
-	elif (hero_select == 2):
-		hero_selected = True
-		print_slow("You have choosen the Thief! ")
-		print_slow("Give your hero a name! ")
-		hero_name = input("\n --> ")
-		rouge = Rouge(hero_name)
-		rouge.print_stats()
-		print_slow(" -----------------")
-		input("Press enter to continue")
-		rouge.add_hero_dict(dict_list)
-		created_character_list.append(rouge)
-	elif (hero_select == 3):
-		hero_selected = True
-		print_slow("you have choosen the Magician! ")
-		hero_name = "Magician"
-		# print_slow magician.stats()
-	else:
-		print_slow("Wrong input! Please read the instructions")
-	if hero_selected is True:
-		return hero_name
+        elif (hero_select == 2):
+            hero_selected = True
+            choice, hero_name = choose_hero("Wizard")
+
+        elif (hero_select == 3):
+            hero_selected = True
+            choice, hero_name = choose_hero("Rouge")
+
+        #Nödlösning med en int och str orkade inte mer...
+        if choice == '9' or 9:
+            hero_selected = False
+            return False
+
+        if hero_selected is True:
+            return hero_name
 
 def spawn_menu():
 	clear_screen()
@@ -198,7 +206,6 @@ def spawn_menu():
 	print_slow("# 3 for SouthWest")
 	print_slow("# 4 for SouthEast")
 	print_slow(" -----------------")
-
 
 	spawn_select = validate_int()
 
@@ -226,11 +233,7 @@ def spawn_menu():
 		print_slow(f"Your spawnpoint is on the {map_object}, at coordinate {current_run.current_cuboid}")
 		current_run.print_map()
 		ask_to_save()
-		input()# start game
-		#return current_run
+		input()
 
 if __name__ == "__main__":
     start_menu()
-    # grid_menu()
-    # hero_menu()
-    # spawn_menu()11
