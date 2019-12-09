@@ -60,10 +60,10 @@ def grid_menu():
 	else:
 		return grid_select
 
-
+hero_selected = False
 def hero_menu():
 	clear_screen()
-	hero_selected = False
+	#hero_selected = False
 	hero_name = str
 	print_slow(" -----------------")
 	print_slow("Welcome to the grid now it's time to choose your hero: ")
@@ -94,7 +94,7 @@ def hero_menu():
 		# print_slow magician.stats()
 	else:
 		print_slow("Wrong input! Please read the instructions")
-	if hero_selected is True:
+	if hero_selected == True:
 		try:
 			print_slow(f"You have now choosen your hero {hero_name}. Now your hero needs a name!")
 			print_slow("Type in the name that you want to use:")
