@@ -138,10 +138,10 @@ def grid_menu():
 	else:
 		return grid_select
 
-
+hero_selected = False
 def hero_menu():
 	clear_screen()
-	hero_selected = False
+	#hero_selected = False
 	hero_name = str
 	print_slow(" -----------------")
 	print_slow("Welcome to Dungeon run now it's time to choose your hero: ")
@@ -193,7 +193,6 @@ def hero_menu():
 	else:
 		print_slow("Wrong input! Please read the instructions")
 	if hero_selected is True:
-
 		return hero_name
 
 def spawn_menu():
