@@ -53,9 +53,7 @@ def load_hero():
 				print(f"The hero '{name_select}' has been selected!")
 				print_slow(" -----------------")
 				input("Press enter to continue")
-			#  else:
-			#       break
-		#print(f"No hero with the name '{name_select}' has been saved!")
+		
 	else:
 		print("No heroes saved!")
 
@@ -245,7 +243,11 @@ def spawn_menu():
 		#return current_run
 
 
+def ask_player_to_move():
+	print_slow("")
+
+
 start_menu()
 # grid_menu()
 # hero_menu()
-# spawn_menu()11
+# spawn_menu()
