@@ -4,25 +4,90 @@ from map import map as map
 from Monsters import *
 from Hero import *
 import json
+from pathlib import Path
+
+folder = Path("json_file")
+folder.mkdir(exist_ok=True)
 
 
-with open("saved_heroes.json","r") as open_file:
+
+#with open("json_file\saved_heroes.json","w+") as open_file:
+	#if len(open_file.readlines()) == 0:
+		#open_file.write("[]")
+		#open_file.close()
+
+with open("json_file\saved_heroes.json", "r") as open_file:
 	dict_list = json.load(open_file)
+	name_list = []
+	for dict in dict_list:
+		# print(dict.keys())
+		x = (dict.keys())
+		y = list(x)
+		name_list.append(y)
+		#print(dict)
+		for heroes in dict:
+			#print(dict.get(heroes).get("Type"))
+			#if (dict.get(heroes).get("Type")) == "Rouge":
+
+
+			#for dict in heroes:
+				#print(type(dict))
+			pass
 	saved_character_list = []
 	created_character_list = []
-	for item in dict_list:
-		if item["Type"] == "Rouge":
-			rouge = Rouge(item["Name"])
-			rouge.score = item["Score"]
-			saved_character_list.append(rouge)
-		elif item["Type"] == "Knight":
-			knight = Knight(item["Name"])
-			knight.score = item["Score"]
-			saved_character_list.append(knight)
-		elif item["Type"] == "Wizard":
-			wizard = Wizard(item["Name"])
-			wizard.score = item["Score"]
-			saved_character_list.append(wizard)
+
+	#for dict in dict_list:
+		#print(dict.keys())
+	#	x = (dict.keys())
+	#	y = list(x)
+	#	name_list.append(y)
+	for list in name_list:
+		name = str(list[0])
+		print(name)
+	#for i in y:
+	#	i = str(i)
+	#	print(i)
+
+	for dict in dict_list:
+		pass
+			#print(dict_list.get(dict))
+
+			#if dict.get("Type") == "Rouge":
+			#	print("JA BREEE")
+			#	input()
+			#print(dict.keys())
+
+
+
+
+
+
+		#for item in dict:
+		#if dict.get("Type") == "Rouge":
+			#print("JA BREEE")
+			#input()
+			#rouge = Rouge(dict["Name"])
+
+		#	rouge.score = dict["Score"]
+		#if item["Type"] == "Knight":
+		#	knight = Knight(item["Name"])
+		#	knight.score = item["Score"]
+		#if item["Type"] == "Wizard":
+		#	wizard = Wizard(item["Name"])
+		#	wizard.score = item["Score"]
+
+#if dict.get("Type") == "Rouge":
+		#	rouge = Rouge(dict["Name"])
+		#	rouge.score = item["Score"]
+		#	saved_character_list.append(rouge)
+		#elif item["Type"] == "Knight":
+		#	knight = Knight(item["Name"])
+		#	knight.score = item["Score"]
+		#	saved_character_list.append(knight)
+		#elif item["Type"] == "Wizard":
+		#	wizard = Wizard(item["Name"])
+		#	wizard.score = item["Score"]
+		#	saved_character_list.append(wizard)
 
 		
 # Here starts all the help functions for the program
@@ -50,6 +115,13 @@ def load_hero():
 		for item in saved_character_list:
 			item = str(item)
 			if name_select in item:
+				#for item in dict_list:
+					#if item["Name"] == name_select:
+						#if item["Type"] == "Knight":
+							#knight = Knight(item["Name"])
+							#knight.score = 5
+
+
 				print(f"The hero '{name_select}' has been selected!")
 				print_slow(" -----------------")
 				input("Press enter to continue")
@@ -58,11 +130,14 @@ def load_hero():
 		#print(f"No hero with the name '{name_select}' has been saved!")
 	else:
 		print("No heroes saved!")
+		start_menu()
 
 def save_character_to_json():
-    with open("saved_heroes.json", "w") as close_file:
-        json.dump(dict_list, close_file)
-        close_file.close()
+	with open("json_file\saved_heroes.json", "w+") as close_file:
+		close_file.seek(0)
+		close_file.truncate()
+		json.dump(dict_list, close_file)
+		close_file.close()
 
 def save_character():
 	if len(created_character_list) != 0:
@@ -71,12 +146,14 @@ def save_character():
 			print(item)
 		print("Type in the name of the hero you want to save!")
 		name_select = input("\n --> ")
+
 		for item in created_character_list:
 			item = str(item)
 			if name_select in item:
 				saved_character_list.append(item)
 			save_character_to_json()
 			print("Hero saved!\n")
+			start_menu()
 	else:
 		print("A hero needs to be created in order to be saved!\n")
 
@@ -164,9 +241,9 @@ def hero_menu():
 		hero_name = input("\n --> ")
 		knight = Knight(hero_name)
 		knight.print_stats()
+		knight.add_hero_dict(dict_list)
 		print_slow(" -----------------")
 		input("Press enter to continue")
-		knight.add_hero_dict(dict_list)
 		created_character_list.append(knight)
 
 	elif (hero_select == 2):
@@ -175,6 +252,8 @@ def hero_menu():
 		print_slow("Give your hero a name! ")
 		hero_name = input("\n --> ")
 		rouge = Rouge(hero_name)
+		#if hero_name in item in saved_character_list:
+			#print("Choose another name")
 		rouge.print_stats()
 		print_slow(" -----------------")
 		input("Press enter to continue")
