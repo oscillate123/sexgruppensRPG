@@ -17,7 +17,10 @@ class map:
 		self.room_character = "O"
 		self.edge_character = "_"
 		self.mark_character = "X"
+		self.room_finished_character = "Ø"
+		self.room_unfinished_character = "o"
 		self.currentlocation_character = self.mark_character
+		self.map_characters_index = self.map_characters_dictionary()
 		# class attributes which define how the printed map will look like. This is customizable
 
 		self.user_grid_req = grid_size or 5
@@ -61,6 +64,18 @@ class map:
 			length.append(width)
 
 		return length
+
+	def map_characters_dictionary(self):
+		map_index_dictionary = {
+			"room_character": self.room_character,
+			"edge_character": self.edge_character,
+			"mark_character": self.mark_character,
+			"room_finished_character": self.room_finished_character,
+			"room_unfinished_character": self.room_unfinished_character,
+			"currentlocation_character": f"Same as mark_character: '{self.mark_character}'"
+		}
+
+		return map_index_dictionary
 
 	@staticmethod
 	# used for supporting the map class
@@ -128,7 +143,8 @@ class map:
 
 	def get_nerby_cuboids(self):
 		# provides a dictionary with the data of above, below, right and left cuboids
-		# TODO: CHECK self.check_cuboid() "todo's" xD
+		# TODO: Fix new function for looking up all the characters in an element.
+
 		nearby_cubiods_data = {
 			'above': {
 				'coordinate': self.cuboid_above,
@@ -153,38 +169,49 @@ class map:
 		# saves cuboid coordinates, so the instance of this class can keep track on coordinate history
 		self.previous_cuboids.append(coordinate)
 
-	def update_current_cuboid(self, coordinate, option=''):
+	def update_current_cuboid(self, new_coordinate, old_coordinate, option=''):
 		# used for updating the self.current_cuboid coordinate
 		# mode='empty' is a default value, so we are not forced to provide option everytime we invoke the method
 
-		not_updated_coordinate = self.current_cuboid # before we update
 		self.save_cuboid_coordinate(self.current_cuboid)
 
 		if option == "return":
-			self.current_cuboid = coordinate
+			self.current_cuboid = new_coordinate
 			return self.current_cuboid
 
 		elif option == "print":
-			self.current_cuboid = coordinate
-			print('Current coordinate: ', self.current_cuboid)
+			self.current_cuboid = new_coordinate
+			print('New current coordinate: ', self.current_cuboid)
 
 		elif option == "move":
 			# TODO: this doesn't make the "previous" 'X' smaller for some reason
 			self.cuboid_character_handler(
 					option="replace", 
-					new_character="x",
-					replace_character="X",
-					coordinate=not_updated_coordinate
+					new_character=self.mark_character.lower(),
+					replace_character=self.mark_character,
+					coordinate=old_coordinate
 				)
 
-			self.current_cuboid = coordinate # now we update the coordinate
-			self.cuboid_character_handler(new_character="X", option="mark", coordinate=coordinate)
+			self.current_cuboid = new_coordinate # now we update the coordinate
+			self.cuboid_character_handler(new_character=self.mark_character, option="mark", coordinate=new_coordinate)
 
+		elif option == "room_finished":
+			pass
+			# TODO
 
-	def cuboid_character_handler(self, new_character="", option="", replace_character="", coordinate=[]):
+		elif option == "room_unfinished":
+			pass
+			# TODO
+
+# game.update_current_cuboid(old_coordinate=game.current_cuboid, option='move', new_coordinate=new_cuboid)
+
+	def cuboid_character_handler(self, new_character="", option="", replace_character="", coordinate=None):
 		# the method puts a character on the the give coordinate
 		# if no coordinate, self.current_cuboid will be used
 		# OPTIONS are available, options list --> [mark, replace, room_finished, room_unfinished]
+
+		if coordinate is None:
+			coordinate = self.current_cuboid
 
 		inputs = {
 			"new_character": new_character,
@@ -192,22 +219,22 @@ class map:
 			"replace_character": replace_character,
 			"coordinate": coordinate
 		}
-		
-		if not coordinate:
-			coordinate = self.current_cuboid
+
+		error_msg = f"Error in cuboid_character_handler, inputs:\n{inputs}\n"
 
 		if option == "mark":
 			self.map_grid[coordinate[0]][coordinate[1]] += new_character
 		elif option == "replace":
-			self.map_grid[coordinate[0]][coordinate[1]].replace(replace_character, new_character)
+			new_string = self.map_grid[coordinate[0]][coordinate[1]].replace(replace_character, new_character)
+			self.map_grid[coordinate[0]][coordinate[1]] = new_string
 		elif option == "room_finished":
-			self.map_grid[coordinate[0]][coordinate[1]].replace(self.room_character, "Ø")
+			new_string = self.map_grid[coordinate[0]][coordinate[1]].replace(self.room_character, self.room_finished_character)
+			self.map_grid[coordinate[0]][coordinate[1]] = new_string
 		elif option == "room_unfinished":
-			self.map_grid[coordinate[0]][coordinate[1]].replace(self.room_character, "o")	
+			new_string = self.map_grid[coordinate[0]][coordinate[1]].replace(self.room_character, self.room_unfinished_character)	
+			self.map_grid[coordinate[0]][coordinate[1]] = new_string
 		else:
-			print(f"Error in cuboid_character_handler, inputs:\n{inputs}\n")
-
-		self.map_adjustments()
+			print(error_msg)
 
 	def map_adjustments(self):
 		# makes all the elements the same length. 
@@ -229,9 +256,6 @@ class map:
 					difference = longest_element - len(x_led)
 					supplement = ' ' * difference
 					self.map_grid[y_idx][x_idx] += supplement
-
-
-
 
 
 if __name__ == "__main__":
@@ -259,19 +283,32 @@ if __name__ == "__main__":
 	print(f"\n\nbelow we test class attributes, methods and static methods. we print the results for manual correction")
 	print(f"\n{game.name}\n")
 
-	game.cuboid_character_handler(new_character="X", option="mark", coordinate=game.current_cuboid)
+	game.cuboid_character_handler(new_character=game.mark_character, option="mark", coordinate=game.current_cuboid)
 	game.print_map()
-	game.check_cuboid(game.current_cuboid, option='print')
+	# game.check_cuboid(game.current_cuboid, option='print')
 	nerby_cubids_data = game.get_nerby_cuboids()
 	
 	print()
 
-	for element in nerby_cubids_data:
-		print(element)
+	for idx, element in enumerate(nerby_cubids_data):
+		print(idx, " ", element)
 		print(nerby_cubids_data[element])
 
-	game.update_current_cuboid(coordinate=[0, 1], option='move')
+	user_move = input("Where you wanna go? (above, below, right, left)")
+
+	new_cuboid = nerby_cubids_data[f"{user_move}"]["coordinate"]
+	print("NEW COORDINATE: ", new_cuboid)
+	print("OLD COORDINATE: ", game.current_cuboid)
+
+	game.update_current_cuboid(old_coordinate=game.current_cuboid, option='move', new_coordinate=new_cuboid)
 	game.print_map()
+	print(game.previous_cuboids)
+	game.cuboid_character_handler(option="room_finished", coordinate=[1, 1])
+	game.print_map()
+	
+	for character_disc in game.map_characters_index:
+		print(character_disc, game.map_characters_index[character_disc])
+
 	# print()
 	# print('updating current_cuboid from [0, 1] --> [4, 3]...')
 	# print()
