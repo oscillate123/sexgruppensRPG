@@ -1,4 +1,3 @@
-
 class map:
 
 	# list of methods in this class
@@ -299,7 +298,6 @@ if __name__ == "__main__":
 	new_cuboid = nerby_cubids_data[f"{user_move}"]["coordinate"]
 	print("NEW COORDINATE: ", new_cuboid)
 	print("OLD COORDINATE: ", game.current_cuboid)
-
 
 	game.update_current_cuboid(old_coordinate=game.current_cuboid, option='move', new_coordinate=new_cuboid)
 	game.print_map()

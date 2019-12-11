@@ -91,7 +91,45 @@ def ask_to_save():
 	else:
 		return
 
+def calc_spawnpoint(grid_select,spawn_point):
+	# det funktion räknar ut vilken spawn_coordinate du kmr spawna på oavsett vilket gridsize du väljer
+	# bara att om man väljer 8x8 grid och väljer "NE"[9,9] så skriver den ut att det blir "None" i programmet
+	spawn_coordinates = []
+	if grid_select == 4:
+		if (spawn_point == "NE"):
+			spawn_coordinates = [0,5]
+			return spawn_coordinates
+		elif (spawn_point == "SW"):
+			spawn_coordinates = [5,0]
+			return spawn_coordinates
+		elif (spawn_point == "NE"):
+			spawn_coordinates = [5,5]
+			return spawn_coordinates
+	if (grid_select==5):
+		if (spawn_point == "NE"):
+			spawn_coordinates = [0,6]
+			return spawn_coordinates
+		elif (spawn_point == "SW"):
+			spawn_coordinates = [6,0]
+			return spawn_coordinates
+		elif (spawn_point == "NE"):
+			spawn_coordinates = [6,6]
+			return spawn_coordinates
+	if (grid_select==8):
+		if (spawn_point == "NE"):
+			spawn_coordinates = [0,9]
+			return spawn_coordinates
+		elif (spawn_point == "SW"):
+			spawn_coordinates = [9,0]
+			return spawn_coordinates
+		elif (spawn_point == "NE"):
+			spawn_coordinates = [9,9]
+			return spawn_coordinates
+
+
+
 # Here starts the menu functions
+
 
 def start_menu():
 	while True:
@@ -112,12 +150,12 @@ def start_menu():
 		if (sub_meny == 1):
 			hero_name = hero_menu()
 			grid_select = grid_menu()
-			spawn_coordinates = spawn_menu()
+			spawn_coordinates = spawn_menu(grid_select)
 			start_game(hero_name, grid_select, spawn_coordinates)
 		elif (sub_meny == 2):
 			load_hero()
 			grid_select = grid_menu()
-			spawn_coordinates = spawn_menu()
+			spawn_coordinates = spawn_menu(grid_select)
 
 		elif (sub_meny == 3):
 			print_slow("BYEEEEEEEE")
@@ -196,7 +234,7 @@ def hero_menu():
 	if hero_selected is True:
 		return hero_name
 
-def spawn_menu():
+def spawn_menu(grid_select):
 	clear_screen()
 	spawn_selected = False
 	spawn_select = 0
@@ -222,30 +260,30 @@ def spawn_menu():
 	elif spawn_select == 2:
 		spawn_point = "NE"
 		spawn_selected = True
-		spawn_coordinates = [0, 5]
+		spawn_coordinates = calc_spawnpoint(grid_select,spawn_point)
 	elif spawn_select == 3:
 		spawn_point = "SW"
 		spawn_selected = True
-		spawn_coordinates = [5, 0]
+		spawn_coordinates = calc_spawnpoint(grid_select,spawn_point)
 	elif spawn_select == 4:
 		spawn_point = "SE"
 		spawn_selected = True
-		spawn_coordinates = [5, 5]
+		spawn_coordinates = calc_spawnpoint(grid_select,spawn_point)
 	if spawn_selected:
 		return spawn_coordinates
-	# måste returnera rätt coordinates oavsett gridsize! (hjälp funktion som översätter "NW", "NE", "SW", "SE" till de rätt coordinaterna)
-
 
 
 # gjorde en funktion för spelet. så vi kan skicka med den info vi behöhver från ovanstående meny funktioner
 # map sizen ändrar nu med spelarens val av size
 # men man kan inte gå mer en ett steg i spelet. och den lägger bara till fler x på samma plats. (dvs klarade inte det oscar bad mig att göra xxdxddxx /emil)
+
 def start_game(hero_name, grid_select, spawn_coordinates):
 	game_loop = False
 	current_run = map(name="demo_run",grid_size= grid_select)
 	current_run.cuboid_character_handler(new_character=current_run.mark_character, option="mark", coordinate=current_run.current_cuboid)
 	print_slow(f"Your spawnpoint is at coordinate {spawn_coordinates}")
 	current_run.print_map()
+
 	while game_loop is False:
 		leave_or_not = ask_player_to_move(current_run)
 		if leave_or_not is True:
@@ -274,6 +312,8 @@ def ask_player_to_move(current_run):
 	print_slow("# A to Move Left")
 	print_slow("# S to Move Down")
 	print_slow("# D to Move Right")
+	print_slow("# L to Leave Game")
+	print_slow("# K to Save Game")
 
 	move_choice= str(input("\n --> "))
 	
@@ -310,6 +350,10 @@ def ask_player_to_move(current_run):
 		leave_loop = True
 		return leave_loop
 		#end game loop
+	if (move_choice == "K"):
+		ask_to_save()
+		
+	
 
 
 
