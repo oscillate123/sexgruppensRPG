@@ -7,7 +7,7 @@ class Hero:
         self.agility = agility
         self.score = score
         self.type = type
-        self.dict = {"Name": hero_name, "Initiative": initiative, "Health": health, "Attack": attack, "Score": score, "Type": type}
+        self.dict = {self.hero_name:{"Initiative": initiative, "Health": health, "Attack": attack, "Score": score, "Type": type}}
 
     def __str__(self):
         return f"Type : {self.type}\nName : {self.hero_name}\nScore : {self.score}\n "
