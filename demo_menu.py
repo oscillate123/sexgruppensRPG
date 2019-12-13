@@ -4,6 +4,7 @@ from map import map as map
 from Monsters import *
 from Hero import *
 import json
+from other_functions import *
 
 
 with open("saved_heroes.json","r") as open_file:
@@ -67,6 +68,7 @@ def save_character():
 		print("Created heroes: ")
 		for item in created_character_list:
 			print(item)
+
 			saved_character_list.append(item)
 			save_character_to_json()
 			print("Hero saved!\n")
@@ -74,7 +76,7 @@ def save_character():
 		print("A hero needs to be created in order to be saved!\n")
 
 def ask_to_save():
-	print_slow(" do you want to save your character at this point?")
+	print_slow(" Do you want to save your character at this point?")
 	print_slow("# 1 Save")
 	print_slow("# 2 To Exit Game")
 	try:
@@ -123,6 +125,30 @@ def calc_spawnpoint(grid_select,spawn_point):
 			spawn_coordinates = [9,9]
 			return spawn_coordinates
 
+def choose_hero(hero_class):
+
+    print_slow(f"You have choosen the {hero_class}!")
+    print_slow("Give your hero a name! ")
+
+    hero_name = validate_str()
+
+    if hero_class == "Knight":
+        hero = Knight(hero_name)
+    if hero_class == "Wizard":
+        hero = Wizard(hero_name)
+    if hero_class == "Rouge":
+        hero = Rouge(hero_name)
+
+    hero.print_stats()
+    print_slow(" -----------------")
+
+    hero.add_hero_dict(dict_list)
+    
+    created_character_list.append(hero)
+
+    choice = input("Press enter to continue or 9 to choose another Hero ")
+
+    return choice
 
 
 # Here starts the menu functions
@@ -146,10 +172,11 @@ def start_menu():
 
 		if (sub_meny == 1):
 			hero_name = hero_menu()
-			grid_select = grid_menu()
-			spawn_coordinates = spawn_menu(grid_select)
-			start_game(hero_name, grid_select, spawn_coordinates)
-			
+			if hero_name == True:
+				grid_select = grid_menu()
+				spawn_coordinates = spawn_menu(grid_select)
+				start_game(hero_name, grid_select, spawn_coordinates)
+				
 
 
 		elif (sub_meny == 2):
@@ -181,60 +208,38 @@ def grid_menu():
 
 
 def hero_menu():
-	clear_screen()
-	hero_selected = False
-	hero_name = str
-	print_slow(" -----------------")
-	print_slow("Welcome to Dungeon run now it's time to choose your hero: ")
-	print_slow("The available options are as follows :")
-	print_slow("# 1 for Knight")
-	print_slow("# 2 for Rogue")
-	print_slow("# 3 for Wizard")
-	print_slow(" -----------------")
-	try:
-		hero_select = int(input('\n --> '))
-	except ValueError:
-		print_slow("Wrong input")
-
-	if (hero_select == 1):
-		hero_selected = True
-		print_slow("You have choosen the Knight! ")
-		print_slow("Give your hero a name! ")
-		hero_name = input("\n --> ")
-		knight = Knight(hero_name)
-		knight.print_stats()
+	while True:
+		clear_screen()
+		hero_selected = False
+		choice=0
 		print_slow(" -----------------")
-		input("Press enter to continue")
-		knight.add_hero_dict(dict_list)
-		created_character_list.append(knight)
-
-	elif (hero_select == 2):
-		hero_selected = True
-		print_slow("You have choosen the Rogue! ")
-		print_slow("Give your hero a name! ")
-		hero_name = input("\n --> ")
-		rouge = Rouge(hero_name)
-		rouge.print_stats()
+		print_slow("Welcome to Dungeon run now it's time to choose your hero: ")
+		print_slow("The available options are as follows :")
+		print_slow("# 1 for Knight")
+		print_slow("# 2 for Rogue")
+		print_slow("# 3 for Wizard")
+		print_slow("# 9 To Go Back")
 		print_slow(" -----------------")
-		input("Press enter to continue")
-		rouge.add_hero_dict(dict_list)
-		created_character_list.append(rouge)
-	elif (hero_select == 3):
-		hero_selected = True
-		print_slow("You have choosen the Wizard! ")
-		print_slow("Give your hero a name! ")
-		hero_name = input("\n --> ")
-		wizard = Wizard(hero_name)
-		wizard.print_stats()
-		print_slow(" -----------------")
-		input("Press enter to continue")
-		wizard.add_hero_dict(dict_list)
-		created_character_list.append(wizard)
 		
-	else:
-		print_slow("Wrong input! Please read the instructions")
-	if hero_selected is True:
-		return hero_name
+		hero_select = validate_int()
+
+		if (hero_select == 1):
+			hero_selected = True
+			choice = choose_hero("Knight")
+
+		elif (hero_select == 2):
+				hero_selected = True
+				choice = choose_hero("Wizard")
+
+		elif (hero_select == 3):
+				hero_selected = True
+				choice = choose_hero("Rouge")
+		if choice == "9":
+			continue
+		if hero_select == 9:
+			break
+		if hero_selected is True:
+			return True
 
 def spawn_menu(grid_select):
 	clear_screen()
