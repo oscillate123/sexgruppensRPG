@@ -3,9 +3,9 @@ from numpy.random import choice
 class Treasure:
     def __init__(self):
         self.coins = 2
-        self.moneybag = 6
-        self.gold = 10
-        self.rock = 14
+        self.bag_of_gold = 6
+        self.jewelry = 10
+        self.gem = 14
         self.small_treasure_chest = 20
 
     def generate_treasure(self):
@@ -29,6 +29,3 @@ class Treasure:
         print(total_loot)
 
         print(f"TOTAL LOOT : {total_loot}")
-
-t = Treasure()
-t.generate_treasure()
