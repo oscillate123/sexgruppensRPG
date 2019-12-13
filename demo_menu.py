@@ -53,7 +53,7 @@ def load_hero():
 				print(f"The hero '{name_select}' has been selected!")
 				print_slow(" -----------------")
 				input("Press enter to continue")
-		
+				return name_select
 	else:
 		print("No heroes saved!")
 
@@ -67,12 +67,7 @@ def save_character():
 		print("Created heroes: ")
 		for item in created_character_list:
 			print(item)
-		print("Type in the name of the hero you want to save!")
-		name_select = input("\n --> ")
-		for item in created_character_list:
-			item = str(item)
-			if name_select in item:
-				saved_character_list.append(item)
+			saved_character_list.append(item)
 			save_character_to_json()
 			print("Hero saved!\n")
 	else:
@@ -81,7 +76,7 @@ def save_character():
 def ask_to_save():
 	print_slow(" do you want to save your character at this point?")
 	print_slow("# 1 Save")
-	print_slow("# 2 Continue exploring")
+	print_slow("# 2 To Exit Game")
 	try:
 		answer = int(input('\n --> '))
 	except ValueError:
@@ -89,7 +84,9 @@ def ask_to_save():
 	if (answer == 1):
 		save_character()
 	else:
-		return
+		print_slow("Thanks for playing Dungeon Run!")
+		print_slow("Created by: Robert, Sadri, Oliver, Oscar and Emil")
+		exit()
 
 def calc_spawnpoint(grid_select,spawn_point):
 	# det funktion räknar ut vilken spawn_coordinate du kmr spawna på oavsett vilket gridsize du väljer
@@ -152,10 +149,15 @@ def start_menu():
 			grid_select = grid_menu()
 			spawn_coordinates = spawn_menu(grid_select)
 			start_game(hero_name, grid_select, spawn_coordinates)
+			
+
+
 		elif (sub_meny == 2):
-			load_hero()
+			hero_name = load_hero()
 			grid_select = grid_menu()
 			spawn_coordinates = spawn_menu(grid_select)
+			start_game(hero_name, grid_select, spawn_coordinates)
+
 
 		elif (sub_meny == 3):
 			print_slow("BYEEEEEEEE")
@@ -312,8 +314,8 @@ def ask_player_to_move(current_run):
 	print_slow("# A to Move Left")
 	print_slow("# S to Move Down")
 	print_slow("# D to Move Right")
-	print_slow("# L to Leave Game")
-	print_slow("# K to Save Game")
+	print_slow("# L to Save And Exit")
+	
 
 	move_choice= str(input("\n --> "))
 	
@@ -347,12 +349,11 @@ def ask_player_to_move(current_run):
 										  option="move",
 										  new_coordinate=new_cuboid_coordinate)
 	if (move_choice == "L"):
+		ask_to_save()
 		leave_loop = True
 		return leave_loop
 		#end game loop
-	if (move_choice == "K"):
-		ask_to_save()
-		
+
 	
 
 
