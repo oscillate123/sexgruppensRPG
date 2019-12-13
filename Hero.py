@@ -30,6 +30,12 @@ class Hero:
     def add_hero_dict(self, list):
         list.append(self.dict)
 
+    def update_hero_dict(self, object, score):
+        self.dict = {object.hero_name:{"Initiative": object.initiative, "Health": object.health, "Attack": object.attack, "Score": score,
+                                      "Type": object.type}}
+        return self.dict
+
+
 
 class Knight(Hero):
     def __init__(self, hero_name):
