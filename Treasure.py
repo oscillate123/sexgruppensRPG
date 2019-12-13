@@ -13,7 +13,7 @@ class Treasure:
         picked_points = []
 
         for i in range(5):
-            value_points = [2, 6, 10, 14, 20, 0]
+            value_points = [self.coins, self.bag_of_gold, self.jewelry, self.gem, self.small_treasure_chest, 0]
             probabilities = [0.4, 0.2, 0.15, 0.1, 0.05, 0.10]
 
             random_value = choice(value_points, p=probabilities)
