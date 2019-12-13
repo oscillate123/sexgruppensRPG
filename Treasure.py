@@ -26,6 +26,4 @@ class Treasure:
                 picked_points.append(random_value)
                 total_loot += random_value
 
-        print(total_loot)
-
-        print(f"TOTAL LOOT : {total_loot}")
+        return total_loot
