@@ -15,7 +15,7 @@ class map:
 		# provide the map a name (like de_dust2 ;D). Default value is "map-instance"
 
 		self.room_character = "O"
-		self.edge_character = "_"
+		self.edge_character = " "
 		self.mark_character = "X"
 		self.room_finished_character = "Ø"
 		self.room_unfinished_character = "o"
@@ -109,7 +109,7 @@ class map:
 		print() # make a new row
 		self.map_adjustments()
 		for y in self.map_grid:
-			print(y)
+			print(" ".join(y))
 		print() # make a new row
 
 	def check_cuboid(self, coordinate, option):
