@@ -1,4 +1,3 @@
-
 class map:
 
 	# list of methods in this class
