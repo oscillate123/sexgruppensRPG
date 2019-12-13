@@ -18,8 +18,6 @@ class Treasure:
 
             random_value = choice(value_points, p=probabilities)
 
-            print(random_value)
-
             if random_value in picked_points:
                 continue
             else:
