@@ -31,17 +31,22 @@ class room:
 	def finished(self):
 		self.status = self.room_finished_character
 
-	def edge(self):
+	def is_edge(self):
 		self.status = self.edge_character
 
 	def fight(self):
+		# method for fight initialize
+		return
+
+	def treasure(self):
+		# metod for trease initialize
 		return
 
 	def get_coordinate(self):
 		return self.coordinate
 
 	def if_edge(self):
-		# method for checking if the room is an edge or a room
+		# method for checking if the room is an edge
 		if self.status == self.edge_character:
 			return True
 		else:

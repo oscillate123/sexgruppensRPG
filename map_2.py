@@ -2,14 +2,15 @@ import room
 
 class map:
 
-	def __init__(self):
+	def __init__(self, grid_size=4):
 		self.test = 0
-		self.grid_size = 4
+		self.grid_size = grid_size
 		self.grid = self.grid_generator()
 
 	def print_map(self):
-		print() # make a new row
+		# prints the visual grid, we use the second for loop so we do not get the "[]" and the "'"s
 
+		print() 
 		visual_grid = []
 
 		for y in self.grid:
@@ -22,9 +23,9 @@ class map:
 			print(" ".join(row))
 
 	def grid_generator(self):
-		# generates two grids
 		# one grid with all the room-instances
-		# one grid with the room-instances.status (a character/symbol)
+		# its a two dimensional array, "outer array" is y-axis and the y-axis elements
+		# are the x-"axises" and the x-axis elements
 
 		number = self.grid_size + 2
 		rooms_grid = []
@@ -51,6 +52,7 @@ class map:
 		return rooms_grid	
 
 	def update_room(self, coordinate, update=""):
+		# updates the status of a room
 		if update == "unfinished":
 			self.grid[coordinate[0]][coordinate[1]].unfinished()
 		elif update == "finished":
@@ -61,6 +63,7 @@ class map:
 			self.grid[coordinate[0]][coordinate[1]].edge()
 
 	def where_am_i(self, option="return"):
+		# returns the position of the room the person is in
 		for y_axis in self.grid:
 			for x_axis in y_axis:
 				if x_axis.status == room.room().mark_character:
@@ -71,13 +74,13 @@ class map:
 
 	def get_room(self, coordinate):
 		# coordinate needs to be a list, e.g. [1, 2]
+		# this method returns a room-instance element from the grid arrays
 		y, x = coordinate
 
 		return self.grid[y][x]
 
 	def nerby_rooms(self):
-		# provides a dictionary with the data of above, below, right and left cuboids
-		# TODO: Fix new function for looking up all the characters in an element.
+		# provides a dictionary with the data of above, below, right and left rooms
 
 		y_axis, x_axis = self.where_am_i()
 
