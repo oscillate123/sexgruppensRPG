@@ -31,7 +31,6 @@ class room:
 	def finished(self):
 		self.status = self.room_finished_character
 
-
 	def edge(self):
 		self.status = self.edge_character
 
