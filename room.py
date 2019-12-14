@@ -3,7 +3,7 @@ class room:
 		self.name = name
 
 		self.room_character = "O"
-		self.edge_character = "-"
+		self.edge_character = " "
 		self.mark_character = "X"
 		self.room_finished_character = "Ø"
 		self.room_unfinished_character = "o"
