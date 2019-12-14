@@ -68,27 +68,16 @@ if __name__ == "__main__":
 	def print_map(arrays):
 		print() # make a new row
 		for y in arrays:
-			print(y)
+			for x in y:
+				print(x.status)
+				# test to print the letters on one row
 		print() # make a new row
-
-
-
-	x = room()
-	y = room()
-	z = room()
-	z.is_here()
-	
-	lista = [x, y, z]
-
-	for dinmamma in lista:
-		print(dinmamma.status)
-
-	for j in lista:
-		print(j.status)
 
 
 	x = grid_generator()
 	print_map(x)
+
+
 
 
 
