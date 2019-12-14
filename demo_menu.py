@@ -6,6 +6,7 @@ from Hero import *
 import json
 from pathlib import Path
 
+
 folder = Path("json_file")
 folder.mkdir(exist_ok=True)
 
