@@ -1,11 +1,10 @@
 from Hero import*
 from Monsters import*
 from dice import*
+from Treasure import*
 
 class Fight:
-
     def __init__(self, hero, monster_one=False, monster_two=False, monster_three=False, monster_four=False):
-
         self.monster_one = monster_one
         self.monster_two = monster_two
         self.monster_three = monster_three
@@ -70,7 +69,6 @@ class Fight:
 
     def if_draw_on_start(self):
         while self.character_fight_list[0].start_score == self.character_fight_list[1].start_score:
-
             self.character_fight_list[0].start_score = n_dice(self.character_fight_list[0].initiative)
             self.character_fight_list[1].start_score = n_dice(self.character_fight_list[1].initiative)
             f.character_fight_list.sort(key=lambda x: x.start_score, reverse=True)
@@ -79,7 +77,6 @@ class Fight:
         index = 0
 
         for k in self.character_fight_list:
-
             if k.__class__.__name__ == "Knight":
                 return index
             if k.__class__.__name__ == "Wizard":
@@ -89,7 +86,6 @@ class Fight:
             index += 1
 
     def find_next_monster(self):
-        #print(f"LIST : {len(self.character_fight_list)}")
         if self.hero_index == len(self.character_fight_list) - 1:
             self.next_monster = self.hero_index - 1
             return self.next_monster
@@ -99,28 +95,23 @@ class Fight:
 
     def fight_loop(self):
 
-        player_is_alive = True
-        total_fighters = len(self.character_fight_list)
         index = 0
         attack_power = 0
         agility_power = 0
 
-        while player_is_alive:
-
+        while True:
             for i in self.character_fight_list:
                 self.hero_index = self.find_hero_index()
+
                 if index == self.hero_index:
                     print("Hero fighting")
-                    #print(index)
                     attack_power = n_dice(i.attack)
-                    #print("attack power " + str(attack_power))
                     agility_power = n_dice(self.character_fight_list[self.find_next_monster()].agility)
-                    #print("agility power " + str(agility_power))
-
 
                     if attack_power > agility_power:
-                        print(f"Player made damage :: {attack_power - agility_power}")
+                        #print(f"Player made damage :: {attack_power - agility_power}")
                         self.character_fight_list[self.find_next_monster()].health -= 1
+
                     if self.character_fight_list[self.find_next_monster()].health < 1:
                         print("Monster dead")
                         del self.character_fight_list[self.find_next_monster()]
@@ -129,38 +120,42 @@ class Fight:
                 else:
                     print("Monster fighting")
                     attack_power = n_dice(i.attack)
-                    #print("attack power " + str(attack_power))
                     agility_power = n_dice(self.character_fight_list[self.find_hero_index()].agility)
-                    #print("agility power " + str(agility_power))
 
                     if attack_power > agility_power:
-                        print(f"Monster made damage :: {attack_power - agility_power}")
+                        #print(f"Monster made damage :: {attack_power - agility_power}")
                         self.character_fight_list[self.find_hero_index()].health -= 1
 
                 if self.character_fight_list[self.find_hero_index()].health < 1:
-                    print("Hero dead")
-                    player_is_alive = False
+                    return False
 
                 if len(self.character_fight_list) == 1:
-                    print("You won the fight!")
-                    player_is_alive = False
+                    t = Treasure()
+                    self.character_fight_list[0].hero_total_loot += t.generate_treasure()
+                    return True
 
-                if index == len(self.character_fight_list)-1:
+                #print(f"First_index :: {index}")
+                #print(f"Length :: {len(self.character_fight_list)}")
+
+                if index < len(self.character_fight_list):
+                    index += 1
+
+                if index == len(self.character_fight_list):
+                    #print(f"Index :: {index}")
                     index = 0
-                    continue
+                    #continue
 
-                index += 1
+                #for character in self.character_fight_list:
+                    #print(character.health)
 
-                for character in self.character_fight_list:
-                    print(character.health)
-
-                print(f"Heroindex :: {self.hero_index}")
-
-                #input()
+                #print(f"Heroindex :: {self.hero_index}")
 
 if __name__ == "__main__":
 
     k = Knight("TestHero")
+
+    wins = 0
+    losses  = 0
 
     g = GiantSpider()
     o = Orc()
@@ -182,4 +177,12 @@ if __name__ == "__main__":
     #fight_or_run = input("Press 1 to attack and 2 to run")
     #if fight_or_run == '1':
 
-    f.fight_loop()
+    game_stat = f.fight_loop()
+
+    if game_stat == True:
+        print("You won the fight")
+        print(k.hero_total_loot)
+        wins += 1
+    else:
+        print("You lost Game over")
+        losses += 1
