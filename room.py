@@ -3,21 +3,14 @@ class room:
 		self.name = name
 
 		self.room_character = "O"
-<<<<<<< HEAD
-		self.edge_character = "-"
-=======
 		self.edge_character = " "
->>>>>>> branch_oscar
 		self.mark_character = "X"
 		self.room_finished_character = "Ø"
 		self.room_unfinished_character = "o"
 
 		self.status = status
 		self.coordinate = coordinate
-<<<<<<< HEAD
 		self.edge = edge
-=======
-		self.is_edge = edge
 
 	def room_characters_index(self):
 		room_index_dictionary = {
@@ -28,7 +21,6 @@ class room:
 			"room_unfinished_character": self.room_unfinished_character
 		}
 		return room_index_dictionary
->>>>>>> branch_oscar
 
 	def is_here(self):
 		self.status = self.mark_character
@@ -39,12 +31,10 @@ class room:
 	def finished(self):
 		self.status = self.room_finished_character
 
-<<<<<<< HEAD
-=======
+
 	def edge(self):
 		self.status = self.edge_character
 
->>>>>>> branch_oscar
 	def fight(self):
 		return
 
@@ -90,33 +80,6 @@ if __name__ == "__main__":
 		return rooms_grid
 
 	def print_map(arrays):
-		print() # make a new row
-<<<<<<< HEAD
-		for y in arrays:
-			print(y)
-		print() # make a new row
-
-
-
-	x = room()
-	y = room()
-	z = room()
-	z.is_here()
-	
-	lista = [x, y, z]
-
-	for dinmamma in lista:
-		print(dinmamma.status)
-
-	for j in lista:
-		print(j.status)
-
-
-	x = grid_generator()
-=======
-
-		visual_grid = []
-
 		for y in arrays:
 			rows = []
 			for instance in y:
@@ -142,7 +105,6 @@ if __name__ == "__main__":
 	update_room(grid=x, coordinate=[1, 1], update="finished")
 	# print_map(x)
 	update_room(grid=x, coordinate=[2, 1], update="is_here")
->>>>>>> branch_oscar
 	print_map(x)
 
 
