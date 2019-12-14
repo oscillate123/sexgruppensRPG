@@ -12,7 +12,7 @@ class Fight:
         self.hero_index = 99
         self.character_fight_list = []
         self.character_fight_list.append(hero)
-        self.next_monster = 100
+        self.next_monster = 99
 
         self.round = 0
         self.hero_start_score = 0
@@ -32,12 +32,23 @@ class Fight:
         if monster_ag > hero_ag:
             return
 
-    def try_to_run(self):
-        if monster_ag > hero_ag:
-            return
+    def knigth_special_ability(self):
+        if self.round == 0:
+            print("Mega block")
+            self.character_fight_list[self.find_hero_index()].agility = 1000
 
-    def hero_special_ability(self):
-        return
+    def try_to_run(self):
+        escape_procent = self.character_fight_list[self.find_hero_index()].agility * 10
+
+        escape_procent = escape_procent / 100
+        rest_procent = 1 - escape_procent
+
+        value_points = [True, False]
+        probabilities = [escape_procent, rest_procent]
+
+        random_value = choice(value_points, p=probabilities)
+
+        return random_value
 
     def print_all(self):
         for character in f.character_fight_list:
@@ -48,8 +59,6 @@ class Fight:
             print(f"Fighters : {character}")
         #print(f"Index :: {f.find_hero_index()}")
 
-    def player_throw_dice(self):
-        pass
 
     def check_monster_spawn(self):
         if self.monster_one != False:
@@ -73,6 +82,18 @@ class Fight:
             self.character_fight_list[1].start_score = n_dice(self.character_fight_list[1].initiative)
             f.character_fight_list.sort(key=lambda x: x.start_score, reverse=True)
 
+    def find_hero_index2(self):
+        index = 0
+
+        for k in self.character_fight_list:
+            if k.__class__.__name__ == "Knight":
+                return index
+            if k.__class__.__name__ == "Wizard":
+                return index
+            if k.__class__.__name__ == "Rouge":
+                return index
+            index += 1
+
     def find_hero_index(self):
         index = 0
 
@@ -93,6 +114,15 @@ class Fight:
             self.next_monster = self.hero_index + 1
             return self.next_monster
 
+    def critical_hit(self):
+
+        value_points = [True, False]
+        probabilities = [0.25, 0.75]
+
+        random_value = choice(value_points, p=probabilities)
+
+        return random_value
+
     def fight_loop(self):
 
         index = 0
@@ -110,7 +140,14 @@ class Fight:
 
                     if attack_power > agility_power:
                         print(f"Player made damage :: {attack_power - agility_power}")
-                        self.character_fight_list[self.find_next_monster()].health -= 1
+
+                        if self.character_fight_list[self.find_hero_index()].type == "Rouge":
+                            if self.character_fight_list[self.find_hero_index()].special_skill() == True:
+                                print("CriticalHit")
+                                print("Din mamma har gjort 2 i skada istället för 1")
+                                self.character_fight_list[self.find_next_monster()].health -= 2
+                        else:
+                            self.character_fight_list[self.find_next_monster()].health -= 1
 
                     if self.character_fight_list[self.find_next_monster()].health < 1:
                         print("Monster dead")
@@ -119,12 +156,20 @@ class Fight:
 
                 else:
                     print("Monster fighting")
+
+                    if self.round == 0 and self.character_fight_list[self.find_hero_index()].type == "Knight":
+                        self.character_fight_list[self.find_hero_index()].special_skill(self.round)
+                        #print(f"New agility : {self.character_fight_list[self.find_hero_index()].agility}")
+
                     attack_power = n_dice(i.attack)
                     agility_power = n_dice(self.character_fight_list[self.find_hero_index()].agility)
 
                     if attack_power > agility_power:
                         print(f"Monster made damage :: {attack_power - agility_power}")
                         self.character_fight_list[self.find_hero_index()].health -= 1
+
+                    self.character_fight_list[self.find_hero_index()].agility = 4
+                    #print(f"Restored agility : {self.character_fight_list[self.find_hero_index()].agility}")
 
                 if self.character_fight_list[self.find_hero_index()].health < 1:
                     return False
@@ -150,10 +195,11 @@ class Fight:
 
                 #print(f"Heroindex :: {self.hero_index}")
                 print("\n/ / / / / / / / /")
+                self.round += 1
 
 if __name__ == "__main__":
 
-    k = Knight("TestHero")
+    k = Rouge("TestHero")
 
     wins = 0
     losses  = 0
@@ -175,10 +221,21 @@ if __name__ == "__main__":
 
     f.print_all()
 
-    #fight_or_run = input("Press 1 to attack and 2 to run")
-    #if fight_or_run == '1':
+    fight_or_run = input("Press 1 to attack and 2 to run")
 
-    game_stat = f.fight_loop()
+    game_stat = True
+
+    if fight_or_run == '1':
+        game_stat = f.fight_loop()
+    elif fight_or_run == '2':
+        can_you_run = f.try_to_run()
+
+        if can_you_run == False:
+            game_stat = f.fight_loop()
+        else:
+            print("You escaped")
+
+
 
     if game_stat == True:
         print("You won the fight")
