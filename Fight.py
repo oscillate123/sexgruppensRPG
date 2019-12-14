@@ -109,7 +109,7 @@ class Fight:
                     agility_power = n_dice(self.character_fight_list[self.find_next_monster()].agility)
 
                     if attack_power > agility_power:
-                        #print(f"Player made damage :: {attack_power - agility_power}")
+                        print(f"Player made damage :: {attack_power - agility_power}")
                         self.character_fight_list[self.find_next_monster()].health -= 1
 
                     if self.character_fight_list[self.find_next_monster()].health < 1:
@@ -123,7 +123,7 @@ class Fight:
                     agility_power = n_dice(self.character_fight_list[self.find_hero_index()].agility)
 
                     if attack_power > agility_power:
-                        #print(f"Monster made damage :: {attack_power - agility_power}")
+                        print(f"Monster made damage :: {attack_power - agility_power}")
                         self.character_fight_list[self.find_hero_index()].health -= 1
 
                 if self.character_fight_list[self.find_hero_index()].health < 1:
@@ -145,10 +145,11 @@ class Fight:
                     index = 0
                     #continue
 
-                #for character in self.character_fight_list:
-                    #print(character.health)
+                for character in self.character_fight_list:
+                    print(f"HP :: {character.__class__.__name__} : {character.health}")
 
                 #print(f"Heroindex :: {self.hero_index}")
+                print("\n/ / / / / / / / /")
 
 if __name__ == "__main__":
 
