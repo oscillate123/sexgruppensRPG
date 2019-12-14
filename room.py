@@ -3,14 +3,32 @@ class room:
 		self.name = name
 
 		self.room_character = "O"
+<<<<<<< HEAD
 		self.edge_character = "-"
+=======
+		self.edge_character = " "
+>>>>>>> branch_oscar
 		self.mark_character = "X"
 		self.room_finished_character = "Ø"
 		self.room_unfinished_character = "o"
 
 		self.status = status
 		self.coordinate = coordinate
+<<<<<<< HEAD
 		self.edge = edge
+=======
+		self.is_edge = edge
+
+	def room_characters_index(self):
+		room_index_dictionary = {
+			"room_character": self.room_character,
+			"edge_character": self.edge_character,
+			"mark_character": self.mark_character,
+			"room_finished_character": self.room_finished_character,
+			"room_unfinished_character": self.room_unfinished_character
+		}
+		return room_index_dictionary
+>>>>>>> branch_oscar
 
 	def is_here(self):
 		self.status = self.mark_character
@@ -21,6 +39,12 @@ class room:
 	def finished(self):
 		self.status = self.room_finished_character
 
+<<<<<<< HEAD
+=======
+	def edge(self):
+		self.status = self.edge_character
+
+>>>>>>> branch_oscar
 	def fight(self):
 		return
 
@@ -67,6 +91,7 @@ if __name__ == "__main__":
 
 	def print_map(arrays):
 		print() # make a new row
+<<<<<<< HEAD
 		for y in arrays:
 			print(y)
 		print() # make a new row
@@ -88,6 +113,36 @@ if __name__ == "__main__":
 
 
 	x = grid_generator()
+=======
+
+		visual_grid = []
+
+		for y in arrays:
+			rows = []
+			for instance in y:
+				rows.append(instance.status)
+			visual_grid.append(rows)
+				
+		for row in visual_grid:
+			print(" ".join(row))
+
+
+	def update_room(grid, coordinate, update=""):
+		if update == "unfinished":
+			grid[coordinate[0]][coordinate[1]].unfinished()
+		elif update == "finished":
+			grid[coordinate[0]][coordinate[1]].finished()
+		elif update == "is_here":
+			grid[coordinate[0]][coordinate[1]].is_here()
+		elif update == "edge":
+			grid[coordinate[0]][coordinate[1]].edge()
+
+	x = grid_generator()
+	# print_map(x)
+	update_room(grid=x, coordinate=[1, 1], update="finished")
+	# print_map(x)
+	update_room(grid=x, coordinate=[2, 1], update="is_here")
+>>>>>>> branch_oscar
 	print_map(x)
 
 
