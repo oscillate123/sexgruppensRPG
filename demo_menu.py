@@ -1,6 +1,6 @@
 from os import system, name
 import sys, time
-from map import map as map
+from map_2 import map as map
 from Monsters import *
 from Hero import *
 import json
@@ -96,34 +96,36 @@ def calc_spawnpoint(grid_select,spawn_point):
 	spawn_coordinates = []
 	if grid_select == 4:
 		if (spawn_point == "NE"):
-			spawn_coordinates = [0,5]
+			spawn_coordinates = [1,4]
 			return spawn_coordinates
 		elif (spawn_point == "SW"):
-			spawn_coordinates = [5,0]
+			spawn_coordinates = [4,1]
+			return spawn_coordinates
+		elif (spawn_point == "NE"):
+			spawn_coordinates = [4,4]
+			return spawn_coordinates
+
+	if (grid_select==5):
+		if (spawn_point == "NE"):
+			spawn_coordinates = [1,5]
+			return spawn_coordinates
+		elif (spawn_point == "SW"):
+			spawn_coordinates = [5,1]
 			return spawn_coordinates
 		elif (spawn_point == "NE"):
 			spawn_coordinates = [5,5]
 			return spawn_coordinates
-	if (grid_select==5):
-		if (spawn_point == "NE"):
-			spawn_coordinates = [0,6]
-			return spawn_coordinates
-		elif (spawn_point == "SW"):
-			spawn_coordinates = [6,0]
-			return spawn_coordinates
-		elif (spawn_point == "NE"):
-			spawn_coordinates = [6,6]
-			return spawn_coordinates
+
 	if (grid_select==8):
 		if (spawn_point == "NE"):
-			spawn_coordinates = [0,9]
+			spawn_coordinates = [1,8]
 			return spawn_coordinates
 		elif (spawn_point == "SW"):
-			spawn_coordinates = [9,0]
+			spawn_coordinates = [8,1]
 			return spawn_coordinates
 		elif (spawn_point == "NE"):
-			spawn_coordinates = [9,9]
-			return spawn_coordinates
+			spawn_coordinates = [8,8]
+		return spawn_coordinates
 
 def choose_hero(hero_class):
 
@@ -199,8 +201,8 @@ def hero_menu():
 		print_slow("Welcome to Dungeon run now it's time to choose your hero: ")
 		print_slow("The available options are as follows :")
 		print_slow("# 1 for Knight")
-		print_slow("# 2 for Rogue")
-		print_slow("# 3 for Wizard")
+		print_slow("# 2 for Wizard")
+		print_slow("# 3 for Rogue")
 		print_slow("# 9 To Go Back")
 		print_slow(" -----------------")
 		
@@ -262,7 +264,7 @@ def spawn_menu(grid_select):
 	if spawn_select == 1:
 		spawn_point = "NW"
 		spawn_selected = True
-		spawn_coordinates = [0, 0]
+		spawn_coordinates = [1, 1]
 	elif spawn_select == 2:
 		spawn_point = "NE"
 		spawn_selected = True
@@ -278,85 +280,64 @@ def spawn_menu(grid_select):
 	if spawn_selected:
 		return spawn_coordinates
 
-
-# gjorde en funktion för spelet. så vi kan skicka med den info vi behöhver från ovanstående meny funktioner
-# map sizen ändrar nu med spelarens val av size
-# men man kan inte gå mer en ett steg i spelet. och den lägger bara till fler x på samma plats. (dvs klarade inte det oscar bad mig att göra xxdxddxx /emil)
-
 def start_game(hero_name, grid_select, spawn_coordinates):
 	game_loop = False
-	current_run = map(name="demo_run",grid_size= grid_select)
-	current_run.cuboid_character_handler(new_character=current_run.mark_character, option="mark", coordinate=current_run.current_cuboid)
-	print_slow(f"Your spawnpoint is at coordinate {spawn_coordinates}")
+
+
+	current_run = map(grid_size=grid_select)
+	current_run.update_room(coordinate=spawn_coordinates, update="is_here")
 	current_run.print_map()
 
 	while game_loop is False:
 		leave_or_not = ask_player_to_move(current_run)
-		if leave_or_not is True:
-			break	
+		clear_screen()
 		current_run.print_map()
-		
-		
-
-	input()# start game
-	#return current_run
-
-"""
-
-	nerby_cubids_data = game.get_nerby_cuboids()
-
-	user_move = input("Where you wanna go? (above, below, right, left)")
-
-	new_cuboid = nerby_cubids_data[f"{user_move}"]["coordinate"]
 	
-	game.update_current_cuboid(old_coordinate=game.current_cuboid, option='move', new_coordinate=new_cuboid)
-
-"""
 
 def ask_player_to_move(current_run):
-	print_slow("# W to Move Up")
-	print_slow("# A to Move Left")
-	print_slow("# S to Move Down")
-	print_slow("# D to Move Right")
-	print_slow("# L to Save And Exit")
+	print("# W to Move Up")
+	print("# A to Move Left")
+	print("# S to Move Down")
+	print("# D to Move Right")
+	print("# L to Save And Exit")
 	
 
 	move_choice= str(input("\n --> "))
 	
 	if (move_choice == "W"):
-		user_direction = "above"
-		nerby_cubids_data = current_run.get_nerby_cuboids()
-		new_cuboid_coordinate = nerby_cubids_data[user_direction]["coordinate"]
-		current_run.update_current_cuboid(old_coordinate=current_run.current_cuboid,
-										  option="move",
-										  new_coordinate=new_cuboid_coordinate)
+		movable_rooms = current_run.nerby_rooms()
+		my_postiton = current_run.where_am_i()
+		move_up= movable_rooms["above"]["coordinate"]
+		current_run.update_room(coordinate=move_up, update="is_here")
+		current_run.update_room(coordinate=my_postiton, update="finished")
 		
 	if (move_choice == "A"):
-		user_direction = "left"
-		nerby_cubids_data = current_run.get_nerby_cuboids()
-		new_cuboid_coordinate = nerby_cubids_data[user_direction]["coordinate"]
-		current_run.update_current_cuboid(old_coordinate=current_run.current_cuboid,
-										  option="move",
-										  new_coordinate=new_cuboid_coordinate)
+		movable_rooms = current_run.nerby_rooms()
+		my_postiton = current_run.where_am_i()
+		move_left= movable_rooms["left"]["coordinate"]
+		current_run.update_room(coordinate=move_left, update="is_here")
+		current_run.update_room(coordinate=my_postiton, update="finished")
+
 	if (move_choice == "S"):
-		user_direction = "below"
-		nerby_cubids_data = current_run.get_nerby_cuboids()
-		new_cuboid_coordinate = nerby_cubids_data[user_direction]["coordinate"]
-		current_run.update_current_cuboid(old_coordinate=current_run.current_cuboid,
-										  option="move",
-										  new_coordinate=new_cuboid_coordinate)
+		movable_rooms = current_run.nerby_rooms()
+		my_postiton = current_run.where_am_i()
+		move_down= movable_rooms["below"]["coordinate"]
+		current_run.update_room(coordinate=move_down, update="is_here")
+		current_run.update_room(coordinate=my_postiton, update="finished")
+
 	if (move_choice == "D"):
-		user_direction = "right"
-		nerby_cubids_data = current_run.get_nerby_cuboids()
-		new_cuboid_coordinate = nerby_cubids_data[user_direction]["coordinate"]
-		current_run.update_current_cuboid(old_coordinate=current_run.current_cuboid,
-										  option="move",
-										  new_coordinate=new_cuboid_coordinate)
+		movable_rooms = current_run.nerby_rooms()
+		my_postiton = current_run.where_am_i()
+		move_right= movable_rooms["right"]["coordinate"]
+		current_run.update_room(coordinate=move_right, update="is_here")
+		current_run.update_room(coordinate=my_postiton, update="finished")
+		
+		
 	if (move_choice == "L"):
 		ask_to_save()
 		leave_loop = True
 		return leave_loop
-		#end game loop
+		
 
 	
 
