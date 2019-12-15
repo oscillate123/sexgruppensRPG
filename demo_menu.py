@@ -190,23 +190,6 @@ def start_menu():
 			print_slow("BYEEEEEEEE")
 			exit()
 
-
-def grid_menu():
-	clear_screen()
-	print_slow(" -----------------")
-	print_slow("A true hero needs a map to explore, please choose a grid size suitable for your adventure")
-	print_slow("The available options are as follows :")
-	print_slow("# 4 for 4x4 grid")
-	print_slow("# 5 for 5x5 grid")
-	print_slow("# 8 for 8x8 grid")
-	print_slow(" -----------------")
-	grid_select = int(input('\n --> '))
-	if grid_select != 4 and grid_select != 5 and grid_select != 8:
-		print_slow("Wrong input please follow the instructions correctly")
-	else:
-		return grid_select
-
-
 def hero_menu():
 	while True:
 		clear_screen()
@@ -240,6 +223,22 @@ def hero_menu():
 			break
 		if hero_selected is True:
 			return True
+
+def grid_menu():
+	clear_screen()
+	print_slow(" -----------------")
+	print_slow("A true hero needs a map to explore, please choose a grid size suitable for your adventure")
+	print_slow("The available options are as follows :")
+	print_slow("# 4 for 4x4 grid")
+	print_slow("# 5 for 5x5 grid")
+	print_slow("# 8 for 8x8 grid")
+	print_slow(" -----------------")
+	grid_select = int(input('\n --> '))
+	if grid_select != 4 and grid_select != 5 and grid_select != 8:
+		print_slow("Wrong input please follow the instructions correctly")
+	else:
+		return grid_select
+
 
 def spawn_menu(grid_select):
 	clear_screen()
