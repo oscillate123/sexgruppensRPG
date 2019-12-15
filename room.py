@@ -84,6 +84,9 @@ if __name__ == "__main__":
 		return rooms_grid
 
 	def print_map(arrays):
+		print() 
+		visual_grid = []
+
 		for y in arrays:
 			rows = []
 			for instance in y:
@@ -110,7 +113,6 @@ if __name__ == "__main__":
 	# print_map(x)
 	update_room(grid=x, coordinate=[2, 1], update="is_here")
 	print_map(x)
-
 
 
 

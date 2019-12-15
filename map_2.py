@@ -86,12 +86,12 @@ class map:
 
 		nearby_cubiods_data = {
 			'above': {
-				'coordinate': self.get_room(coordinate=[y_axis+1, x_axis]).coordinate,
-				'status': self.get_room(coordinate=[y_axis+1, x_axis]).status
-				},
-			'below': {
 				'coordinate': self.get_room(coordinate=[y_axis-1, x_axis]).coordinate,
 				'status': self.get_room(coordinate=[y_axis-1, x_axis]).status
+				},
+			'below': {
+				'coordinate': self.get_room(coordinate=[y_axis+1, x_axis]).coordinate,
+				'status': self.get_room(coordinate=[y_axis+1, x_axis]).status
 				},
 			'right': {
 				'coordinate': self.get_room(coordinate=[y_axis, x_axis+1]).coordinate,
