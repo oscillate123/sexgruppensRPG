@@ -5,25 +5,48 @@ from Monsters import *
 from Hero import *
 import json
 from other_functions import *
+from pathlib import Path
 
+folder = Path("json_file")
+folder.mkdir(exist_ok=True)
+try:
+	with open("json_file/saved_heroes.json", "r") as open_file:
+		dict_list = json.load(open_file)
+		saved_character_list = []
+		created_character_list = []
+		for value in dict_list:
+			if dict_list[value]["Type"] == "Knight":
+				knight = Knight(value)
+				knight.score = dict_list[value]["Score"]
+				saved_character_list.append(knight)
+			elif dict_list[value]["Type"] == "Rouge":
+				rouge = Rouge(value)
+				rouge.score = dict_list[value]["Score"]
+				saved_character_list.append(rouge)
+			elif dict_list[value]["Type"] == "Wizard":
+				wizard = Wizard(value)
+				wizard.score = dict_list[value]["Score"]
+				saved_character_list.append(wizard)
 
-with open("saved_heroes.json","r") as open_file:
-	dict_list = json.load(open_file)
-	saved_character_list = []
-	created_character_list = []
-	for item in dict_list:
-		if item["Type"] == "Rouge":
-			rouge = Rouge(item["Name"])
-			rouge.score = item["Score"]
-			saved_character_list.append(rouge)
-		elif item["Type"] == "Knight":
-			knight = Knight(item["Name"])
-			knight.score = item["Score"]
-			saved_character_list.append(knight)
-		elif item["Type"] == "Wizard":
-			wizard = Wizard(item["Name"])
-			wizard.score = item["Score"]
-			saved_character_list.append(wizard)
+except FileNotFoundError:
+	with open("json_file/saved_heroes.json", "w+") as open_file:
+
+		dict_list = json.load(open_file)
+		saved_character_list = []
+		created_character_list = []
+		for value in dict_list:
+			if dict_list[value]["Type"] == "Knight":
+				knight = Knight(value)
+				knight.score = dict_list[value]["Score"]
+				saved_character_list.append(knight)
+			elif dict_list[value]["Type"] == "Rouge":
+				rouge = Rouge(value)
+				rouge.score = dict_list[value]["Score"]
+				saved_character_list.append(rouge)
+			elif dict_list[value]["Type"] == "Wizard":
+				wizard = Wizard(value)
+				wizard.score = dict_list[value]["Score"]
+				saved_character_list.append(wizard)
 
 # Here starts all the help functions for the program
 
@@ -37,27 +60,73 @@ def load_hero():
 		for item in saved_character_list:
 			item = str(item)
 			if name_select in item:
-				print(f"The hero '{name_select}' has been selected!")
-				print_slow(" -----------------")
-				input("Press enter to continue")
-				return name_select
+					dict_keys= (dict_list.keys())
+					for name in dict_keys:
+						name = str(name)
+						if name == name_select:
+							if dict_list[name]["Type"] == "Knight":
+								knight = Knight(name)
+								knight.score = dict_list[name]["Score"]
+
+							elif dict_list[name]["Type"] == "Wizard":
+								wizard = Wizard(name)
+								wizard.score = dict_list[name]["Score"]
+
+							elif dict_list[name]["Type"] == "Rouge":
+								rouge = Rouge(name)
+								rouge.score = dict_list[name]["Score"]
+
+		print(f"The hero '{name_select}' has been selected!")
+		print_slow("-"*20)
+		input("Press enter to continue")
+		return name_select
 	else:
 		print("No heroes saved!")
+		input("Press enter to continue")
+		return	
 
 def save_character_to_json():
-    with open("saved_heroes.json", "w") as close_file:
-        json.dump(dict_list, close_file)
-        close_file.close()
+	with open("json_file/saved_heroes.json", "w+") as close_file:
+		close_file.seek(0)
+		close_file.truncate()
+		json.dump(dict_list, close_file)
+		close_file.close()
 
+def update_score(hero_name, score, object):
+	dict_list[hero_name]["Score"] = score
+	saved_character_list[saved_character_list.index(object)] = object
+	save_character_to_json()
+
+def validate(hero_name):
+	dict_key = dict_list.keys()
+	for name in dict_key:
+		name = str(name)
+		if name == hero_name:
+			while True:
+				print_slow("Name already in use!")
+				print_slow("Choose a new name")
+				hero_name = input("\n --> ")
+				if hero_name != name:
+					break
+	return hero_name
+
+# probmlems here!!! "Saved_character_list.replace(item)" är en lista men listor har ingen .replace funktion
 def save_character():
 	if len(created_character_list) != 0:
 		print("Created heroes: ")
 		for item in created_character_list:
 			print(item)
+		print("Type in the name of the hero you want to save!")
+		name_select = input("\n --> ")
 
-			saved_character_list.append(item)
+		for item in created_character_list:
+			item = str(item)
+			if name_select in item:
+				if item in saved_character_list:
+					saved_character_list.replace(item)
 			save_character_to_json()
 			print("Hero saved!\n")
+			return
 	else:
 		print("A hero needs to be created in order to be saved!\n")
 
@@ -114,28 +183,33 @@ def calc_spawnpoint(grid_select,spawn_point):
 
 def choose_hero(hero_class):
 
-    print_slow(f"You have choosen the {hero_class}!")
-    print_slow("Give your hero a name! ")
+	print_slow(f"You have choosen the {hero_class}!")
+	print_slow("Give your hero a name! ")
 
-    hero_name = validate_str()
+	hero_name = validate_str()
 
-    if hero_class == "Knight":
-        hero = Knight(hero_name)
-    if hero_class == "Wizard":
-        hero = Wizard(hero_name)
-    if hero_class == "Rouge":
-        hero = Rouge(hero_name)
+	if hero_class == "Knight":
+		hero = Knight(hero_name)
+	if hero_class == "Wizard":
+		hero = Wizard(hero_name)
+	if hero_class == "Rouge":
+		hero = Rouge(hero_name)
 
-    hero.print_stats()
-    print_slow(" -----------------")
+	hero.print_stats()
+	print_slow(" -----------------")
 
-    hero.add_hero_dict(dict_list)
-    
-    created_character_list.append(hero)
+	hero.add_hero_dict(created_character_list)
+	
+	saved_character_list.append(hero)
+	save_character_to_json()
 
-    choice = input("Press enter to continue or 9 to choose another Hero ")
+	# ta bort dem två raderna efter sen
+	knight.score= 5
+	update_score(knight.hero_name, knight.score, knight)
 
-    return choice
+	choice = input("Press enter to continue or 9 to choose another Hero ")
+
+	return choice
 
 
 # Here starts the menu functions
