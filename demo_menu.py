@@ -1,6 +1,6 @@
 from os import system, name
 import sys, time
-from map_2 import map as map
+from map import map as map
 from Monsters import *
 from Hero import *
 import json
@@ -77,8 +77,7 @@ def ask_to_save():
 		exit()
 
 def calc_spawnpoint(grid_select,spawn_point):
-	# det funktion räknar ut vilken spawn_coordinate du kmr spawna på oavsett vilket gridsize du väljer
-	# bara att om man väljer 8x8 grid och väljer "NE"[9,9] så skriver den ut att det blir "None" i programmet
+
 	spawn_coordinates = []
 	if grid_select == 4:
 		if (spawn_point == "NE"):
@@ -87,7 +86,7 @@ def calc_spawnpoint(grid_select,spawn_point):
 		elif (spawn_point == "SW"):
 			spawn_coordinates = [4,1]
 			return spawn_coordinates
-		elif (spawn_point == "NE"):
+		elif (spawn_point == "SE"):
 			spawn_coordinates = [4,4]
 			return spawn_coordinates
 
@@ -98,7 +97,7 @@ def calc_spawnpoint(grid_select,spawn_point):
 		elif (spawn_point == "SW"):
 			spawn_coordinates = [5,1]
 			return spawn_coordinates
-		elif (spawn_point == "NE"):
+		elif (spawn_point == "SE"):
 			spawn_coordinates = [5,5]
 			return spawn_coordinates
 
@@ -109,7 +108,7 @@ def calc_spawnpoint(grid_select,spawn_point):
 		elif (spawn_point == "SW"):
 			spawn_coordinates = [8,1]
 			return spawn_coordinates
-		elif (spawn_point == "NE"):
+		elif (spawn_point == "SE"):
 			spawn_coordinates = [8,8]
 		return spawn_coordinates
 
