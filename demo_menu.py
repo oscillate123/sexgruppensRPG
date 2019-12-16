@@ -25,21 +25,7 @@ with open("saved_heroes.json","r") as open_file:
 			wizard.score = item["Score"]
 			saved_character_list.append(wizard)
 
-		
 # Here starts all the help functions for the program
-
-def clear_screen():
-	if name == 'nt':
-		_ = system('cls')
-	else:
-		_ = system('clear')
-
-def print_slow(str):
-	str = str + "\n"
-	for letter in str:
-		sys.stdout.write(letter)
-		sys.stdout.flush()
-		time.sleep(0.02)
 
 def load_hero():
 	if len(saved_character_list) != 0:
@@ -154,43 +140,6 @@ def choose_hero(hero_class):
 
 
 # Here starts the menu functions
-
-
-def start_menu():
-	while True:
-		grid_size = 0
-		clear_screen()
-		print_slow(" \n Dungeon Run \n")
-		print_slow(" -----------------")
-		print_slow("# 1 New Game")
-		print_slow("# 2 Load Game")
-		print_slow("# 3 Quit")
-		print_slow(" -----------------")
-		try:
-			sub_meny = int(input('\n --> '))
-		except ValueError:
-			print_slow("Wrong input")
-			continue
-
-		if (sub_meny == 1):
-			hero_name = hero_menu()
-			if hero_name == True:
-				grid_select = grid_menu()
-				spawn_coordinates = spawn_menu(grid_select)
-				start_game(hero_name, grid_select, spawn_coordinates)
-				
-
-
-		elif (sub_meny == 2):
-			hero_name = load_hero()
-			grid_select = grid_menu()
-			spawn_coordinates = spawn_menu(grid_select)
-			start_game(hero_name, grid_select, spawn_coordinates)
-
-
-		elif (sub_meny == 3):
-			print_slow("BYEEEEEEEE")
-			exit()
 
 def hero_menu():
 	while True:
@@ -338,12 +287,43 @@ def ask_player_to_move(current_run):
 		leave_loop = True
 		return leave_loop
 		
-
-	
-
-
-
-start_menu()
+#start_menu()
 # grid_menu()
 # hero_menu()
 # spawn_menu()
+
+if __name__ == "__main__":
+	while True:
+		grid_size = 0
+		clear_screen()
+		print_slow(" \n Dungeon Run \n")
+		print_slow(" -----------------")
+		print_slow("# 1 New Game")
+		print_slow("# 2 Load Game")
+		print_slow("# 3 Quit")
+		print_slow(" -----------------")
+		try:
+			sub_meny = int(input('\n --> '))
+		except ValueError:
+			print_slow("Wrong input")
+			continue
+
+		if (sub_meny == 1):
+			hero_name = hero_menu()
+			if hero_name == True:
+				grid_select = grid_menu()
+				spawn_coordinates = spawn_menu(grid_select)
+				start_game(hero_name, grid_select, spawn_coordinates)
+				
+
+
+		elif (sub_meny == 2):
+			hero_name = load_hero()
+			grid_select = grid_menu()
+			spawn_coordinates = spawn_menu(grid_select)
+			start_game(hero_name, grid_select, spawn_coordinates)
+
+
+		elif (sub_meny == 3):
+			print_slow("BYEEEEEEEE")
+			exit()
