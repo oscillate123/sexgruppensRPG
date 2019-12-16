@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 from map_2 import map as map
+=======
+from map import map as map
+>>>>>>> master
 
 if __name__ == "__main__":
 	map_instance = map()
