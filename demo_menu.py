@@ -120,12 +120,16 @@ def save_character():
 		name_select = input("\n --> ")
 
 		for item in created_character_list:
-			item = str(item)
-			if name_select in item:
-				if item in saved_character_list:
-					saved_character_list.replace(item)
+			# item = str(item)
+			# if name_select in item:
+			# 	if item in saved_character_list:
+			# 		saved_character_list.replace(item)
+
 			save_character_to_json()
+			item.score= 5
+			update_score(item.hero_name, item.score, item)
 			print("Hero saved!\n")
+			input("Press enter to continue")
 			return
 	else:
 		print("A hero needs to be created in order to be saved!\n")
@@ -198,14 +202,14 @@ def choose_hero(hero_class):
 	hero.print_stats()
 	print_slow(" -----------------")
 
-	hero.add_hero_dict(created_character_list)
+	hero.add_hero_dict(dict_list)
 	
 	saved_character_list.append(hero)
+	created_character_list.append(hero)
 	save_character_to_json()
 
 	# ta bort dem två raderna efter sen
-	knight.score= 5
-	update_score(knight.hero_name, knight.score, knight)
+	
 
 	choice = input("Press enter to continue or 9 to choose another Hero ")
 
