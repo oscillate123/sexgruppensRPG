@@ -1,116 +1,131 @@
 from os import system, name
 import sys, time
-from map import map as map
+from map_2 import map as map
 from Monsters import *
 from Hero import *
 import json
-from other_functions import*
+from other_functions import *
 
-created_character_list = []
-
-with open("saved_heroes.json", "r") as open_file:
-    dict_list = json.load(open_file)
-    saved_character_list = []
-    created_character_list = []
-
-    for item in dict_list:
-        if item["Type"] == "Knight":
-            knight = Knight(item["Name"])
-            knight.score = item["Score"]
-            saved_character_list.append(knight)
 
 with open("saved_heroes.json","r") as open_file:
 	dict_list = json.load(open_file)
 	saved_character_list = []
 	created_character_list = []
-
 	for item in dict_list:
 		if item["Type"] == "Rouge":
 			rouge = Rouge(item["Name"])
 			rouge.score = item["Score"]
 			saved_character_list.append(rouge)
+		elif item["Type"] == "Knight":
+			knight = Knight(item["Name"])
+			knight.score = item["Score"]
+			saved_character_list.append(knight)
+		elif item["Type"] == "Wizard":
+			wizard = Wizard(item["Name"])
+			wizard.score = item["Score"]
+			saved_character_list.append(wizard)
+
+		
+# Here starts all the help functions for the program
+
+def clear_screen():
+	if name == 'nt':
+		_ = system('cls')
+	else:
+		_ = system('clear')
+
+def print_slow(str):
+	str = str + "\n"
+	for letter in str:
+		sys.stdout.write(letter)
+		sys.stdout.flush()
+		time.sleep(0.02)
 
 def load_hero():
-    if len(saved_character_list) != 0:
-        print("Saved heroes: \n")
-
-        for item in saved_character_list:
-            print(item)
-        print("Write the name of the hero you want to play with!")
-
-        name_select = validate_str()
-
-        for item in saved_character_list:
-            item = str(item)
-
-            if name_select in item:
-                print(f"The hero '{name_select}' has been selected!")
-                print_slow(" -----------------")
-                input("Press enter to continue")
-
-        else:
-            print("No heroes saved!")
+	if len(saved_character_list) != 0:
+		print("Saved heroes: \n")
+		for item in saved_character_list:
+			print(item)
+		print("Write the name of the hero you want to play with!")
+		name_select = input("\n --> ")
+		for item in saved_character_list:
+			item = str(item)
+			if name_select in item:
+				print(f"The hero '{name_select}' has been selected!")
+				print_slow(" -----------------")
+				input("Press enter to continue")
+				return name_select
+	else:
+		print("No heroes saved!")
 
 def save_character_to_json():
     with open("saved_heroes.json", "w") as close_file:
         json.dump(dict_list, close_file)
         close_file.close()
 
-def start_menu():
-    while True:
-        grid_size = 0
-        clear_screen()
-        print_slow(" \n Dungeon Run \n")
-        print_slow(" -----------------")
-        print_slow("# 1 New Game")
-        print_slow("# 2 Load Game")
-        print_slow("# 3 Quit")
-        print_slow(" -----------------")
-
-        sub_meny = validate_int()
-
-        if (sub_meny == 1):
-            hero_name = hero_menu()
-
-            if hero_name == True:
-                grid_select = grid_menu()
-                spawn_point = spawn_menu()
-
-        elif (sub_meny == 2):
-            load_hero()
-            grid_select = grid_menu()
-            spawn_point = spawn_menu()
-
-        elif (sub_meny == 3):
-            print_slow("BYEEEEEEEE")
-            exit()
-
-def grid_menu():
-    grid_selected = False
-
-    while(grid_selected == False):
-        clear_screen()
-        print_slow(" -----------------")
-        print_slow("A true hero needs a map to explore, please choose a grid size suitable for your adventure")
-        print_slow("The available options are as follows :")
-        print_slow("# 4 for 4x4 grid")
-        print_slow("# 5 for 5x5 grid")
-        print_slow("# 8 for 8x8 grid")
-        print_slow(" -----------------")
-        grid_select = validate_int()
-
-        if grid_select is 4 or grid_select is 5 or grid_select is 8:
-            return grid_select
-
 def save_character():
-    if len(created_character_list) != 0:
+	if len(created_character_list) != 0:
+		print("Created heroes: ")
+		for item in created_character_list:
+			print(item)
 
-        for item in created_character_list:
-            saved_character_list.append(item)
-            print(item)
+			saved_character_list.append(item)
+			save_character_to_json()
+			print("Hero saved!\n")
+	else:
+		print("A hero needs to be created in order to be saved!\n")
 
-        save_character_to_json()
-        print("Hero saved!\n")
+def ask_to_save():
+	print_slow(" Do you want to save your character at this point?")
+	print_slow("# 1 Save")
+	print_slow("# 2 To Exit Game")
+	try:
+		answer = int(input('\n --> '))
+	except ValueError:
+		print_slow("Wrong input")
+	if (answer == 1):
+		save_character()
+	else:
+		print_slow("Thanks for playing Dungeon Run!")
+		print_slow("Created by: Robert, Sadri, Oliver, Oscar and Emil")
+		exit()
+
+def calc_spawnpoint(grid_select,spawn_point):
+	# det funktion räknar ut vilken spawn_coordinate du kmr spawna på oavsett vilket gridsize du väljer
+	# bara att om man väljer 8x8 grid och väljer "NE"[9,9] så skriver den ut att det blir "None" i programmet
+	spawn_coordinates = []
+	if grid_select == 4:
+		if (spawn_point == "NE"):
+			spawn_coordinates = [1,4]
+			return spawn_coordinates
+		elif (spawn_point == "SW"):
+			spawn_coordinates = [4,1]
+			return spawn_coordinates
+		elif (spawn_point == "NE"):
+			spawn_coordinates = [4,4]
+			return spawn_coordinates
+
+	if (grid_select==5):
+		if (spawn_point == "NE"):
+			spawn_coordinates = [1,5]
+			return spawn_coordinates
+		elif (spawn_point == "SW"):
+			spawn_coordinates = [5,1]
+			return spawn_coordinates
+		elif (spawn_point == "NE"):
+			spawn_coordinates = [5,5]
+			return spawn_coordinates
+
+	if (grid_select==8):
+		if (spawn_point == "NE"):
+			spawn_coordinates = [1,8]
+			return spawn_coordinates
+		elif (spawn_point == "SW"):
+			spawn_coordinates = [8,1]
+			return spawn_coordinates
+		elif (spawn_point == "NE"):
+			spawn_coordinates = [8,8]
+		return spawn_coordinates
 
 def choose_hero(hero_class):
 
@@ -130,98 +145,205 @@ def choose_hero(hero_class):
     print_slow(" -----------------")
 
     hero.add_hero_dict(dict_list)
-    print(dict_list)
+    
     created_character_list.append(hero)
 
     choice = input("Press enter to continue or 9 to choose another Hero ")
 
     return choice
 
+
+# Here starts the menu functions
+
+
+def start_menu():
+	while True:
+		grid_size = 0
+		clear_screen()
+		print_slow(" \n Dungeon Run \n")
+		print_slow(" -----------------")
+		print_slow("# 1 New Game")
+		print_slow("# 2 Load Game")
+		print_slow("# 3 Quit")
+		print_slow(" -----------------")
+		try:
+			sub_meny = int(input('\n --> '))
+		except ValueError:
+			print_slow("Wrong input")
+			continue
+
+		if (sub_meny == 1):
+			hero_name = hero_menu()
+			if hero_name == True:
+				grid_select = grid_menu()
+				spawn_coordinates = spawn_menu(grid_select)
+				start_game(hero_name, grid_select, spawn_coordinates)
+				
+
+
+		elif (sub_meny == 2):
+			hero_name = load_hero()
+			grid_select = grid_menu()
+			spawn_coordinates = spawn_menu(grid_select)
+			start_game(hero_name, grid_select, spawn_coordinates)
+
+
+		elif (sub_meny == 3):
+			print_slow("BYEEEEEEEE")
+			exit()
+
 def hero_menu():
-    while(True):
-        clear_screen()
-        hero_selected = False
-        choice = 0
-        hero_name = ""
-        print_slow(" -----------------")
-        print_slow("Welcome to Dungeon run now it's time to choose your hero: ")
-        print_slow("The available options are as follows :")
-        print_slow("# 1 for Knight")
-        print_slow("# 2 for Wizard")
-        print_slow("# 3 for Rouge")
-        print_slow("# 9 Back to main meny")
-        print_slow(" -----------------")
+	while True:
+		clear_screen()
+		hero_selected = False
+		choice=0
+		print_slow(" -----------------")
+		print_slow("Welcome to Dungeon run now it's time to choose your hero: ")
+		print_slow("The available options are as follows :")
+		print_slow("# 1 for Knight")
+		print_slow("# 2 for Wizard")
+		print_slow("# 3 for Rogue")
+		print_slow("# 9 To Go Back")
+		print_slow(" -----------------")
+		
+		hero_select = validate_int()
 
-        hero_select = validate_int()
+		if (hero_select == 1):
+			hero_selected = True
+			choice = choose_hero("Knight")
 
-        if (hero_select == 1):
-            hero_selected = True
-            choice = choose_hero("Knight")
+		elif (hero_select == 2):
+				hero_selected = True
+				choice = choose_hero("Wizard")
 
-        elif (hero_select == 2):
-            hero_selected = True
-            choice = choose_hero("Wizard")
+		elif (hero_select == 3):
+				hero_selected = True
+				choice = choose_hero("Rouge")
+		if choice == "9":
+			continue
+		if hero_select == 9:
+			break
+		if hero_selected is True:
+			return True
 
-        elif (hero_select == 3):
-            hero_selected = True
-            choice = choose_hero("Rouge")
+def grid_menu():
+	clear_screen()
+	print_slow(" -----------------")
+	print_slow("A true hero needs a map to explore, please choose a grid size suitable for your adventure")
+	print_slow("The available options are as follows :")
+	print_slow("# 4 for 4x4 grid")
+	print_slow("# 5 for 5x5 grid")
+	print_slow("# 8 for 8x8 grid")
+	print_slow(" -----------------")
+	grid_select = int(input('\n --> '))
+	if grid_select != 4 and grid_select != 5 and grid_select != 8:
+		print_slow("Wrong input please follow the instructions correctly")
+	else:
+		return grid_select
 
-        #Nödlösning med en int och str orkade inte mer...
-        if choice == '9':
-            continue
 
-        if hero_select == 9:
-            break
+def spawn_menu(grid_select):
+	clear_screen()
+	spawn_selected = False
+	spawn_select = 0
+	spawn_coordinates = []
 
-        if hero_selected is True:
-            return True
+	print_slow(" -----------------")
+	print_slow("Pick a spawn point on the map: ")
+	print_slow("# 1 for NorthWest")
+	print_slow("# 2 for NorthEast")
+	print_slow("# 3 for SouthWest")
+	print_slow("# 4 for SouthEast")
+	print_slow(" -----------------")
 
-def spawn_menu():
-    spawn_selected = False
+	try:
+		spawn_select = int(input('\n --> '))
+	except ValueError:
+		print_slow("Wrong input")
 
-    while(spawn_selected == False):
-        clear_screen()
-        spawn_select = 0
-        spawn_coordinates = []
+	if spawn_select == 1:
+		spawn_point = "NW"
+		spawn_selected = True
+		spawn_coordinates = [1, 1]
+	elif spawn_select == 2:
+		spawn_point = "NE"
+		spawn_selected = True
+		spawn_coordinates = calc_spawnpoint(grid_select,spawn_point)
+	elif spawn_select == 3:
+		spawn_point = "SW"
+		spawn_selected = True
+		spawn_coordinates = calc_spawnpoint(grid_select,spawn_point)
+	elif spawn_select == 4:
+		spawn_point = "SE"
+		spawn_selected = True
+		spawn_coordinates = calc_spawnpoint(grid_select,spawn_point)
+	if spawn_selected:
+		return spawn_coordinates
 
-        print_slow(" -----------------")
-        print_slow("Pick a spawn point on the map: ")
-        print_slow("# 1 for NorthWest")
-        print_slow("# 2 for NorthEast")
-        print_slow("# 3 for SouthWest")
-        print_slow("# 4 for SouthEast")
-        print_slow(" -----------------")
+def start_game(hero_name, grid_select, spawn_coordinates):
+	game_loop = False
 
-        spawn_select = validate_int()
 
-        if spawn_select == 1:
-            spawn_point = "NW"
-            spawn_selected = True
-            spawn_coordinates = [0, 0]
-        elif spawn_select == 2:
-            spawn_point = "NE"
-            spawn_selected = True
-            spawn_coordinates = [0, 5]
-        elif spawn_select == 3:
-            spawn_point = "SW"
-            spawn_selected = True
-            spawn_coordinates = [5, 0]
-        elif spawn_select == 4:
-            spawn_point = "SE"
-            spawn_selected = True
-            spawn_coordinates = [5, 5]
-        else:
-            print("Wrong choice")
-            continue
+	current_run = map(grid_size=grid_select)
+	current_run.update_room(coordinate=spawn_coordinates, update="is_here")
+	current_run.print_map()
 
-    if spawn_selected:
-        current_run = map(name="demo_run")
-        current_run.update_current_cuboid(coordinate=spawn_coordinates)
-        map_object = current_run.check_cuboid(coordinate=current_run.current_cuboid, option='return')
-        print_slow(f"Your spawnpoint is on the {map_object}, at coordinate {current_run.current_cuboid}")
-        current_run.print_map()
-        save_character()
-        input()
+	while game_loop is False:
+		leave_or_not = ask_player_to_move(current_run)
+		clear_screen()
+		current_run.print_map()
+	
 
-if __name__ == "__main__":
-    start_menu()
+def ask_player_to_move(current_run):
+	print("# W to Move Up")
+	print("# A to Move Left")
+	print("# S to Move Down")
+	print("# D to Move Right")
+	print("# L to Save And Exit")
+	
+
+	move_choice= str(input("\n --> "))
+	
+	if (move_choice == "W"):
+		movable_rooms = current_run.nerby_rooms()
+		my_postiton = current_run.where_am_i()
+		move_up= movable_rooms["above"]["coordinate"]
+		current_run.update_room(coordinate=move_up, update="is_here")
+		current_run.update_room(coordinate=my_postiton, update="finished")
+		
+	if (move_choice == "A"):
+		movable_rooms = current_run.nerby_rooms()
+		my_postiton = current_run.where_am_i()
+		move_left= movable_rooms["left"]["coordinate"]
+		current_run.update_room(coordinate=move_left, update="is_here")
+		current_run.update_room(coordinate=my_postiton, update="finished")
+
+	if (move_choice == "S"):
+		movable_rooms = current_run.nerby_rooms()
+		my_postiton = current_run.where_am_i()
+		move_down= movable_rooms["below"]["coordinate"]
+		current_run.update_room(coordinate=move_down, update="is_here")
+		current_run.update_room(coordinate=my_postiton, update="finished")
+
+	if (move_choice == "D"):
+		movable_rooms = current_run.nerby_rooms()
+		my_postiton = current_run.where_am_i()
+		move_right= movable_rooms["right"]["coordinate"]
+		current_run.update_room(coordinate=move_right, update="is_here")
+		current_run.update_room(coordinate=my_postiton, update="finished")
+		
+		
+	if (move_choice == "L"):
+		ask_to_save()
+		leave_loop = True
+		return leave_loop
+		
+
+	
+
+
+
+start_menu()
+# grid_menu()
+# hero_menu()
+# spawn_menu()

@@ -48,7 +48,7 @@ class Knight(Hero):
 
 class Wizard(Hero):
     def __init__(self, hero_name):
-        super().__init__(hero_name, 6, 4, 9, 5, 0)
+        super().__init__(hero_name, 6, 4, 9, 5, 0, "Wizard")
 
 
     #Always 80% chance to escape a battle

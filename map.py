@@ -1,175 +1,106 @@
-# from random import randrange
-#import menu
-#from menu import grid_size
+import room
+
 class map:
 
-	# list of methods in this class
-	# method : check_cuboid 	--> check what kind of map object the cuboid is (options are available)
-	# method : get_nerby_cuboids--> check what kind of map objects nerby cuboids are
-	# method : print_map		--> print the map_grid in console
-	# method : map_grid 		--> return the attribute map_grid (its a two-dimensional array)
-	# method : update_current_cuboid --> updates the current cuboid coordinate (options are available)
+	def __init__(self, grid_size=4):
+		self.test = 0
+		self.grid_size = grid_size
+		self.grid = self.grid_generator()
 
-	def __init__(self, name):
-		self.name = name
-		# provide the map a name (like de_dust2 ;D)
+	def print_map(self):
+		# prints the visual grid, we use the second for loop so we do not get the "[]" and the "'"s
 
-		self.user_grid_req = 4 #grid_size
-		# self.user_grid_req = randrange(4, 9)
-		# replace self.user_grid_req = 5 with above line if you want random map size
-		# you also need to uncomment "from random import randrange" on l1ine 111111
+		print() 
+		visual_grid = []
 
-		self.map_grid_number = self.user_grid_req + 2 
-		# +2 because we want to make edges
-		# use self.print_map() if you want a visual, '_' is an edge, '#' is a room.
+		for y in self.grid:
+			rows = []
+			for instance in y:
+				rows.append(instance.status)
+			visual_grid.append(rows)
+				
+		for row in visual_grid:
+			print(" ".join(row))
 
-		self.map_grid = self.grid_generator(self.map_grid_number) 
-		# self.map_grid is a two dimensional array which is the map
+	def grid_generator(self):
+		# one grid with all the room-instances
+		# its a two dimensional array, "outer array" is y-axis and the y-axis elements
+		# are the x-"axises" and the x-axis elements
 
-		self.current_cuboid = [0, 0]  
-		# [Y, X] --> y is y-axis and x is x-axis, like a coordinate system
-		
-		self.cuboid_above = [self.current_cuboid[0] - 1, self.current_cuboid[1]]
-		self.cuboid_below = [self.current_cuboid[0] + 1, self.current_cuboid[1]]
-		self.cuboid_right = [self.current_cuboid[0], self.current_cuboid[1] + 1]
-		self.cuboid_left = [self.current_cuboid[0], self.current_cuboid[1] - 1]
-		# class attributes that indicates what nerby cuboids are on the grid
-
-	@staticmethod
-	# used for supporting the map class
-	def grid_generator(number):
-		length = []
+		number = self.grid_size + 2
+		rooms_grid = []
 
 		for y in range(number):
-			width = []
+			row_rooms = []
 			for x in range(number):
 				if x is not 0 and x is not max(range(number)):
 					if y is not 0 and y is not max(range(number)):
-						width.append('#')
+						z = x + y
+						z = room.room(coordinate=[y, x], status=room.room().room_character, edge=False)
+						row_rooms.append(z)
 					else:
-						width.append('_')
+						z = x + y
+						z = room.room(coordinate=[y, x], status=room.room().edge_character, edge=True)
+						row_rooms.append(z)
 				else:
-					width.append('_')
-			length.append(width)
+					z = x + y
+					z = room.room(coordinate=[y, x], status=room.room().edge_character, edge=True)
+					row_rooms.append(z)
 
-		return length
+			rooms_grid.append(row_rooms)
 
-	@staticmethod
-	# used for supporting the map class
-	def number_pos_or_neg(number):
-		if number > -1:
-			return number
-		else:
-			return False
+		return rooms_grid	
 
-	def map_grid(self):
-		return self.map_grid
+	def update_room(self, coordinate, update=""):
+		# updates the status of a room
+		if update == "unfinished":
+			self.grid[coordinate[0]][coordinate[1]].unfinished()
+		elif update == "finished":
+			self.grid[coordinate[0]][coordinate[1]].finished()
+		elif update == "is_here":
+			self.grid[coordinate[0]][coordinate[1]].is_here()
+		elif update == "edge":
+			self.grid[coordinate[0]][coordinate[1]].edge()
 
-	def print_map(self):
-		for y in self.map_grid:
-			print(y)
-		return
+	def where_am_i(self, option="return"):
+		# returns the position of the room the person is in
+		for y_axis in self.grid:
+			for x_axis in y_axis:
+				if x_axis.status == room.room().mark_character:
+					if option == "return":
+						return x_axis.coordinate
+					elif option == "print":
+						print(x_axis.coordinate)
 
-	def check_cuboid(self, coordinate, option):
+	def get_room(self, coordinate):
+		# coordinate needs to be a list, e.g. [1, 2]
+		# this method returns a room-instance element from the grid arrays
 		y, x = coordinate
 
-		y = self.number_pos_or_neg(y)
-		x = self.number_pos_or_neg(x)
+		return self.grid[y][x]
 
-		shrug = r'¯\_(ツ)_/¯'
-		error = f"error! in map.check_cuboid. Name: {self.name} {shrug}"
+	def nerby_rooms(self):
+		# provides a dictionary with the data of above, below, right and left rooms
 
-		if y is not False and x is not False:
+		y_axis, x_axis = self.where_am_i()
 
-			if option == "test":
-				if self.map_grid[y][x] == '#':
-					print("Room")
-				elif self.map_grid[y][x] == '_':
-					print("Edge")
-				else:
-					print(error)
-			elif option == "return":
-				if self.map_grid[y][x] == '#':
-					return "room"
-				elif self.map_grid[y][x] == '_':
-					return "edge"
-				else:
-					return error
-			else:
-				print(error)
-				return error
-
-		else:
-			if option == "test":
-				print('Out of map')
-			elif option == "return":
-				return 'Out of map'
-			else:
-				print(error)
-				return error
-
-	def get_nerby_cuboids(self):
-		# provides a dictionary with the data of above, below, right and left cuboids
 		nearby_cubiods_data = {
 			'above': {
-				'coordinate': self.cuboid_above,
-				'map_object_type': self.check_cuboid(self.cuboid_above, option='return')
+				'coordinate': self.get_room(coordinate=[y_axis-1, x_axis]).coordinate,
+				'status': self.get_room(coordinate=[y_axis-1, x_axis]).status
 				},
 			'below': {
-				'coordinate': self.cuboid_below,
-				'map_object_type': self.check_cuboid(self.cuboid_below, option='return')
+				'coordinate': self.get_room(coordinate=[y_axis+1, x_axis]).coordinate,
+				'status': self.get_room(coordinate=[y_axis+1, x_axis]).status
 				},
 			'right': {
-				'coordinate': self.cuboid_right,
-				'map_object_type': self.check_cuboid(self.cuboid_right, option='return')
+				'coordinate': self.get_room(coordinate=[y_axis, x_axis+1]).coordinate,
+				'status': self.get_room(coordinate=[y_axis, x_axis+1]).status
 				},
 			'left': {
-				'coordinate': self.cuboid_left,
-				'map_object_type': self.check_cuboid(self.cuboid_left, option='return')
+				'coordinate': self.get_room(coordinate=[y_axis, x_axis-1]).coordinate,
+				'status': self.get_room(coordinate=[y_axis, x_axis-1]).status
 				}
 			}
 		return nearby_cubiods_data
-
-	def update_current_cuboid(self, coordinate, option='empty'):
-		# used for updating the self.current_cuboid coordinate
-		# mode='empty' is a default value, so we are not forced to provide option everytime we invoke the method
-		self.current_cuboid = coordinate
-
-		if option == "return":
-			return self.current_cuboid
-		else:
-			pass
-
-
-if __name__ == "__main__":
-	import time
-
-	# this code will only run if you run the file directly.
-	# If you refer/invoke the class, below code will not run.
-
-	game = map('default_map_5x5')
-	print(f"below we test class attributes, methods and static methods. we print the results for manual correction")
-	print(f"\n{game.name}\n")
-
-	game.print_map()
-	game.check_cuboid(game.current_cuboid, option='test')
-	nerby_cubids_data = game.get_nerby_cuboids()
-	
-	print()
-
-	for element in nerby_cubids_data:
-		time.sleep(1)
-		print(element)
-		print(nerby_cubids_data[element])
-		print()
-
-	game.update_current_cuboid(coordinate=[1, 1])
-	print(game.current_cuboid)
-	game.check_cuboid(game.current_cuboid, option='test')
-
-	print('updating current_cuboid from [1, 1] --> [4, 3]')
-
-	game.update_current_cuboid(coordinate=[4, 3])
-	print(game.current_cuboid)
-	game.check_cuboid(game.current_cuboid, option='test')
 
