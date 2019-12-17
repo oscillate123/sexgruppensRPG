@@ -14,7 +14,7 @@ class room:
 
 		self.status = status
 		self.coordinate = coordinate
-		self.edge = edge
+		self.edge = self.if_edge()
 
 	def room_characters_index(self):
 		room_index_dictionary = {
