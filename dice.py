@@ -7,6 +7,3 @@ def n_dice(number_of_dice):
         dice_sum += random.randint(1,6)
 
     return dice_sum
-
-#For debug
-print(f"Total dice : {n_dice(6)}")

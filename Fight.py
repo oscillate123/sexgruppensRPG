@@ -32,6 +32,13 @@ class Fight:
 
         return escape_or_not
 
+    def print_all(self):
+        for character in f.character_fight_list:
+            print(f"StartScore SORTED : {character.start_score}")
+
+        for character in f.character_fight_list:
+            print(f"Fighters : {character}")
+
     def check_monster_spawn(self):
         if self.monster_one != False:
             self.character_fight_list.append(self.monster_one)
@@ -115,7 +122,7 @@ class Fight:
                         self.character_fight_list[self.find_hero_index()].health -= 1
 
                     self.character_fight_list[self.find_hero_index()].agility = 4
-                
+
                 if self.character_fight_list[self.find_hero_index()].health < 1:
                     return False
 
