@@ -1,4 +1,4 @@
-from Hero import*
+from Hero import *
 from Monsters import*
 from dice import*
 from Treasure import*
