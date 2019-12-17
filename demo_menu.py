@@ -7,6 +7,7 @@ import json
 from other_functions import *
 from pathlib import Path
 from room import  *
+from Fight import  *
 
 folder = Path("json_file")
 folder.mkdir(exist_ok=True)
@@ -195,7 +196,7 @@ def choose_hero(hero_class):
 
 	choice = input("Press enter to continue or 9 to choose another Hero ")
 
-	return choice
+	return hero
 
 
 # Here starts the menu functions
@@ -288,7 +289,18 @@ def spawn_menu(grid_select):
 	if spawn_selected:
 		return spawn_coordinates
 
-def start_game(hero_name, grid_select, spawn_coordinates):
+def check_if_outside(position,class_object):
+	check_edge = class_object.get_room(position)
+	if check_edge.edge is True:
+		input("You left the map! Press enter to continue")
+		game_loop = True
+		return game_loop
+		# skriv in vad som ska hända när man går utanför
+
+
+
+
+def start_game(hero, grid_select, spawn_coordinates):
 	game_loop = False
 
 
@@ -300,14 +312,12 @@ def start_game(hero_name, grid_select, spawn_coordinates):
 		leave_or_not = ask_player_to_move(current_run)
 		clear_screen()
 		current_run.print_map()
-
 		position = current_run.where_am_i(option="return")
-		check_edge = current_run.get_room(position)
-		if check_edge.edge is True:
-			input("You left the map! Press enter to continue")
-			game_loop = True
-			# skriv in vad som ska hända när man går utanför
-	return	
+		game_loop = check_if_outside(position, current_run)
+		x, y = position
+		current_run.grid[y][x].fight_generator(hero)
+		
+	return
 
 def ask_player_to_move(current_run):
 	print("# W to Move Up")

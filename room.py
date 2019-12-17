@@ -1,5 +1,5 @@
-from Treasure import Treasure as Treasure
-from Fight import Fight as Fight
+from Treasure import*
+from Fight import*
 
 class room:
 	def __init__(self, name="", status="", coordinate=[], edge=False):
@@ -15,6 +15,7 @@ class room:
 		self.status = status
 		self.coordinate = coordinate
 		self.edge = self.if_edge()
+		self.fight = None
 
 	def room_characters_index(self):
 		room_index_dictionary = {
@@ -38,10 +39,11 @@ class room:
 	def is_edge(self):
 		self.status = self.edge_character
 
-	def fight(self):
+	def fight_generator(self, hero):
 		# method for fight initialize
-		f = Fight.Fight()
-
+		self.fight = Fight(hero)
+		return self.fight
+		
 	def treasure(self):
 		# metod for trease initialize
 		t = Treasure.Treasure()
