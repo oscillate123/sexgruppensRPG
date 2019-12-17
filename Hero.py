@@ -1,5 +1,9 @@
 class Hero:
+<<<<<<< HEAD
     def __init__(self, hero_name, initiative, health, attack, agility, score, type):
+=======
+    def __init__(self, hero_name):
+>>>>>>> master
         self.hero_name = hero_name
         self.initiative = initiative
         self.health = health
@@ -34,8 +38,16 @@ class Hero:
 
 class Knight(Hero):
     def __init__(self, hero_name):
+<<<<<<< HEAD
         super().__init__(hero_name, 5, 9, 6, 4, 0, "Knight")
 
+=======
+        self.hero_name = hero_name
+        self.initiative = 5
+        self.health = 9
+        self.attack = 6
+        self.agility = 4
+>>>>>>> master
 
     #Blocks the first attack of every battle.
     def special_skill(self, round):
@@ -48,8 +60,16 @@ class Knight(Hero):
 
 class Wizard(Hero):
     def __init__(self, hero_name):
+<<<<<<< HEAD
         super().__init__(hero_name, 6, 4, 9, 5, 0)
 
+=======
+        self.hero_name = hero_name
+        self.initiative = 6
+        self.health = 4
+        self.attack = 9
+        self.agility = 5
+>>>>>>> master
 
     #Always 80% chance to escape a battle
     def special_skill(self, round):
@@ -58,8 +78,16 @@ class Wizard(Hero):
 
 class Rouge(Hero):
     def __init__(self, hero_name):
+<<<<<<< HEAD
         super().__init__(hero_name, 7, 5, 5, 7, 0, "Rouge")
 
+=======
+        self.hero_name = hero_name
+        self.initiative = 7
+        self.health = 5
+        self.attack = 5
+        self.agility = 7
+>>>>>>> master
 
     #Critical hit. Have a 25% chance of doing 2x damage every turn.
     def special_skill(self, round):
