@@ -304,10 +304,10 @@ def start_game(hero_name, grid_select, spawn_coordinates):
 		position = current_run.where_am_i(option="return")
 		check_edge = current_run.get_room(position)
 		if check_edge.edge is True:
+			input("You left the map! Press enter to continue")
 			game_loop = True
 			# skriv in vad som ska hända när man går utanför
-	
-	
+	return	
 
 def ask_player_to_move(current_run):
 	print("# W to Move Up")
