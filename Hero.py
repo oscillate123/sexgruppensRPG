@@ -1,5 +1,8 @@
+from numpy.random import choice
+
 class Hero:
-    def __init__(self, hero_name, initiative, health, attack, agility, score, type):
+    def __init__(self, hero_name, initiative, health, attack, agility, score, type, start_score):
+        self.start_score = start_score
         self.hero_name = hero_name
         self.initiative = initiative
         self.health = health
@@ -9,8 +12,8 @@ class Hero:
         self.type = type
         self.dict = {"Initiative": initiative, "Health": health, "Attack": attack, "Score": score, "Type": type}
 
-    def __str__(self):
-        return f"Type : {self.type}\nName : {self.hero_name}\nScore : {self.score}\n "
+    #def __str__(self):
+        #return f"Type : {self.type}\nName : {self.hero_name}\nScore : {self.score}\n "
 
     def print_stats(self):
         print("-----------------")
@@ -29,39 +32,29 @@ class Hero:
     def add_hero_dict(self, list):
         list[self.hero_name] = self.dict
 
-
-
-
 class Knight(Hero):
     def __init__(self, hero_name):
-        super().__init__(hero_name, 5, 9, 6, 4, 0, "Knight")
+        super().__init__(hero_name, 5, 9, 6, 4, 0, "Knight", 0)
 
-
-    #Blocks the first attack of every battle.
     def special_skill(self, round):
-        if round == 1:
-            print("ShieldBlock")
-            return True
-        else:
-            return False
-
+        self.agility = 1000
 
 class Wizard(Hero):
     def __init__(self, hero_name):
-        super().__init__(hero_name, 6, 4, 9, 5, 0, "Wizard")
+        super().__init__(hero_name, 6, 4, 9, 5, 0, "Wizard", 0)
 
-
-    #Always 80% chance to escape a battle
-    def special_skill(self, round):
-        print("LightBeem")
-
+    def special_skill(self):
+        escape_procent = 0.80
+        return escape_procent
 
 class Rouge(Hero):
     def __init__(self, hero_name):
-        super().__init__(hero_name, 7, 5, 5, 7, 0, "Rouge")
+        super().__init__(hero_name, 7, 5, 5, 7, 0, "Rouge", 0)
 
+    def special_skill(self,):
+        value_points = [True, False]
+        probabilities = [0.25, 0.75]
 
-    #Critical hit. Have a 25% chance of doing 2x damage every turn.
-    def special_skill(self, round):
-        print("CriticalHit")
+        critical_or_not = choice(value_points, p=probabilities)
 
+        return critical_or_not

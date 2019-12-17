@@ -1,3 +1,6 @@
+from Treasure import Treasure as Treasure
+from Fight import Fight as Fight
+
 class room:
 	def __init__(self, name="", status="", coordinate=[], edge=False):
 		self.name = name
@@ -7,6 +10,7 @@ class room:
 		self.mark_character = "X"
 		self.room_finished_character = "Ø"
 		self.room_unfinished_character = "o"
+		self.total_loot = 0
 
 		self.status = status
 		self.coordinate = coordinate
@@ -36,11 +40,13 @@ class room:
 
 	def fight(self):
 		# method for fight initialize
-		return
+		f = Fight.Fight()
 
 	def treasure(self):
 		# metod for trease initialize
-		return
+		t = Treasure.Treasure()
+		self.total_loot = t.generate_treasure()
+		#h.hero_total_loot = self.total_loot
 
 	def get_coordinate(self):
 		return self.coordinate
@@ -51,9 +57,7 @@ class room:
 			return True
 		else:
 			return False
-
-
-
+	
 if __name__ == "__main__":
 
 	def grid_generator(grid_size_with_edge=6):
@@ -84,7 +88,7 @@ if __name__ == "__main__":
 		return rooms_grid
 
 	def print_map(arrays):
-		print() 
+		print()
 		visual_grid = []
 
 		for y in arrays:
@@ -92,7 +96,7 @@ if __name__ == "__main__":
 			for instance in y:
 				rows.append(instance.status)
 			visual_grid.append(rows)
-				
+
 		for row in visual_grid:
 			print(" ".join(row))
 
@@ -113,8 +117,3 @@ if __name__ == "__main__":
 	# print_map(x)
 	update_room(grid=x, coordinate=[2, 1], update="is_here")
 	print_map(x)
-
-
-
-
-
