@@ -161,7 +161,7 @@ class Fight:
 
 if __name__ == "__main__":
 
-    k = Wizard("TestHero")
+    k = Knight("TestHero")
 
     #g = GiantSpider()
     #o = Orc()
@@ -172,7 +172,7 @@ if __name__ == "__main__":
 
     f = Fight(k)
 
-    #f.check_monster_spawn()
+    #f.check_monster_spawn(
     f.who_starts()
     f.if_draw_on_start()
 
