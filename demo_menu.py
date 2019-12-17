@@ -67,6 +67,10 @@ def load_hero():
 							if dict_list[name]["Type"] == "Knight":
 								knight = Knight(name)
 								knight.score = dict_list[name]["Score"]
+								created_character_list.append(Knight(name))
+								print(created_character_list)
+								input("hej")
+								
 
 							elif dict_list[name]["Type"] == "Wizard":
 								wizard = Wizard(name)
@@ -111,28 +115,6 @@ def validate(hero_name):
 	return hero_name
 
 # probmlems here!!! "Saved_character_list.replace(item)" är en lista men listor har ingen .replace funktion
-def save_character():
-	if len(created_character_list) != 0:
-		print("Created heroes: ")
-		for item in created_character_list:
-			print(item)
-		print("Type in the name of the hero you want to save!")
-		name_select = input("\n --> ")
-
-		for item in created_character_list:
-			# item = str(item)
-			# if name_select in item:
-			# 	if item in saved_character_list:
-			# 		saved_character_list.replace(item)
-
-			save_character_to_json()
-			item.score= 5
-			update_score(item.hero_name, item.score, item)
-			print("Hero saved!\n")
-			input("Press enter to continue")
-			return
-	else:
-		print("A hero needs to be created in order to be saved!\n")
 
 def ask_to_save():
 	print_slow(" Do you want to save your character at this point?")
@@ -143,7 +125,8 @@ def ask_to_save():
 	except ValueError:
 		print_slow("Wrong input")
 	if (answer == 1):
-		save_character()
+		for item in saved_character_list:
+			update_score(item.hero_name, item.score, item)
 	else:
 		print_slow("Thanks for playing Dungeon Run!")
 		print_slow("Created by: Robert, Sadri, Oliver, Oscar and Emil")
@@ -191,6 +174,7 @@ def choose_hero(hero_class):
 	print_slow("Give your hero a name! ")
 
 	hero_name = validate_str()
+	hero_name = validate(hero_name)
 
 	if hero_class == "Knight":
 		hero = Knight(hero_name)
@@ -207,9 +191,6 @@ def choose_hero(hero_class):
 	saved_character_list.append(hero)
 	created_character_list.append(hero)
 	save_character_to_json()
-
-	# ta bort dem två raderna efter sen
-	
 
 	choice = input("Press enter to continue or 9 to choose another Hero ")
 
