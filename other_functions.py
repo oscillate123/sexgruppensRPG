@@ -47,6 +47,7 @@ def print_slow(str):
 
 
 if __name__ == "__main__":
-    hej2 = validate_int()
-    hej3 = validate_str()
-    print(validate_name())
+    pass
+    #hej2 = validate_int()
+    #hej3 = validate_str()
+    #print(validate_name())

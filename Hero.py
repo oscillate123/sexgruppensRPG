@@ -10,8 +10,7 @@ class Hero:
         self.agility = agility
         self.score = score
         self.type = type
-        self.dict = {"Name": hero_name, "Initiative": initiative, "Health": health, "Attack": attack, "Score": score, "Type": type}
-        self.hero_total_loot = 0
+        self.dict = {"Initiative": initiative, "Health": health, "Attack": attack, "Score": score, "Type": type}
 
     #def __str__(self):
         #return f"Type : {self.type}\nName : {self.hero_name}\nScore : {self.score}\n "
@@ -31,7 +30,7 @@ class Hero:
         pass
 
     def add_hero_dict(self, list):
-        list.append(self.dict)
+        list[self.hero_name] = self.dict
 
 class Knight(Hero):
     def __init__(self, hero_name):
