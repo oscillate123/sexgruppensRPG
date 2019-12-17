@@ -37,7 +37,7 @@ try:
 except FileNotFoundError:
 	with open("json_file/saved_heroes.json", "w+") as open_file:
 		open_file.write("{}")
-		dict_list = json.load(open_file)
+		dict_list = {}
 		saved_character_list = []
 		created_character_list = []
 		for value in dict_list:
@@ -92,8 +92,9 @@ def load_hero():
 		return True, name_select, hero
 	else:
 		print("No heroes saved!")
-		input("Press enter to continue")
-		return	
+		input("Press enter to continue and create a new hero")
+		status, hero_name, hero_instance = hero_menu()
+		return	status, hero_name, hero_instance
 
 def save_character_to_json():
 	with open("json_file/saved_heroes.json", "w+") as close_file:
