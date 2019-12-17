@@ -6,6 +6,7 @@ from Hero import *
 import json
 from other_functions import *
 from pathlib import Path
+from room import  *
 
 folder = Path("json_file")
 folder.mkdir(exist_ok=True)
@@ -178,9 +179,9 @@ def choose_hero(hero_class):
 
 	if hero_class == "Knight":
 		hero = Knight(hero_name)
-	if hero_class == "Wizard":
+	elif hero_class == "Wizard":
 		hero = Wizard(hero_name)
-	if hero_class == "Rouge":
+	elif hero_class == "Rouge":
 		hero = Rouge(hero_name)
 
 	hero.print_stats()
@@ -299,6 +300,7 @@ def start_game(hero_name, grid_select, spawn_coordinates):
 		leave_or_not = ask_player_to_move(current_run)
 		clear_screen()
 		current_run.print_map()
+		
 	
 
 def ask_player_to_move(current_run):
