@@ -2,18 +2,45 @@ from Hero import*
 from Monsters import*
 from dice import*
 from Treasure import*
+from numpy.random import choice
+
+#import den filen
+
+#, monster_one=False, monster_two=False, monster_three=False, monster_four=False
+
 
 class Fight:
-    def __init__(self, hero, monster_one=False, monster_two=False, monster_three=False, monster_four=False):
-        self.monster_one = monster_one
-        self.monster_two = monster_two
-        self.monster_three = monster_three
-        self.monster_four = monster_four
-        self.character_fight_list = []
+    def __init__(self, hero):
+        #self.monster_one = monster_one
+        #self.monster_two = monster_two
+        #self.monster_three = monster_three
+        #self.monster_four = monster_four
+        self.character_fight_list = self.generate_monster()
         self.character_fight_list.append(hero)
         self.next_monster = 99
         self.hero_index = 99
         self.round = 0
+
+    def generate_monster(self):
+
+        g = GiantSpider()
+        o = Orc()
+        s = Skeleton()
+        t = Troll()
+
+        monsters = []
+
+        for i in range(4):
+            value_points = [g, o, s, t, 'no_monster']
+            probabilities = [0.2, 0.15, 0.1, 0.05, 0.5]
+
+            monsters.append(choice(value_points, p=probabilities))
+
+            for x in monsters:
+                if x == 'no_monster':
+                    monsters.remove(x)
+
+        return monsters
 
     def try_to_run(self):
         escape_procent = self.character_fight_list[self.find_hero_index()].agility * 10
@@ -39,19 +66,12 @@ class Fight:
         for character in f.character_fight_list:
             print(f"Fighters : {character}")
 
-    def check_monster_spawn(self):
-        if self.monster_one != False:
-            self.character_fight_list.append(self.monster_one)
-        if self.monster_two != False:
-            self.character_fight_list.append(self.monster_two)
-        if self.monster_three != False:
-            self.character_fight_list.append(self.monster_three)
-        if self.monster_four != False:
-            self.character_fight_list.append(self.monster_four)
+
 
     def who_starts(self):
         for character in self.character_fight_list:
-            character.start_score = n_dice(character.initiative)
+            if character != None:
+                character.start_score = n_dice(character.initiative)
 
         f.character_fight_list.sort(key=lambda x: x.start_score, reverse=True)
 
@@ -143,17 +163,16 @@ if __name__ == "__main__":
 
     k = Wizard("TestHero")
 
-    wins = 0
-    losses  = 0
+    #g = GiantSpider()
+    #o = Orc()
+    #s = Skeleton()
+    #t = Troll()
 
-    g = GiantSpider()
-    o = Orc()
-    s = Skeleton()
-    t = Troll()
+    #self.character_fight_list = generate_monster()
 
-    f = Fight(k, g, o, s)
+    f = Fight(k)
 
-    f.check_monster_spawn()
+    #f.check_monster_spawn()
     f.who_starts()
     f.if_draw_on_start()
 
@@ -180,7 +199,5 @@ if __name__ == "__main__":
     if game_stat == True:
         print("You won the fight")
         print(k.hero_total_loot)
-        wins += 1
     else:
         print("You lost Game over")
-        losses += 1
