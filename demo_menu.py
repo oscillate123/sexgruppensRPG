@@ -1,8 +1,8 @@
 from os import system, name
 import sys, time
 from map import map as map
-#from Monsters import *
-#from Hero import *
+from Monsters import *
+from Hero import *
 import json
 from other_functions import *
 from pathlib import Path
@@ -36,7 +36,7 @@ try:
 
 except FileNotFoundError:
 	with open("json_file/saved_heroes.json", "w+") as open_file:
-
+		open_file.write("{}")
 		dict_list = json.load(open_file)
 		saved_character_list = []
 		created_character_list = []
@@ -75,7 +75,7 @@ def load_hero():
 								knight.score = dict_list[name]["Score"]
 								created_character_list.append(Knight(name))
 								print(created_character_list)
-								input("hej")
+								
 								
 
 							elif dict_list[name]["Type"] == "Wizard":
@@ -231,7 +231,7 @@ def hero_menu():
 
 		if (hero_select == 1):
 			hero_selected = True
-			choice, hero_name = choose_hero("Knight")
+			choice, hero_name, hero = choose_hero("Knight")
 
 		elif (hero_select == 2):
 				hero_selected = True
@@ -245,7 +245,7 @@ def hero_menu():
 		if hero_select == 9:
 			break
 		if hero_selected is True:
-			return True, hero_name
+			return True, hero_name, hero
 
 def grid_menu():
 	clear_screen()
@@ -256,7 +256,11 @@ def grid_menu():
 	print_slow("# 5 for 5x5 grid")
 	print_slow("# 8 for 8x8 grid")
 	print_slow("-"*25)
-	grid_select = int(input('\n --> '))
+	try:
+		grid_select = int(input('\n --> '))
+	except ValueError:
+		print("Bad input")
+
 	if grid_select != 4 and grid_select != 5 and grid_select != 8:
 		print_slow("Wrong input please follow the instructions correctly")
 	else:
@@ -312,7 +316,7 @@ def check_if_outside(position,class_object):
 
 
 
-def start_game(hero, grid_select, spawn_coordinates):
+def start_game(hero, grid_select, spawn_coordinates, hero_name):
 	game_loop = False
 
 
@@ -372,8 +376,8 @@ def ask_player_to_move(current_run, hero_name):
 		
 	if (move_choice == "L"):
 		ask_to_save(hero_name)
-		leave_loop = True
-		return leave_loop
+		# leave_loop = True
+		# return leave_loop
 		
 #start_menu()
 # grid_menu()
@@ -397,11 +401,11 @@ if __name__ == "__main__":
 			continue
 
 		if (sub_meny == 1):
-			hero_name_status, hero_name = hero_menu()
+			hero_name_status, hero_name, hero = hero_menu()
 			if hero_name_status == True:
 				grid_select = grid_menu()
 				spawn_coordinates = spawn_menu(grid_select)
-				start_game(hero_name_status, grid_select, spawn_coordinates, hero_name)
+				start_game(hero, grid_select, spawn_coordinates, hero_name)
 				
 
 
