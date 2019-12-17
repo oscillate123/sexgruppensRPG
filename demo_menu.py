@@ -184,7 +184,7 @@ def choose_hero(hero_class):
 		hero = Rouge(hero_name)
 
 	hero.print_stats()
-	print_slow(" -----------------")
+	print_slow("-"*25)
 
 	hero.add_hero_dict(dict_list)
 	
@@ -204,14 +204,14 @@ def hero_menu():
 		clear_screen()
 		hero_selected = False
 		choice=0
-		print_slow(" -----------------")
+		print_slow("-"*25)
 		print_slow("Welcome to Dungeon run now it's time to choose your hero: ")
 		print_slow("The available options are as follows :")
 		print_slow("# 1 for Knight")
 		print_slow("# 2 for Wizard")
 		print_slow("# 3 for Rogue")
 		print_slow("# 9 To Go Back")
-		print_slow(" -----------------")
+		print_slow("-"*25)
 		
 		hero_select = validate_int()
 
@@ -235,13 +235,13 @@ def hero_menu():
 
 def grid_menu():
 	clear_screen()
-	print_slow(" -----------------")
+	print_slow("-"*25)
 	print_slow("A true hero needs a map to explore, please choose a grid size suitable for your adventure")
 	print_slow("The available options are as follows :")
 	print_slow("# 4 for 4x4 grid")
 	print_slow("# 5 for 5x5 grid")
 	print_slow("# 8 for 8x8 grid")
-	print_slow(" -----------------")
+	print_slow("-"*25)
 	grid_select = int(input('\n --> '))
 	if grid_select != 4 and grid_select != 5 and grid_select != 8:
 		print_slow("Wrong input please follow the instructions correctly")
@@ -255,13 +255,13 @@ def spawn_menu(grid_select):
 	spawn_select = 0
 	spawn_coordinates = []
 
-	print_slow(" -----------------")
+	print_slow("-"*25)
 	print_slow("Pick a spawn point on the map: ")
 	print_slow("# 1 for NorthWest")
 	print_slow("# 2 for NorthEast")
 	print_slow("# 3 for SouthWest")
 	print_slow("# 4 for SouthEast")
-	print_slow(" -----------------")
+	print_slow("-"*25)
 
 	try:
 		spawn_select = int(input('\n --> '))
@@ -355,11 +355,11 @@ if __name__ == "__main__":
 		grid_size = 0
 		clear_screen()
 		print_slow(" \n Dungeon Run \n")
-		print_slow(" -----------------")
+		print_slow("-"*25)
 		print_slow("# 1 New Game")
 		print_slow("# 2 Load Game")
 		print_slow("# 3 Quit")
-		print_slow(" -----------------")
+		print_slow("-"*25)
 		try:
 			sub_meny = int(input('\n --> '))
 		except ValueError:
