@@ -89,7 +89,7 @@ def load_hero():
 		print(f"The hero '{name_select}' has been selected!")
 		print_slow("-"*20)
 		input("Press enter to continue")
-		return True, name_select
+		return True, name_select, created_character_list[0]
 	else:
 		print("No heroes saved!")
 		input("Press enter to continue")
@@ -231,21 +231,21 @@ def hero_menu():
 
 		if (hero_select == 1):
 			hero_selected = True
-			choice, hero_name, hero = choose_hero("Knight")
+			choice, hero_name, hero_instance = choose_hero("Knight")
 
 		elif (hero_select == 2):
 				hero_selected = True
-				choice, hero_name = choose_hero("Wizard")
+				choice, hero_name, hero_instance = choose_hero("Wizard")
 
 		elif (hero_select == 3):
 				hero_selected = True
-				choice, hero_name = choose_hero("Rouge")
+				choice, hero_name, hero_instance = choose_hero("Rouge")
 		if choice == "9":
 			continue
 		if hero_select == 9:
 			break
 		if hero_selected is True:
-			return True, hero_name, hero
+			return True, hero_name, hero_instance
 
 def grid_menu():
 	clear_screen()
@@ -401,19 +401,19 @@ if __name__ == "__main__":
 			continue
 
 		if (sub_meny == 1):
-			hero_name_status, hero_name, hero = hero_menu()
+			hero_name_status, hero_name, hero_instance = hero_menu()
 			if hero_name_status == True:
 				grid_select = grid_menu()
 				spawn_coordinates = spawn_menu(grid_select)
-				start_game(hero, grid_select, spawn_coordinates, hero_name)
+				start_game(hero_instance, grid_select, spawn_coordinates)
 				
 
 
 		elif (sub_meny == 2):
-			hero_name_status, hero_name = load_hero()
+			hero_name_status, hero_name, hero_instance = load_hero()
 			grid_select = grid_menu()
 			spawn_coordinates = spawn_menu(grid_select)
-			start_game(hero_name_status, grid_select, spawn_coordinates, hero_name)
+			start_game(hero_instance, grid_select, spawn_coordinates)
 
 
 		elif (sub_meny == 3):
