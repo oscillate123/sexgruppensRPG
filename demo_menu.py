@@ -71,25 +71,25 @@ def load_hero():
 						name = str(name)
 						if name == name_select:
 							if dict_list[name]["Type"] == "Knight":
-								knight = Knight(name)
-								knight.score = dict_list[name]["Score"]
-								created_character_list.append(Knight(name))
-								print(created_character_list)
+								hero = Knight(name)
+								hero.score = dict_list[name]["Score"]
+								#created_character_list.append(Knight(name))
+								#print(created_character_list)
 								
 								
 
 							elif dict_list[name]["Type"] == "Wizard":
-								wizard = Wizard(name)
-								wizard.score = dict_list[name]["Score"]
+								hero = Wizard(name)
+								hero.score = dict_list[name]["Score"]
 
 							elif dict_list[name]["Type"] == "Rouge":
-								rouge = Rouge(name)
-								rouge.score = dict_list[name]["Score"]
+								hero = Rouge(name)
+								hero.score = dict_list[name]["Score"]
 
 		print(f"The hero '{name_select}' has been selected!")
 		print_slow("-"*20)
 		input("Press enter to continue")
-		return True, name_select, created_character_list[0]
+		return True, name_select, hero
 	else:
 		print("No heroes saved!")
 		input("Press enter to continue")
@@ -201,7 +201,7 @@ def choose_hero(hero_class):
 	hero.add_hero_dict(dict_list)
 	
 	saved_character_list.append(hero)
-	created_character_list.append(hero)
+	#created_character_list.append(hero)
 	save_character_to_json()
 	#hero.score = 5
 
@@ -309,22 +309,25 @@ def check_if_outside(position,class_object):
 	check_edge = class_object.get_room(position)
 	if check_edge.edge is True:
 		input("You left the map! Press enter to continue")
-		game_loop = True
+		game_loop = False
 		return game_loop
 		# skriv in vad som ska hända när man går utanför
+	else:
+		game_loop = True
+		return game_loop
 
 
 
 
 def start_game(hero, grid_select, spawn_coordinates, hero_name):
-	game_loop = False
+	game_loop = True
 
 
 	current_run = map(grid_size=grid_select)
 	current_run.update_room(coordinate=spawn_coordinates, update="is_here")
 	current_run.print_map()
 
-	while game_loop is False:
+	while game_loop is True:
 		leave_or_not = ask_player_to_move(current_run, hero_name)
 		clear_screen()
 		current_run.print_map()
@@ -336,6 +339,7 @@ def start_game(hero, grid_select, spawn_coordinates, hero_name):
 	return
 
 def ask_player_to_move(current_run, hero_name):
+	
 	print("# W to Move Up")
 	print("# A to Move Left")
 	print("# S to Move Down")
@@ -352,21 +356,21 @@ def ask_player_to_move(current_run, hero_name):
 		current_run.update_room(coordinate=move_up, update="is_here")
 		current_run.update_room(coordinate=my_postiton, update="finished")
 		
-	if (move_choice == "A"):
+	elif (move_choice == "A"):
 		movable_rooms = current_run.nerby_rooms()
 		my_postiton = current_run.where_am_i()
 		move_left= movable_rooms["left"]["coordinate"]
 		current_run.update_room(coordinate=move_left, update="is_here")
 		current_run.update_room(coordinate=my_postiton, update="finished")
 
-	if (move_choice == "S"):
+	elif (move_choice == "S"):
 		movable_rooms = current_run.nerby_rooms()
 		my_postiton = current_run.where_am_i()
 		move_down= movable_rooms["below"]["coordinate"]
 		current_run.update_room(coordinate=move_down, update="is_here")
 		current_run.update_room(coordinate=my_postiton, update="finished")
 
-	if (move_choice == "D"):
+	elif (move_choice == "D"):
 		movable_rooms = current_run.nerby_rooms()
 		my_postiton = current_run.where_am_i()
 		move_right= movable_rooms["right"]["coordinate"]
@@ -374,10 +378,11 @@ def ask_player_to_move(current_run, hero_name):
 		current_run.update_room(coordinate=my_postiton, update="finished")
 		
 		
-	if (move_choice == "L"):
+	elif (move_choice == "L"):
 		ask_to_save(hero_name)
-		# leave_loop = True
-		# return leave_loop
+		#time.sleep(3)
+		#game_loop = True
+		#return game_loop
 		
 #start_menu()
 # grid_menu()
@@ -405,7 +410,7 @@ if __name__ == "__main__":
 			if hero_name_status == True:
 				grid_select = grid_menu()
 				spawn_coordinates = spawn_menu(grid_select)
-				start_game(hero_instance, grid_select, spawn_coordinates)
+				start_game(hero_instance, grid_select, spawn_coordinates, hero_name)
 				
 
 
@@ -413,7 +418,7 @@ if __name__ == "__main__":
 			hero_name_status, hero_name, hero_instance = load_hero()
 			grid_select = grid_menu()
 			spawn_coordinates = spawn_menu(grid_select)
-			start_game(hero_instance, grid_select, spawn_coordinates)
+			start_game(hero_instance, grid_select, spawn_coordinates, hero_name)
 
 
 		elif (sub_meny == 3):
