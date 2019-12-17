@@ -7,6 +7,7 @@ import json
 from other_functions import *
 from pathlib import Path
 
+
 folder = Path("json_file")
 folder.mkdir(exist_ok=True)
 try:
@@ -18,14 +19,17 @@ try:
 			if dict_list[value]["Type"] == "Knight":
 				knight = Knight(value)
 				knight.score = dict_list[value]["Score"]
+				knight.time_saved = dict_list[value]["Time"]
 				saved_character_list.append(knight)
 			elif dict_list[value]["Type"] == "Rouge":
 				rouge = Rouge(value)
 				rouge.score = dict_list[value]["Score"]
+				rouge.time_saved = dict_list[value]["Time"]
 				saved_character_list.append(rouge)
 			elif dict_list[value]["Type"] == "Wizard":
 				wizard = Wizard(value)
 				wizard.score = dict_list[value]["Score"]
+				wizard.time_saved = dict_list[value]["Time"]
 				saved_character_list.append(wizard)
 
 except FileNotFoundError:
@@ -83,7 +87,7 @@ def load_hero():
 		print(f"The hero '{name_select}' has been selected!")
 		print_slow("-"*20)
 		input("Press enter to continue")
-		return name_select
+		return True, name_select
 	else:
 		print("No heroes saved!")
 		input("Press enter to continue")
@@ -97,7 +101,9 @@ def save_character_to_json():
 		close_file.close()
 
 def update_score(hero_name, score, object):
+	time_now = time.strftime("%m/%d Time %H:%M")
 	dict_list[hero_name]["Score"] = score
+	dict_list[hero_name]["Time"] = time_now
 	saved_character_list[saved_character_list.index(object)] = object
 	save_character_to_json()
 
@@ -112,11 +118,11 @@ def validate(hero_name):
 				hero_name = input("\n --> ")
 				if hero_name != name:
 					break
-	return hero_name
+	#return hero_name
 
 # probmlems here!!! "Saved_character_list.replace(item)" är en lista men listor har ingen .replace funktion
 
-def ask_to_save():
+def ask_to_save(hero_name):
 	print_slow(" Do you want to save your character at this point?")
 	print_slow("# 1 Save")
 	print_slow("# 2 To Exit Game")
@@ -126,7 +132,11 @@ def ask_to_save():
 		print_slow("Wrong input")
 	if (answer == 1):
 		for item in saved_character_list:
-			update_score(item.hero_name, item.score, item)
+			if hero_name == item.hero_name:
+				update_score(item.hero_name, 655, item)
+			# else:
+			# 	print("Couldn't save")
+			# 	#input("wait")
 	else:
 		print_slow("Thanks for playing Dungeon Run!")
 		print_slow("Created by: Robert, Sadri, Oliver, Oscar and Emil")
@@ -146,7 +156,7 @@ def calc_spawnpoint(grid_select,spawn_point):
 			spawn_coordinates = [4,4]
 			return spawn_coordinates
 
-	if (grid_select==5):
+	elif (grid_select==5):
 		if (spawn_point == "NE"):
 			spawn_coordinates = [1,5]
 			return spawn_coordinates
@@ -157,7 +167,7 @@ def calc_spawnpoint(grid_select,spawn_point):
 			spawn_coordinates = [5,5]
 			return spawn_coordinates
 
-	if (grid_select==8):
+	elif (grid_select==8):
 		if (spawn_point == "NE"):
 			spawn_coordinates = [1,8]
 			return spawn_coordinates
@@ -174,13 +184,13 @@ def choose_hero(hero_class):
 	print_slow("Give your hero a name! ")
 
 	hero_name = validate_str()
-	hero_name = validate(hero_name)
+	validate(hero_name)
 
 	if hero_class == "Knight":
 		hero = Knight(hero_name)
-	if hero_class == "Wizard":
+	elif hero_class == "Wizard":
 		hero = Wizard(hero_name)
-	if hero_class == "Rouge":
+	elif hero_class == "Rouge":
 		hero = Rouge(hero_name)
 
 	hero.print_stats()
@@ -191,10 +201,11 @@ def choose_hero(hero_class):
 	saved_character_list.append(hero)
 	created_character_list.append(hero)
 	save_character_to_json()
+	#hero.score = 5
 
 	choice = input("Press enter to continue or 9 to choose another Hero ")
 
-	return choice
+	return choice, hero_name
 
 
 # Here starts the menu functions
@@ -217,21 +228,21 @@ def hero_menu():
 
 		if (hero_select == 1):
 			hero_selected = True
-			choice = choose_hero("Knight")
+			choice, hero_name = choose_hero("Knight")
 
 		elif (hero_select == 2):
 				hero_selected = True
-				choice = choose_hero("Wizard")
+				choice, hero_name = choose_hero("Wizard")
 
 		elif (hero_select == 3):
 				hero_selected = True
-				choice = choose_hero("Rouge")
+				choice, hero_name = choose_hero("Rouge")
 		if choice == "9":
 			continue
 		if hero_select == 9:
 			break
 		if hero_selected is True:
-			return True
+			return True, hero_name
 
 def grid_menu():
 	clear_screen()
@@ -287,7 +298,7 @@ def spawn_menu(grid_select):
 	if spawn_selected:
 		return spawn_coordinates
 
-def start_game(hero_name, grid_select, spawn_coordinates):
+def start_game(hero_name_status, grid_select, spawn_coordinates, hero_name):
 	game_loop = False
 
 
@@ -296,12 +307,12 @@ def start_game(hero_name, grid_select, spawn_coordinates):
 	current_run.print_map()
 
 	while game_loop is False:
-		leave_or_not = ask_player_to_move(current_run)
+		leave_or_not = ask_player_to_move(current_run, hero_name)
 		clear_screen()
 		current_run.print_map()
 	
 
-def ask_player_to_move(current_run):
+def ask_player_to_move(current_run, hero_name):
 	print("# W to Move Up")
 	print("# A to Move Left")
 	print("# S to Move Down")
@@ -341,7 +352,7 @@ def ask_player_to_move(current_run):
 		
 		
 	if (move_choice == "L"):
-		ask_to_save()
+		ask_to_save(hero_name)
 		leave_loop = True
 		return leave_loop
 		
@@ -367,19 +378,19 @@ if __name__ == "__main__":
 			continue
 
 		if (sub_meny == 1):
-			hero_name = hero_menu()
-			if hero_name == True:
+			hero_name_status, hero_name = hero_menu()
+			if hero_name_status == True:
 				grid_select = grid_menu()
 				spawn_coordinates = spawn_menu(grid_select)
-				start_game(hero_name, grid_select, spawn_coordinates)
+				start_game(hero_name_status, grid_select, spawn_coordinates, hero_name)
 				
 
 
 		elif (sub_meny == 2):
-			hero_name = load_hero()
+			hero_name_status, hero_name = load_hero()
 			grid_select = grid_menu()
 			spawn_coordinates = spawn_menu(grid_select)
-			start_game(hero_name, grid_select, spawn_coordinates)
+			start_game(hero_name_status, grid_select, spawn_coordinates, hero_name)
 
 
 		elif (sub_meny == 3):

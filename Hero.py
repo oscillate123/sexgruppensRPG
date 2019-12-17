@@ -1,5 +1,8 @@
+import time 
+
+time_saved =None
 class Hero:
-    def __init__(self, hero_name, initiative, health, attack, agility, score, type):
+    def __init__(self, hero_name, initiative, health, attack, agility, score, type, time_saved):
         self.hero_name = hero_name
         self.initiative = initiative
         self.health = health
@@ -7,10 +10,11 @@ class Hero:
         self.agility = agility
         self.score = score
         self.type = type
-        self.dict = {"Initiative": initiative, "Health": health, "Attack": attack, "Score": score, "Type": type}
+        self.time_saved = time_saved
+        self.dict = {"Initiative": initiative, "Health": health, "Attack": attack, "Score": score, "Type": type, "Time": time_saved}
 
     def __str__(self):
-        return f"Type : {self.type}\nName : {self.hero_name}\nScore : {self.score}\n "
+        return f"\n\nType : {self.type}\nName : {self.hero_name}\nScore : {self.score}\nTime Saved : {self.time_saved}"
 
     def print_stats(self):
         print("-----------------")
@@ -34,7 +38,7 @@ class Hero:
 
 class Knight(Hero):
     def __init__(self, hero_name):
-        super().__init__(hero_name, 5, 9, 6, 4, 0, "Knight")
+        super().__init__(hero_name, 5, 9, 6, 4, 0, "Knight", time_saved)
 
 
     #Blocks the first attack of every battle.
@@ -48,7 +52,7 @@ class Knight(Hero):
 
 class Wizard(Hero):
     def __init__(self, hero_name):
-        super().__init__(hero_name, 6, 4, 9, 5, 0, "Wizard")
+        super().__init__(hero_name, 6, 4, 9, 5, 0, "Wizard", time_saved)
 
 
     #Always 80% chance to escape a battle
@@ -58,7 +62,7 @@ class Wizard(Hero):
 
 class Rouge(Hero):
     def __init__(self, hero_name):
-        super().__init__(hero_name, 7, 5, 5, 7, 0, "Rouge")
+        super().__init__(hero_name, 7, 5, 5, 7, 0, "Rouge", time_saved)
 
 
     #Critical hit. Have a 25% chance of doing 2x damage every turn.

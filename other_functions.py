@@ -16,7 +16,8 @@ def validate_str():
         name = input("\n --> ")
 
         if name.isalpha() or name == "":
-            return name.lower().capitalize()
+            hero_name = name.lower().capitalize()
+            return hero_name 
         else:
             print("Wrong format, try again.")
             continue
