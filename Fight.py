@@ -147,8 +147,8 @@ class Fight:
                     return False
 
                 if len(self.character_fight_list) == 1:
-                    t = Treasure()
-                    self.character_fight_list[0].hero_total_loot += t.generate_treasure()
+                    #t = Treasure()
+                    #self.character_fight_list[0].hero_total_loot += t.generate_treasure()
                     return True
 
                 if index < len(self.character_fight_list):
@@ -198,6 +198,6 @@ if __name__ == "__main__":
 
     if game_stat == True:
         print("You won the fight")
-        print(k.hero_total_loot)
+        #print(k.hero_total_loot)
     else:
         print("You lost Game over")
