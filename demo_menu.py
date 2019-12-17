@@ -300,7 +300,13 @@ def start_game(hero_name, grid_select, spawn_coordinates):
 		leave_or_not = ask_player_to_move(current_run)
 		clear_screen()
 		current_run.print_map()
-		
+
+		position = current_run.where_am_i(option="return")
+		check_edge = current_run.get_room(position)
+		if check_edge.edge is True:
+			game_loop = True
+			# skriv in vad som ska hända när man går utanför
+	
 	
 
 def ask_player_to_move(current_run):
