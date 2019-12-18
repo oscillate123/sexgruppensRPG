@@ -103,14 +103,19 @@ def save_character_to_json():
 		json.dump(dict_list, close_file)
 		close_file.close()
 
-def update_score(hero_name, score, object):
+def update_score(hero_name, instance):
 	time_now = time.strftime("%m/%d Time %H:%M")
+	x	= sum(instance.score_list)
+	print(type(x))
+	x = int(x)
+	print(type(x))
+	dict_list[hero_name]["Score"] = x
 	
-	json_score = dict_list[hero_name]["Score"]
-	print(json_score + score)
-	time.sleep(5)
+
+	
+	time.sleep(1)
 	dict_list[hero_name]["Time"] = time_now
-	saved_character_list[saved_character_list.index(object)] = object
+	saved_character_list[saved_character_list.index(instance)] = instance
 	save_character_to_json()
 
 def validate(hero_name):
@@ -354,8 +359,9 @@ def start_game(hero, grid_select, spawn_coordinates, hero_name):
 		elif  fight_outcome == "win":
 			print("gick in in win")
 			score = current_room.total_loot
+			hero.score_list.append(score)
 			print(score)
-			update_score(hero_name,score,hero)
+			update_score(hero_name, hero)
 			#current_room.total_loot = 0
 
 		current_run.print_map()

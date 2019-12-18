@@ -8,6 +8,7 @@ class Hero:
         self.attack = attack
         self.agility = agility
         self.score = score
+        self.score_list = []
         self.type = type
         self.time_saved = time_saved
         self.dict = {"Initiative": initiative, "Health": health, "Attack": attack, "Score": score, "Type": type, "Time": time_saved}

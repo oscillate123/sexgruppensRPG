@@ -1,7 +1,7 @@
 from Hero import*
 from Monsters import*
 from dice import*
-from Treasure import*
+
 
 class Fight:
     def __init__(self, hero):
