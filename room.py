@@ -1,5 +1,5 @@
-from Treasure import Treasure as Treasure
-from Fight import Fight as Fight
+from Treasure import*
+from Fight2 import*
 
 class room:
 	def __init__(self, name="", status="", coordinate=[], edge=False):
@@ -10,11 +10,12 @@ class room:
 		self.mark_character = "X"
 		self.room_finished_character = "Ø"
 		self.room_unfinished_character = "o"
-		self.total_loot = 0
+		self.total_loot = self.treasure()
 
 		self.status = status
 		self.coordinate = coordinate
-		self.edge = edge
+		self.edge = self.if_edge()
+		self.fight = None
 
 	def room_characters_index(self):
 		room_index_dictionary = {
@@ -38,14 +39,15 @@ class room:
 	def is_edge(self):
 		self.status = self.edge_character
 
-	def fight(self):
+	def fight_generator(self, hero):
 		# method for fight initialize
-		f = Fight.Fight()
-
+		self.fight = Fight(hero)
+		return self.fight
+		
 	def treasure(self):
 		# metod for trease initialize
-		t = Treasure.Treasure()
-		self.total_loot = t.generate_treasure()
+		t = Treasure()
+		return t.generate_treasure()
 		#h.hero_total_loot = self.total_loot
 
 	def get_coordinate(self):
@@ -54,6 +56,7 @@ class room:
 	def if_edge(self):
 		# method for checking if the room is an edge
 		if self.status == self.edge_character:
+			self.fight = False
 			return True
 		else:
 			return False
