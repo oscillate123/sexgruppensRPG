@@ -106,14 +106,8 @@ def save_character_to_json():
 def update_score(hero_name, instance):
 	time_now = time.strftime("%m/%d Time %H:%M")
 	x	= sum(instance.score_list)
-	print(type(x))
 	x = int(x)
-	print(type(x))
 	dict_list[hero_name]["Score"] = x
-	
-
-	
-	time.sleep(1)
 	dict_list[hero_name]["Time"] = time_now
 	saved_character_list[saved_character_list.index(instance)] = instance
 	save_character_to_json()
@@ -357,16 +351,17 @@ def start_game(hero, grid_select, spawn_coordinates, hero_name):
 		if fight_outcome == "escaped":
 			current_run.update_room(coordinate=old_position, update="unfinished")
 		elif  fight_outcome == "win":
-			print("gick in in win")
 			score = current_room.total_loot
 			hero.score_list.append(score)
 			print(score)
 			update_score(hero_name, hero)
-			#current_room.total_loot = 0
+			current_room.total_loot = 0
+		elif fight_outcome == "died":
+			break
 
 		current_run.print_map()
 		
-		
+	
 	return
 
 def ask_player_to_move(current_run, hero_name):
@@ -444,6 +439,8 @@ if __name__ == "__main__":
 				grid_select = grid_menu()
 				spawn_coordinates = spawn_menu(grid_select)
 				start_game(hero_instance, grid_select, spawn_coordinates, hero_name)
+				input("You died, now returning to game menu. Press enter to continue")
+				continue
 				
 
 
