@@ -104,6 +104,7 @@ def save_character_to_json():
 		close_file.close()
 
 def update_score(hero_name, instance):
+	print_slow_but_fast("Autosaving...")
 	time_now = time.strftime("%m/%d Time %H:%M")
 	x	= sum(instance.score_list)
 	x = int(x)
@@ -111,6 +112,7 @@ def update_score(hero_name, instance):
 	dict_list[hero_name]["Time"] = time_now
 	saved_character_list[saved_character_list.index(instance)] = instance
 	save_character_to_json()
+	print_slow_but_fast("Autosave done")	
 
 def validate(hero_name):
 	dict_key = dict_list.keys()
@@ -359,7 +361,7 @@ def start_game(hero, grid_select, spawn_coordinates, hero_name):
 		elif  fight_outcome == "win":
 			score = current_room.total_loot
 			hero.score_list.append(score)
-			print(score)
+			print("Your score is {}".fomat(score))
 			update_score(hero_name, hero)
 			current_room.total_loot = 0
 			current_room.fight = False
@@ -377,7 +379,7 @@ def ask_player_to_move(current_run, hero_name):
 	print("# A to Move Left")
 	print("# S to Move Down")
 	print("# D to Move Right")
-	print("# L to Save And Exit")
+	print("# L Exit")
 	
 
 	move_choice= str(input("\n --> "))
@@ -414,10 +416,10 @@ def ask_player_to_move(current_run, hero_name):
 		return my_postiton
 		
 	elif (move_choice == "L"):
-		ask_to_save(hero_name)
-		#time.sleep(3)
-		#game_loop = True
-		#return game_loop
+		print_slow("Who are you kidding we know you have nothing else to do")
+		time.sleep(3)
+		exit() 
+
 		
 #start_menu()
 # grid_menu()
