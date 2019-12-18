@@ -360,7 +360,7 @@ def start_game(hero, grid_select, spawn_coordinates, hero_name):
 		elif  fight_outcome == "win":
 			score = current_room.total_loot
 			hero.score_list.append(score)
-			print_slow(score)
+			print(score)
 			update_score(hero_name, hero)
 			current_room.total_loot = 0
 			current_room.fight = False
@@ -415,10 +415,8 @@ def ask_player_to_move(current_run, hero_name):
 		return my_postiton
 		
 	elif (move_choice == "L"):
-		ask_to_save(hero_name)
-		#time.sleep(3)
-		#game_loop = True
-		#return game_loop
+		game_loop = False
+		return game_loop
 		
 #start_menu()
 # grid_menu()
