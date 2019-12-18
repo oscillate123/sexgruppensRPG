@@ -6,6 +6,7 @@ class Monster:
         self.attack = attack
         self.agility = agility
         self.appearance = appearance
+        self.is_alive = True
 
     def print_stats(self):
         print("-----------------")
