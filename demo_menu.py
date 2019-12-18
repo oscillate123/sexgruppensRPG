@@ -103,14 +103,13 @@ def save_character_to_json():
 		json.dump(dict_list, close_file)
 		close_file.close()
 
-def update_score(hero_name, score, object):
+def update_score(hero_name, instance):
 	time_now = time.strftime("%m/%d Time %H:%M")
-	
-	json_score = dict_list[hero_name]["Score"]
-	print(json_score + score)
-	time.sleep(5)
+	x	= sum(instance.score_list)
+	x = int(x)
+	dict_list[hero_name]["Score"] = x
 	dict_list[hero_name]["Time"] = time_now
-	saved_character_list[saved_character_list.index(object)] = object
+	saved_character_list[saved_character_list.index(instance)] = instance
 	save_character_to_json()
 
 def validate(hero_name):
@@ -352,15 +351,17 @@ def start_game(hero, grid_select, spawn_coordinates, hero_name):
 		if fight_outcome == "escaped":
 			current_run.update_room(coordinate=old_position, update="unfinished")
 		elif  fight_outcome == "win":
-			print("gick in in win")
 			score = current_room.total_loot
+			hero.score_list.append(score)
 			print(score)
-			update_score(hero_name,score,hero)
-			#current_room.total_loot = 0
+			update_score(hero_name, hero)
+			current_room.total_loot = 0
+		elif fight_outcome == "died":
+			break
 
 		current_run.print_map()
 		
-		
+	
 	return
 
 def ask_player_to_move(current_run, hero_name):
@@ -452,6 +453,8 @@ if __name__ == "__main__":
 				grid_select = grid_menu()
 				spawn_coordinates = spawn_menu(grid_select)
 				start_game(hero_instance, grid_select, spawn_coordinates, hero_name)
+				input("You died, now returning to game menu. Press enter to continue")
+				continue
 				
 
 
