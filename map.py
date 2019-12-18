@@ -1,5 +1,4 @@
 import room
-
 class map:
 
 	def __init__(self, grid_size=4):

@@ -3,3 +3,4 @@
 json_file/saved_heroes_old.json
 json_file/saved_heroes.json
 json_file/saved_heroes.json
+*.json

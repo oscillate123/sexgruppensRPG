@@ -9,6 +9,7 @@ from pathlib import Path
 from room import  *
 from Fight2 import  *
 
+maximize_console()
 
 folder = Path("json_file")
 folder.mkdir(exist_ok=True)
@@ -58,10 +59,10 @@ except FileNotFoundError:
 
 def load_hero():
 	if len(saved_character_list) != 0:
-		print("Saved heroes: \n")
+		print_slow("Saved heroes: \n")
 		for item in saved_character_list:
-			print(item)
-		print("Write the name of the hero you want to play with!")
+			print_slow(item)
+		print_slow("Write the name of the hero you want to play with!")
 		name_select = input("\n --> ")
 		for item in saved_character_list:
 			item = str(item)
@@ -74,7 +75,7 @@ def load_hero():
 								hero = Knight(name)
 								hero.score = dict_list[name]["Score"]
 								#created_character_list.append(Knight(name))
-								#print(created_character_list)
+								#print_slow(created_character_list)
 								
 								
 
@@ -86,12 +87,12 @@ def load_hero():
 								hero = Rouge(name)
 								hero.score = dict_list[name]["Score"]
 
-		print(f"The hero '{name_select}' has been selected!")
+		print_slow(f"The hero '{name_select}' has been selected!")
 		print_slow("-"*20)
 		input("Press enter to continue")
 		return True, name_select, hero
 	else:
-		print("No heroes saved!")
+		print_slow("No heroes saved!")
 		input("Press enter to continue and create a new hero")
 		status, hero_name, hero_instance = hero_menu()
 		return	status, hero_name, hero_instance
@@ -141,7 +142,7 @@ def ask_to_save(hero_name,score,hero):
 				
 				update_score(item.hero_name,score,item)
 			# else:
-			# 	print("Couldn't save")
+			# 	print_slow("Couldn't save")
 			# 	#input("wait")
 	else:
 		print_slow("Thanks for playing Dungeon Run!")
@@ -263,7 +264,7 @@ def grid_menu():
 	try:
 		grid_select = int(input('\n --> '))
 	except ValueError:
-		print("Bad input")
+		print_slow("Bad input")
 
 	if grid_select != 4 and grid_select != 5 and grid_select != 8:
 		print_slow("Wrong input please follow the instructions correctly")
@@ -353,7 +354,7 @@ def start_game(hero, grid_select, spawn_coordinates, hero_name):
 		elif  fight_outcome == "win":
 			score = current_room.total_loot
 			hero.score_list.append(score)
-			print(score)
+			print_slow(score)
 			update_score(hero_name, hero)
 			current_room.total_loot = 0
 		elif fight_outcome == "died":
@@ -366,11 +367,11 @@ def start_game(hero, grid_select, spawn_coordinates, hero_name):
 
 def ask_player_to_move(current_run, hero_name):
 	
-	print("# W to Move Up")
-	print("# A to Move Left")
-	print("# S to Move Down")
-	print("# D to Move Right")
-	print("# L to Save And Exit")
+	print_slow("# W to Move Up")
+	print_slow("# A to Move Left")
+	print_slow("# S to Move Down")
+	print_slow("# D to Move Right")
+	print_slow("# L to Save And Exit")
 	
 
 	move_choice= str(input("\n --> "))
@@ -434,8 +435,8 @@ if __name__ == "__main__":
 
 		""")
 		#print_slow(" \n Dungeon Run \n")
-		print_slow("-"*50 + "Welcome to DUNGEON RUN choose an option to continue" + "-"*50)
-		print_slow(" "*65+"-"*15)
+		print_slow_but_fast("-"*50 + "Welcome to DUNGEON RUN choose an option to continue" + "-"*50)
+		print_slow_but_fast(" "*65+"-"*15)
 		#print_slow("Welcome to DUNGEON RUN choose an option to go continue")
 		print_slow(" "*65+"# 1 New Game")
 		print_slow(" "*65+"# 2 Load Game")
