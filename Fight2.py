@@ -22,6 +22,7 @@ class Fight:
         self.hero_winner = False
         self.index = 0
 
+
     def try_to_run(self):
         escape_procent = self.character_fight_list[self.find_hero_index()].agility * 10
 
@@ -41,10 +42,10 @@ class Fight:
 
     #Debug, remove later + all prints inside fight_loop
     def print_all(self):
-        for character in f.character_fight_list:
+        for character in self.character_fight_list:
             print(f"StartScore SORTED : {character.start_score}")
 
-        for character in f.character_fight_list:
+        for character in self.character_fight_list:
             print(f"Fighters : {character}")
 
     def generate_monster(self):
@@ -154,7 +155,7 @@ class Fight:
                     return 'died'
 
                 if len(self.character_fight_list) == 1:
-                    return 'won'
+                    return 'win'
 
                 if self.index < len(self.character_fight_list):
                     self.index += 1
@@ -180,56 +181,60 @@ class Fight:
                         if self.try_to_run() == True:
                             return 'escaped'
 
-if __name__ == "__main__":
+    def run_fight(self):
 
-    can_you_run = ''
-    game_stat = ''
+        can_you_run = ''
+        game_stat = ''
 
-    k = Knight("TestHero")
+        #k = Knight("TestHero")
 
-    f = Fight(k)
+        #f = Fight(k)
 
-    print(f"LÄNGD : {len(f.character_fight_list)}")
+        print(f"LÄNGD : {len(self.character_fight_list)}")
 
-    f.print_all()
+        self.print_all()
 
-    #If AI == False humans choose to play or run
-    if f.is_Ai == False:
+        #If AI == False humans choose to play or run
+        if self.is_Ai == False:
 
-        fight_or_run = input("Press 1 to attack and 2 to run main meny")
+            fight_or_run = input("Press 1 to attack and 2 to run main meny")
 
-        #game_stat = True
+            #game_stat = True
 
-        if fight_or_run == '1':
-            game_stat = f.fight_loop()
+            if fight_or_run == '1':
+                game_stat = self.fight_loop()
 
-        elif fight_or_run == '2':
-            can_you_run = f.try_to_run()
+            elif fight_or_run == '2':
+                can_you_run = self.try_to_run()
 
-            if can_you_run == True:
-                game_stat = 'escaped'
+                if can_you_run == True:
+                    game_stat = 'escaped'
+                    
 
-            #If escape fails, players gets to fight shitty monsters
-            else:
-                print("NO ESCAPE!")
-                game_stat = f.fight_loop()
+                #If escape fails, players gets to fight shitty monsters
+                else:
+                    print("NO ESCAPE!")
+                    game_stat = self.fight_loop()
 
-    #If AI is True, game runs
-    else:
-        game_stat = f.fight_loop()
+        #If AI is True, game runs
+        else:
+            game_stat = self.fight_loop()
 
-    #Outcome for both AI and human player
-    if game_stat == 'won':
-        #More code here tomorrow
-        print("You won the fight")
+        #Outcome for both AI and human player
+        if game_stat == 'win':
+            #More code here tomorrow
+            print("You won the fight")
+            return game_stat
 
-    elif game_stat == 'died':
-        #More code here tomorrow
-        print("You lost Game over")
+        elif game_stat == 'died':
+            #More code here tomorrow
+            print("You lost Game over")
+            return game_stat
 
-    elif game_stat == 'escaped':
-        #More code here tomorrow
-        print("You escaped")
+        elif game_stat == 'escaped':
+            #More code here tomorrow
+            print("You escaped")
+            return game_stat
 
 
-print("GAME DONE SKA SNYGGA TILL KODEN IMORRN JAJAJJA")
+        print("GAME DONE SKA SNYGGA TILL KODEN IMORRN JAJAJJA")
