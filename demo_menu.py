@@ -7,7 +7,7 @@ import json
 from other_functions import *
 from pathlib import Path
 from room import  *
-from Fight import  *
+from Fight2 import  *
 
 
 folder = Path("json_file")
@@ -330,12 +330,25 @@ def start_game(hero, grid_select, spawn_coordinates, hero_name):
 
 	while game_loop is True:
 		leave_or_not = ask_player_to_move(current_run, hero_name)
+
 		clear_screen()
+
 		current_run.print_map()
+
 		position = current_run.where_am_i(option="return")
 		game_loop = check_if_outside(position, current_run)
+
 		x, y = position
-		current_run.grid[y][x].fight_generator(hero)
+		
+		current_fight = current_run.grid[y][x].fight_generator(hero) # genererar en fight instans för dem x,y coordinates som anges
+		fight_outcome = current_fight.run_fight() # kör den fighteninstansen och ska returnera outcome för fighten
+
+		# försöka få mapen att uppdatera sig utifrån hur fight outcome blir
+		if fight_outcome == "escaped":
+			current_run.update_room(coordinate=position, update="unfinished")
+
+		current_run.print_map()
+		
 		
 	return
 

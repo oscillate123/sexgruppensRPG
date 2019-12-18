@@ -1,5 +1,5 @@
 from Treasure import*
-from Fight import*
+from Fight2 import*
 
 class room:
 	def __init__(self, name="", status="", coordinate=[], edge=False):
