@@ -81,7 +81,7 @@ def game_over_screen():
 
     """)
 
-game_over_screen()
+
 
 if __name__ == "__main__":
     pass

@@ -2,6 +2,7 @@ from Hero import*
 from Monsters import*
 from dice import*
 from Treasure import*
+from other_functions import *
 
 class Fight:
     def __init__(self, hero):
@@ -228,7 +229,7 @@ class Fight:
 
         elif game_stat == 'died':
             #More code here tomorrow
-            print("You lost Game over")
+            game_over_screen()
             return game_stat
 
         elif game_stat == 'escaped':
