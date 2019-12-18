@@ -313,8 +313,7 @@ def check_if_outside(position,class_object):
 	check_edge = class_object.get_room(position)
 	if check_edge.edge is True:
 		input("You left the map! Press enter to continue")
-		game_loop = False
-		return game_loop
+		return False
 		# skriv in vad som ska hända när man går utanför
 	else:
 		game_loop = True
@@ -339,13 +338,20 @@ def start_game(hero, grid_select, spawn_coordinates, hero_name):
 		current_run.print_map()
 
 		position = current_run.where_am_i(option="return")
-		game_loop = check_if_outside(position, current_run)
+		is_not_outside = check_if_outside(position, current_run)
+
+		if not is_not_outside:
+			return "end"
 
 		x, y = position
 
 		current_room = current_run.grid[y][x]
-		current_fight = current_run.grid[y][x].fight_generator(hero) # genererar en fight instans för dem x,y coordinates som anges
-		fight_outcome = current_fight.run_fight() # kör den fighteninstansen och ska returnera outcome för fighten
+		if current_room.fight == False:
+			break
+			return "end"
+		else:
+			current_fight = current_run.grid[y][x].fight_generator(hero) # genererar en fight instans för dem x,y coordinates som anges
+			fight_outcome = current_fight.run_fight() # kör den fighteninstansen och ska returnera outcome för fighten
 
 		# försöka få mapen att uppdatera sig utifrån hur fight outcome blir
 		if fight_outcome == "escaped":
@@ -356,6 +362,7 @@ def start_game(hero, grid_select, spawn_coordinates, hero_name):
 			print(score)
 			update_score(hero_name, hero)
 			current_room.total_loot = 0
+			current_room.fight = False
 		elif fight_outcome == "died":
 			break
 
@@ -452,19 +459,24 @@ if __name__ == "__main__":
 			if hero_name_status == True:
 				grid_select = grid_menu()
 				spawn_coordinates = spawn_menu(grid_select)
-				start_game(hero_instance, grid_select, spawn_coordinates, hero_name)
-				input("You died, now returning to game menu. Press enter to continue")
+				the_game = start_game(hero_instance, grid_select, spawn_coordinates, hero_name)
+				if the_game == "end":
+					continue
+				else:
+					input("You died, now returning to main menu. Press enter to continue")
 				continue
 				
-
-
 		elif (sub_meny == 2):
 			hero_name_status, hero_name, hero_instance = load_hero()
 			grid_select = grid_menu()
 			spawn_coordinates = spawn_menu(grid_select)
-			start_game(hero_instance, grid_select, spawn_coordinates, hero_name)
-
+			the_game = start_game(hero_instance, grid_select, spawn_coordinates, hero_name)
+			if the_game == "end":
+				continue
+			else:
+				input("You died, now returning to main menu. Press enter to continue")
+			continue
 
 		elif (sub_meny == 3):
-			print_slow("BYEEEEEEEE")
+			print_slow("If you refer a friend, you will unlock a special character. Cya!")
 			exit()

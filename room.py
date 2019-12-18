@@ -56,6 +56,7 @@ class room:
 	def if_edge(self):
 		# method for checking if the room is an edge
 		if self.status == self.edge_character:
+			self.fight = False
 			return True
 		else:
 			return False
