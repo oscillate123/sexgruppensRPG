@@ -105,7 +105,10 @@ def save_character_to_json():
 
 def update_score(hero_name, score, object):
 	time_now = time.strftime("%m/%d Time %H:%M")
-	dict_list[hero_name]["Score"] = score
+	
+	json_score = dict_list[hero_name]["Score"]
+	print(json_score + score)
+	time.sleep(5)
 	dict_list[hero_name]["Time"] = time_now
 	saved_character_list[saved_character_list.index(object)] = object
 	save_character_to_json()
@@ -125,7 +128,7 @@ def validate(hero_name):
 
 # probmlems here!!! "Saved_character_list.replace(item)" är en lista men listor har ingen .replace funktion
 
-def ask_to_save(hero_name):
+def ask_to_save(hero_name,score,hero):
 	print_slow(" Do you want to save your character at this point?")
 	print_slow("# 1 Save")
 	print_slow("# 2 To Exit Game")
@@ -136,7 +139,8 @@ def ask_to_save(hero_name):
 	if (answer == 1):
 		for item in saved_character_list:
 			if hero_name == item.hero_name:
-				update_score(item.hero_name, 655, item)
+				
+				update_score(item.hero_name,score,item)
 			# else:
 			# 	print("Couldn't save")
 			# 	#input("wait")
@@ -329,7 +333,7 @@ def start_game(hero, grid_select, spawn_coordinates, hero_name):
 	current_run.print_map()
 
 	while game_loop is True:
-		leave_or_not = ask_player_to_move(current_run, hero_name)
+		old_position = ask_player_to_move(current_run, hero_name)
 
 		clear_screen()
 
@@ -339,13 +343,20 @@ def start_game(hero, grid_select, spawn_coordinates, hero_name):
 		game_loop = check_if_outside(position, current_run)
 
 		x, y = position
-		
+
+		current_room = current_run.grid[y][x]
 		current_fight = current_run.grid[y][x].fight_generator(hero) # genererar en fight instans för dem x,y coordinates som anges
 		fight_outcome = current_fight.run_fight() # kör den fighteninstansen och ska returnera outcome för fighten
 
 		# försöka få mapen att uppdatera sig utifrån hur fight outcome blir
 		if fight_outcome == "escaped":
-			current_run.update_room(coordinate=position, update="unfinished")
+			current_run.update_room(coordinate=old_position, update="unfinished")
+		elif  fight_outcome == "win":
+			print("gick in in win")
+			score = current_room.total_loot
+			print(score)
+			update_score(hero_name,score,hero)
+			#current_room.total_loot = 0
 
 		current_run.print_map()
 		
@@ -369,6 +380,7 @@ def ask_player_to_move(current_run, hero_name):
 		move_up= movable_rooms["above"]["coordinate"]
 		current_run.update_room(coordinate=move_up, update="is_here")
 		current_run.update_room(coordinate=my_postiton, update="finished")
+		return my_postiton
 		
 	elif (move_choice == "A"):
 		movable_rooms = current_run.nerby_rooms()
@@ -376,13 +388,14 @@ def ask_player_to_move(current_run, hero_name):
 		move_left= movable_rooms["left"]["coordinate"]
 		current_run.update_room(coordinate=move_left, update="is_here")
 		current_run.update_room(coordinate=my_postiton, update="finished")
-
+		return my_postiton
 	elif (move_choice == "S"):
 		movable_rooms = current_run.nerby_rooms()
 		my_postiton = current_run.where_am_i()
 		move_down= movable_rooms["below"]["coordinate"]
 		current_run.update_room(coordinate=move_down, update="is_here")
 		current_run.update_room(coordinate=my_postiton, update="finished")
+		return my_postiton
 
 	elif (move_choice == "D"):
 		movable_rooms = current_run.nerby_rooms()
@@ -390,7 +403,7 @@ def ask_player_to_move(current_run, hero_name):
 		move_right= movable_rooms["right"]["coordinate"]
 		current_run.update_room(coordinate=move_right, update="is_here")
 		current_run.update_room(coordinate=my_postiton, update="finished")
-		
+		return my_postiton
 		
 	elif (move_choice == "L"):
 		ask_to_save(hero_name)

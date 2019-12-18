@@ -155,7 +155,7 @@ class Fight:
                     return 'died'
 
                 if len(self.character_fight_list) == 1:
-                    return 'won'
+                    return 'win'
 
                 if self.index < len(self.character_fight_list):
                     self.index += 1
@@ -221,18 +221,20 @@ class Fight:
             game_stat = self.fight_loop()
 
         #Outcome for both AI and human player
-        if game_stat == 'won':
+        if game_stat == 'win':
             #More code here tomorrow
             print("You won the fight")
+            return game_stat
 
         elif game_stat == 'died':
             #More code here tomorrow
             print("You lost Game over")
+            return game_stat
 
         elif game_stat == 'escaped':
             #More code here tomorrow
             print("You escaped")
-            return "escaped"
+            return game_stat
 
 
         print("GAME DONE SKA SNYGGA TILL KODEN IMORRN JAJAJJA")

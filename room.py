@@ -10,7 +10,7 @@ class room:
 		self.mark_character = "X"
 		self.room_finished_character = "Ø"
 		self.room_unfinished_character = "o"
-		self.total_loot = 0
+		self.total_loot = self.treasure()
 
 		self.status = status
 		self.coordinate = coordinate
@@ -46,8 +46,8 @@ class room:
 		
 	def treasure(self):
 		# metod for trease initialize
-		t = Treasure.Treasure()
-		self.total_loot = t.generate_treasure()
+		t = Treasure()
+		return t.generate_treasure()
 		#h.hero_total_loot = self.total_loot
 
 	def get_coordinate(self):
