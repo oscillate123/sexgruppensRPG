@@ -1,4 +1,5 @@
 from os import system, name
+
 import sys, time
 from map import map as map
 from Monsters import *
@@ -10,6 +11,7 @@ from room import  *
 from Fight2 import  *
 
 maximize_console()
+os.system('color 02')
 
 folder = Path("json_file")
 folder.mkdir(exist_ok=True)

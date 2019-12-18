@@ -224,7 +224,7 @@ class Fight:
         #Outcome for both AI and human player
         if game_stat == 'win':
             #More code here tomorrow
-            print("You won the fight")
+            game_won_screen()
             return game_stat
 
         elif game_stat == 'died':
