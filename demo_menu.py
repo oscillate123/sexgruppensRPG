@@ -10,7 +10,7 @@ from pathlib import Path
 from room import  *
 from Fight2 import  *
 
-maximize_console()
+#maximize_console()
 os.system('color 02')
 
 folder = Path("json_file")
@@ -417,8 +417,8 @@ def ask_player_to_move(current_run, hero_name):
 		return my_postiton
 		
 	elif (move_choice == "L"):
-		game_loop = False
-		return game_loop
+		
+
 		
 #start_menu()
 # grid_menu()
