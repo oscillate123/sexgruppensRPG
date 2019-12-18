@@ -7,6 +7,7 @@ from other_functions import *
 class Fight:
     def __init__(self, hero):
         self.character_fight_list = self.generate_monster()
+        self.monster_list = self.character_fight_list.copy()
         self.character_fight_list.append(hero)
         self.who_starts()
         self.if_draw_on_start()
@@ -121,19 +122,33 @@ class Fight:
                     agility_power = n_dice(self.character_fight_list[self.find_next_monster()].agility)
 
                     if attack_power > agility_power:
-                        print(f"Player made damage :: {attack_power - agility_power}")
-
+                        print(f"Player made damage :: {attack_power - agility_power}")  
                         if self.character_fight_list[self.find_hero_index()].type == "Rouge":
                             if self.character_fight_list[self.find_hero_index()].special_skill() == True:
                                 print("CriticalHit")
-                                self.character_fight_list[self.find_next_monster()].health -= 2
+                                if self.character_fight_list[self.find_next_monster()].is_alive:
+                                    self.character_fight_list[self.find_next_monster()].health -= 2
+                                    if self.character_fight_list[self.find_next_monster()].health < 1:
+                                        self.character_fight_list[self.find_next_monster()].is_alive = False
                         else:
-                            self.character_fight_list[self.find_next_monster()].health -= 1
+                            if self.character_fight_list[self.find_next_monster()].is_alive:
+                                self.character_fight_list[self.find_next_monster()].health -= 1
+                                if self.character_fight_list[self.find_next_monster()].health < 1:
+                                    self.character_fight_list[self.find_next_monster()].is_alive = False
 
-                    if self.character_fight_list[self.find_next_monster()].health < 1:
-                        print("Monster dead")
-                        del self.character_fight_list[self.find_next_monster()]
-                        self.hero_index = self.find_hero_index()
+                        monsters_alive = []
+                        for monster in self.monster_list:
+                            if monster.is_alive is True:
+                                monsters_alive.append(monster)
+
+                        if len(monsters_alive) == 0:
+                            return 'win'
+
+
+                    # if self.character_fight_list[self.find_next_monster()].is_alive is False:
+                    #     print("Monster dead")
+                    #     del self.character_fight_list[self.find_next_monster()]
+                    #     self.hero_index = self.find_hero_index()
 
                 #Monster Fighting
                 else:
@@ -154,9 +169,6 @@ class Fight:
 
                 if self.character_fight_list[self.find_hero_index()].health < 1:
                     return 'died'
-
-                if len(self.character_fight_list) == 1:
-                    return 'win'
 
                 if self.index < len(self.character_fight_list):
                     self.index += 1
