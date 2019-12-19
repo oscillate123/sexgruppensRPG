@@ -1,5 +1,4 @@
 from os import system, name
-
 import sys, time
 from map import map as map
 from Monsters import *
@@ -63,6 +62,7 @@ def load_hero():
 	if len(saved_character_list) != 0:
 		print_slow("Saved heroes: \n")
 		for item in saved_character_list:
+			item = str(item)
 			print_slow(item)
 		print_slow("Write the name of the hero you want to play with!")
 		name_select = input("\n --> ")
@@ -80,6 +80,7 @@ def load_hero():
 								#print_slow(created_character_list)
 								
 								
+								
 
 							elif dict_list[name]["Type"] == "Wizard":
 								hero = Wizard(name)
@@ -88,7 +89,7 @@ def load_hero():
 							elif dict_list[name]["Type"] == "Rouge":
 								hero = Rouge(name)
 								hero.score = dict_list[name]["Score"]
-
+		saved_character_list.append(hero)
 		print_slow(f"The hero '{name_select}' has been selected!")
 		print_slow("-"*20)
 		input("Press enter to continue")
@@ -109,7 +110,7 @@ def save_character_to_json():
 def update_score(hero_name, instance):
 	print_slow_but_fast("Autosaving...")
 	time_now = time.strftime("%m/%d Time %H:%M")
-	x	= sum(instance.score_list)
+	x = sum(instance.score_list)
 	x = int(x)
 	dict_list[hero_name]["Score"] = x
 	dict_list[hero_name]["Time"] = time_now
@@ -252,7 +253,7 @@ def hero_menu():
 		if choice == "9":
 			continue
 		if hero_select == 9:
-			break
+			return False, "hero_name", "hero_instance" 
 		if hero_selected is True:
 			return True, hero_name, hero_instance
 
@@ -364,7 +365,7 @@ def start_game(hero, grid_select, spawn_coordinates, hero_name):
 		elif  fight_outcome == "win":
 			score = current_room.total_loot
 			hero.score_list.append(score)
-			print("Your score is {}".fomat(score))
+			print("Your score is {}".format(score))
 			update_score(hero_name, hero)
 			current_room.total_loot = 0
 			current_room.fight = False
@@ -421,7 +422,7 @@ def ask_player_to_move(current_run, hero_name):
 	elif (move_choice == "L"):
 		print_slow("Who are you kidding we know you have nothing else to do")
 		time.sleep(3)
-		exit() 
+		exit()
 
 
 #start_menu()
@@ -449,10 +450,10 @@ if __name__ == "__main__":
 		print_slow_but_fast("-"*50 + "Welcome to DUNGEON RUN choose an option to continue" + "-"*50)
 		print_slow_but_fast(" "*65+"-"*15)
 		#print_slow("Welcome to DUNGEON RUN choose an option to go continue")
-		print_slow(" "*65+"# 1 New Game")
-		print_slow(" "*65+"# 2 Load Game")
-		print_slow(" "*65+"# 3 Quit")
-		print_slow(" "*65+"-"*15)
+		print_slow_but_fast(" "*65+"# 1 New Game")
+		print_slow_but_fast(" "*65+"# 2 Load Game")
+		print_slow_but_fast(" "*65+"# 3 Quit")
+		print_slow_but_fast(" "*65+"-"*15)
 		try:
 			sub_meny = int(input("\n"+" "*65+"-->"))
 		except ValueError:
