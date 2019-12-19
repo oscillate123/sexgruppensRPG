@@ -6,6 +6,7 @@ import webbrowser
 from room import room
 import inspect
 from random import randrange
+from other_functions import clear_screen
 
 class AI_class:
 	def __init__(self, hero_instance, map_instance):
@@ -16,7 +17,6 @@ class AI_class:
 
 		self.fights_won = 0
 		self.rooms_visited_coordinates = []
-		self.rooms_visited_amount = len(self.rooms_visited_coordinates)
 		self.monsters_killed = 0
 		self.treasure_collected = 0
 
@@ -56,21 +56,31 @@ class AI_class:
 			theme_song = response_json.get("preview_url") # get the url of the song
 			webbrowser.open_new_tab(url=theme_song) # opens a tab and plays the song
 		except Exception as e:
-			print("Update the Spotify-API!\n", e)
+			print("Update the Spotify-API auth!\n spotify.py -> self.auth")
 
 
 	def ai_won_game_or_done(self):
+		clear_screen()
+		self.arnold()
+		print()
 		print(self.theme_lyrics)
+		print()
+		stats = self.return_game_stats()
+		for stat in stats:
+			print(stat, " ", stats[stat])
+		print()
 		self.api_theme_song_open_in_browser()
+		print()
+		input("Press enter to continue...")
 
 	def ai_won_fight(self):
 		self.fights_won += 1
 
-	def ai_monsters_killed(self):
-		self.monsters_killed += 1
+	def ai_monsters_killed(self, number):
+		self.monsters_killed += number
 
 	def ai_rooms_add(self, coordinate):
-		if coordinate not in self.rooms_visited:
+		if coordinate not in self.rooms_visited_coordinates:
 			self.rooms_visited_coordinates.append(coordinate)
 
 	def ai_treasure_collected(self, treasure_points):
@@ -78,9 +88,8 @@ class AI_class:
 
 	def return_game_stats(self):
 		game_stats = {
-			"fights_won": self.fights_won,
-			"rooms_won": self.fights_won,
-			"rooms_visited": self.rooms_visited_amount,
+			"fights_won     ": self.fights_won,
+			"rooms_visited  ": len(self.rooms_visited_coordinates),
 			"monsters_killed": self.monsters_killed,
 			"treasure_points": self.treasure_collected	
 		}
@@ -208,6 +217,24 @@ class AI_class:
 		else:
 			return "fight"
 
+	def arnold(self):
+		ascii_arnold = r'''
+                  <((((((\\\                            
+                   /      . }\                           
+                   ;--..--._|}   "Hasta la vista, baby"    
+(\                 '--/\--'  )   
+ \\                | '-'  :'|                            
+  \\               . -==- .-|                            
+   \\               \.__.'   \--._                       
+   [\\          __.--|       //  _/'--.                  
+   \ \\       .'-._ ('-----'/ __/      \                 
+    \ \\     /   __>|      | '--.       |                
+     \ \\   |   \   |     /    /       /                 
+      \ '\ /     \  |     |  _/       /                  
+       \  \       \ |     | /        /                   
+ skynet \  \       \       /                             
+		'''
+		print(ascii_arnold)
 
 
 if __name__ == "__main__":
