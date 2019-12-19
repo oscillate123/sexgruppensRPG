@@ -46,12 +46,16 @@ class room:
 		if self.status == self.room_finished_character: # no fight if room is finished
 			self.fight = False
 			return self.fight
+
 		elif self.status == self.edge: # no fight if room is edge
 			self.fight = False
 			return self.fight
-		elif self.status == self.room_unfinished_character: # return the fight instance if unfinished room
-			return self.fight
-		elif self.status == self.room_character: # returns the fight instance
+
+		# elif self.status == self.room_unfinished_character: # return the fight instance if unfinished room
+		# 	return self.fight
+
+		# elif self.status == self.room_character: # returns the fight instance
+		else:
 			new_fight = Fight(hero=hero_instance, is_Ai=is_ai)
 			self.fight = new_fight
 			return self.fight

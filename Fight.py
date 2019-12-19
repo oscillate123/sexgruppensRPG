@@ -10,6 +10,7 @@ class Fight:
     def __init__(self, hero, is_Ai=False):
         self.hero_instance = hero
         self.character_fight_list = self.generate_monster()
+        self.monsters_list = self.character_fight_list.copy()
         self.character_fight_list.append(hero)
         self.who_starts()
         self.if_draw_on_start()
@@ -17,6 +18,7 @@ class Fight:
         self.hero_index = 99
         self.round = 0
         self.ai_choice_number = 0
+        self.no_monsters_spawned = self.if_no_monsters_spawn()
 
         #IF AI MAFAKKA
         self.is_Ai = is_Ai
@@ -28,6 +30,12 @@ class Fight:
         self.index = 0
 
         self.fight_commands = []
+
+    def if_no_monsters_spawn(self):
+        if self.character_fight_list == 1:
+            self.no_monsters_spawned = True
+        else:
+            self.no_monsters_spawned = False
 
     def try_to_run(self):
         escape_procent = self.character_fight_list[self.find_hero_index()].agility * 10
@@ -212,7 +220,10 @@ class Fight:
                     clear_screen()
                     self.print_all()
                     print(c.blink + "You won the fight" + c.RESET)
-                    input("Press to continue your journey...")
+                    if self.is_Ai:
+                        time.sleep(5)
+                    else:
+                        input("Press to continue your journey...")
                     return 'win'
 
                 if self.index < len(self.character_fight_list):
@@ -255,7 +266,9 @@ class Fight:
 
         k = self.hero_instance
 
-        # f = Fight(k)
+        if self.no_monsters_spawned:
+            game_stat = "win"
+            return game_stat
 
         #If AI == False humans choose to play or run
         if self.is_Ai == False:
@@ -284,13 +297,15 @@ class Fight:
             #game_stat = f.fight_loop()
 
             fight_or_run = self.ai_choice_number
-            print(f"AI main meny :: {fight_or_run}")
+            print("FIGHT - 1")
+            print("RUN   - 2")
+            print(f"Skynet chose {fight_or_run}!")
 
-            if fight_or_run == '1':
+            if fight_or_run == 1:
                 #input("AI FIGHT")
                 game_stat = self.fight_loop()
 
-            elif fight_or_run == '2':
+            elif fight_or_run == 2:
                 #input("AI PUSSY GONE")
                 can_you_run = self.try_to_run()
 

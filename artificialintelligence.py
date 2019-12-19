@@ -177,7 +177,7 @@ class AI_class:
 			total_health.append(monster.health)
 			monster_names.append(monster.__class__.__name__)
 
-		if total_attack/self.hero.health > 2 and self.hero.__class__.__name__ == "Wizard":
+		if sum(total_attack)/self.hero.health > 2 and self.hero.__class__.__name__ == "Wizard":
 			if len(monster_list) > 2:
 				if "Troll" in monster_names:
 					return "run"
@@ -187,7 +187,7 @@ class AI_class:
 				return "fight"
 			return "run"
 
-		elif total_attack/self.hero.health > 2.5 and self.hero.__class__.__name__ == "Knight":
+		elif sum(total_attack)/self.hero.health > 2.5 and self.hero.__class__.__name__ == "Knight":
 			if len(monster_list) > 2:
 				if "Troll" in monster_names:
 					return "run"
@@ -196,7 +196,7 @@ class AI_class:
 			else:
 				return "fight"
 
-		elif total_attack/self.hero.health > 2.5 and self.hero.__class__.__name__ == "Rouge":
+		elif sum(total_attack)/self.hero.health > 2.5 and self.hero.__class__.__name__ == "Rouge":
 			if len(monster_list) > 3:
 				if "Troll" in monster_names:
 					return "run"
