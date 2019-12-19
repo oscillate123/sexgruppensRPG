@@ -175,6 +175,8 @@ class Fight:
                     if self.character_fight_list[self.find_next_monster()].health < 1:
                         self.fight_commands.append(f"{self.character_fight_list[self.find_next_monster()].__class__.__name__} {c.FAIL}dead{c.RESET}\n")
 
+                        self.character_fight_list[self.find_next_monster()].is_alive = False
+
                         del self.character_fight_list[self.find_next_monster()]
                         self.hero_index = self.find_hero_index()
                         temp_round_counter -= 1
