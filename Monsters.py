@@ -19,6 +19,19 @@ class Monster:
         print(f"Appearance : {self.appearance}%")
         print("-----------------\n")
 
+    def get_stats(self):
+        monster_info = {
+            "monster": self.__class__.__name__
+            "initiative": self.initiative,
+            "health": self.health,
+            "attack": self.attack,
+            "agility": self.agility
+            "appearance": self.appearance,
+            "is_alive": self.is_alive
+        }
+        return monster_info
+
+
 
 class GiantSpider(Monster):
     def __init__(self):
