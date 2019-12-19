@@ -19,6 +19,7 @@ class Fight:
         self.round = 0
         self.ai_choice_number = 0
         self.no_monsters_spawned = self.if_no_monsters_spawn()
+        self.update_monster_killed_number = 0 # rad 183 isch
 
         #IF AI MAFAKKA
         self.is_Ai = is_Ai
@@ -201,6 +202,8 @@ class Fight:
                     if self.character_fight_list[self.find_next_monster()].health < 1:
                         self.fight_commands.append(f"{self.character_fight_list[self.find_next_monster()].__class__.__name__} {c.FAIL}dead{c.RESET}\n")
 
+                        self.update_monster_killed_number += 1
+
                         self.character_fight_list[self.find_next_monster()].is_alive = False
 
                         del self.character_fight_list[self.find_next_monster()]
@@ -316,16 +319,35 @@ class Fight:
             #game_stat = f.fight_loop()
 
             fight_or_run = self.ai_choice_number
-            print("FIGHT - 1")
-            print("RUN   - 2")
-            print(f"Skynet chose {fight_or_run}!")
 
             if fight_or_run == 1:
-                #input("AI FIGHT")
+                print(f"Skynet chose to fight!")
+                snails = r'''
+        WOHO SKYNET!          THIS IS GONNA BE AWESOME!        
+                             __,._
+    .----.   @   @          /  _  \     
+   / .-"-.`.  \v/          |  6 \  \  oo
+   | | '\ \ \_/ )           \___/ .|__||
+ ,-\ `-.' /.'  /     __,..="^  . , "  , \  
+'---`----'----'     <.__________________/
+                '''
+                print(snails)
+                time.sleep(5)
                 game_stat = self.fight_loop()
 
             elif fight_or_run == 2:
-                #input("AI PUSSY GONE")
+                print(f"Skynet chose to run, what?!")
+                snails = r'''
+        Skynet fled!              Ehh, duuh?    
+                             __,._
+    .----.   @   @          /  _  \     
+   / .-"-.`.  \v/          |  6 \  \  oo
+   | | '\ \ \_/ )           \___/ .|__||
+ ,-\ `-.' /.'  /     __,..="^  . , "  , \  
+'---`----'----'     <.__________________/
+                '''
+                print(snails)
+                time.sleep(5)
                 can_you_run = self.try_to_run()
 
         #Outcome for both AI and human player

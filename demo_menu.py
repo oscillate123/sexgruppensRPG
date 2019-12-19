@@ -5,10 +5,12 @@ from Monsters import *
 from Hero import *
 import json
 from other_functions import *
+from other_functions import clear_screen
 from pathlib import Path
 from room import  *
 from Fight import  *
 from colors import *
+from AI_main import ai_main
 
 
 folder = Path("json_file")
@@ -65,8 +67,7 @@ def load_hero():
 	if len(saved_character_list) != 0:
 		print_slow("Saved heroes: \n")
 		for item in saved_character_list:
-			item = str(item)
-			print_slow(item)
+			print_slow(str(item))
 		print_slow("Write the name of the hero you want to play with!")
 		name_select = input("\n --> ")
 		for item in saved_character_list:
@@ -436,6 +437,41 @@ def ask_player_to_move(current_run, hero_name):
 		time.sleep(3)
 		exit()
 
+def ai_grid_select():
+    clear_screen()
+    print_slow("-"*25)
+    print_slow("A true AI needs a map to explore, please choose a grid size suitable for SKYNET to destroy")
+    print_slow("The available options are as follows :")
+    print_slow("# 4 for 4x4 grid")
+    print_slow("# 5 for 5x5 grid")
+    print_slow("# 8 for 8x8 grid")
+    print_slow("-"*25)
+    try:
+        grid_select = int(input('\n --> '))
+    except ValueError:
+        print_slow("Bad input")
+
+    if grid_select != 4 and grid_select != 5 and grid_select != 8:
+        print_slow("Wrong input please follow the instructions correctly")
+    else:
+        return grid_select
+
+def ai_hero_menu():
+    print_slow("-"*25)
+    print_slow("# 1 for Knight")
+    print_slow("# 2 for Wizard")
+    print_slow("# 3 for Rogue")
+    choice = input("Pick a hero that SKYNET will use")
+
+    if choice == "1":
+        ai_hero = Knight(hero_name="SKYNET")
+    elif choice == "2":
+        ai_hero = Wizard(hero_name="SKYNET")
+    elif choice == "3":
+        ai_hero = Rouge(hero_name="SKYNET")
+
+    return ai_hero
+
 
 #start_menu()
 # grid_menu()
@@ -453,7 +489,7 @@ if __name__ == "__main__":
 
 		grid_size = 0
 		clear_screen()
-		print_slow_but_fast("""
+		print("""
 
 
 				██████╗ ██╗   ██╗███╗   ██╗ ██████╗ ███████╗ ██████╗ ███╗   ██╗    ██████╗ ██╗   ██╗███╗   ██╗
@@ -471,8 +507,9 @@ if __name__ == "__main__":
 		#print_slow("Welcome to DUNGEON RUN choose an option to go continue")
 		print_slow_but_fast(" "*65+"# 1 New Game")
 		print_slow_but_fast(" "*65+"# 2 Load Game")
-		print_slow_but_fast(" "*65+"# 3 Quit")
-		print_slow_but_fast(" "*65+"-"*15)
+		print_slow_but_fast(" "*65+"# 3 Release SKYNET")
+		print_slow_but_fast(" "*65+"# 4 Quit")
+		print(" "*65+"-"*15)
 		try:
 			sub_meny = int(input("\n"+" "*65+"-->"))
 		except ValueError:
@@ -503,5 +540,12 @@ if __name__ == "__main__":
 			continue
 
 		elif (sub_meny == 3):
+			clear_screen()
+			hero_instance = ai_hero_menu()
+			grid_select = grid_menu()
+			main = ai_main(grid_size=grid_select, hero_instance=hero_instance)
+			main.main_loop()
+
+		elif (sub_meny == 4):
 			print_slow("If you refer a friend, you will unlock a special character. Cya!")
 			exit()
