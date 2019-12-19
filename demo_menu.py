@@ -9,7 +9,6 @@ from pathlib import Path
 from room import  *
 from Fight import  *
 from colors import *
-from artificialintelligence import AI
 
 #maximize_console()
 #activate before compiling to .exe
