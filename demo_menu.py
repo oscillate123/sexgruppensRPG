@@ -7,7 +7,9 @@ import json
 from other_functions import *
 from pathlib import Path
 from room import  *
-from Fight2 import  *
+from Fight import  *
+from colors import *
+from artificialintelligence import AI
 
 #maximize_console()
 os.system('color 02')
@@ -75,20 +77,20 @@ def load_hero():
 						if name == name_select:
 							if dict_list[name]["Type"] == "Knight":
 								hero = Knight(name)
-								hero.score = dict_list[name]["Score"]
+								hero.score_list.append(dict_list[name]["Score"]) 
 								#created_character_list.append(Knight(name))
 								#print_slow(created_character_list)
+
 								
 								
 								
 
 							elif dict_list[name]["Type"] == "Wizard":
 								hero = Wizard(name)
-								hero.score = dict_list[name]["Score"]
-
+								hero.score_list.append(dict_list[name]["Score"])
 							elif dict_list[name]["Type"] == "Rouge":
 								hero = Rouge(name)
-								hero.score = dict_list[name]["Score"]
+								hero.score_list.append(dict_list[name]["Score"])
 		saved_character_list.append(hero)
 		print_slow(f"The hero '{name_select}' has been selected!")
 		print_slow("-"*20)
@@ -108,10 +110,11 @@ def save_character_to_json():
 		close_file.close()
 
 def update_score(hero_name, instance):
+	x	= sum(instance.score_list)
+	x = int(x)
+	print_slow("Your total score is: " + "{}".format(x))
 	print_slow_but_fast("Autosaving...")
 	time_now = time.strftime("%m/%d Time %H:%M")
-	x = sum(instance.score_list)
-	x = int(x)
 	dict_list[hero_name]["Score"] = x
 	dict_list[hero_name]["Time"] = time_now
 	saved_character_list[saved_character_list.index(instance)] = instance
@@ -328,7 +331,7 @@ def check_if_outside(position,class_object):
 
 
 
-def start_game(hero, grid_select, spawn_coordinates, hero_name):
+def start_game(hero, grid_select, spawn_coordinates, hero_name, oscars_hotfix):
 	game_loop = True
 
 
@@ -344,18 +347,24 @@ def start_game(hero, grid_select, spawn_coordinates, hero_name):
 		current_run.print_map()
 
 		position = current_run.where_am_i(option="return")
-		is_not_outside = check_if_outside(position, current_run)
+		is_not_outside = check_if_outside(position, current_run) # returns True for not outside and False for is outside
 
-		if not is_not_outside:
+		if not is_not_outside: # if not True/False, outside of map == False
 			return "end"
 
 		x, y = position
 
 		current_room = current_run.grid[y][x]
+
+		if oscars_hotfix == 0: # om det är första rundan i spelet så kommer den att sätta första rummet som neutraliserat
+			current_room.fight == False
+			oscars_hotfix += 1
+
 		if current_room.fight == False:
-			break
-			return "end"
+			# if the room is already "finished" or if it is "edge", if edge should be picked up a few lines above doe
+			fight_outcome = "win" # this is only so it will go down a few lines into the "elif  fight_outcome == "win":" section
 		else:
+			# if the room is "unfinished" or "untouched"
 			current_fight = current_run.grid[y][x].fight_generator(hero) # genererar en fight instans för dem x,y coordinates som anges
 			fight_outcome = current_fight.run_fight() # kör den fighteninstansen och ska returnera outcome för fighten
 
@@ -365,7 +374,7 @@ def start_game(hero, grid_select, spawn_coordinates, hero_name):
 		elif  fight_outcome == "win":
 			score = current_room.total_loot
 			hero.score_list.append(score)
-			print("Your score is {}".format(score))
+			print("Your points from this round: {}".format(score))
 			update_score(hero_name, hero)
 			current_room.total_loot = 0
 			current_room.fight = False
@@ -431,6 +440,9 @@ def ask_player_to_move(current_run, hero_name):
 # spawn_menu()
 
 if __name__ == "__main__":
+
+	oscars_hotfix = 0
+
 	while True:
 		grid_size = 0
 		clear_screen()
@@ -465,7 +477,7 @@ if __name__ == "__main__":
 			if hero_name_status == True:
 				grid_select = grid_menu()
 				spawn_coordinates = spawn_menu(grid_select)
-				the_game = start_game(hero_instance, grid_select, spawn_coordinates, hero_name)
+				the_game = start_game(hero_instance, grid_select, spawn_coordinates, hero_name, oscars_hotfix)
 				if the_game == "end":
 					continue
 				else:
@@ -476,7 +488,7 @@ if __name__ == "__main__":
 			hero_name_status, hero_name, hero_instance = load_hero()
 			grid_select = grid_menu()
 			spawn_coordinates = spawn_menu(grid_select)
-			the_game = start_game(hero_instance, grid_select, spawn_coordinates, hero_name)
+			the_game = start_game(hero_instance, grid_select, spawn_coordinates, hero_name, oscars_hotfix)
 			if the_game == "end":
 				continue
 			else:
