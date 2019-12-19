@@ -13,6 +13,9 @@ from colors import *
 
 folder = Path("json_file")
 folder.mkdir(exist_ok=True)
+
+
+
 try:
 	with open("json_file/saved_heroes.json", "r") as open_file:
 		dict_list = json.load(open_file)
@@ -58,6 +61,7 @@ except FileNotFoundError:
 # Here starts all the help functions for the program
 
 def load_hero():
+
 	if len(saved_character_list) != 0:
 		print_slow("Saved heroes: \n")
 		for item in saved_character_list:
@@ -112,6 +116,8 @@ def update_score(hero_name, instance):
 	print_slow("Your total score is: " + "{}".format(x))
 	print_slow_but_fast("Autosaving...")
 	time_now = time.strftime("%m/%d Time %H:%M")
+	instance.score = x
+	instance.time_saved = time_now
 	dict_list[hero_name]["Score"] = x
 	dict_list[hero_name]["Time"] = time_now
 	saved_character_list[saved_character_list.index(instance)] = instance
