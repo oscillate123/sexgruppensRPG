@@ -1,3 +1,4 @@
+
 #Found on stackoverlfow
 class bcolors:
     OKBLUE = '\033[94m'
@@ -14,6 +15,9 @@ class bcolors:
 
     italic = CITALIC + CYELLOW2
     blink = CBLINK + CGREEN + CITALIC
+
+
+
 
     END      = '\33[0m'
     CBOLD     = '\33[1m'
