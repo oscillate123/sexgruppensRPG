@@ -8,7 +8,9 @@ import json
 from other_functions import *
 from pathlib import Path
 from room import  *
-from Fight2 import  *
+from Fight import  *
+from colors import *
+from artificialintelligence import AI
 
 #maximize_console()
 os.system('color 02')
@@ -343,17 +345,17 @@ def start_game(hero, grid_select, spawn_coordinates, hero_name):
 		current_run.print_map()
 
 		position = current_run.where_am_i(option="return")
-		is_not_outside = check_if_outside(position, current_run)
+		is_not_outside = check_if_outside(position, current_run) # returns True for not outside and False for is outside
 
-		if not is_not_outside:
+		if not is_not_outside: # if not True/False, outside of map == False
 			return "end"
 
 		x, y = position
 
 		current_room = current_run.grid[y][x]
-		if current_room.fight == False:
-			break
-			return "end"
+		if current_room.fight == False: # what happens here? // oscar
+			break # why?? 
+			return "end" # why?? // oscar
 		else:
 			current_fight = current_run.grid[y][x].fight_generator(hero) # genererar en fight instans för dem x,y coordinates som anges
 			fight_outcome = current_fight.run_fight() # kör den fighteninstansen och ska returnera outcome för fighten
@@ -364,7 +366,7 @@ def start_game(hero, grid_select, spawn_coordinates, hero_name):
 		elif  fight_outcome == "win":
 			score = current_room.total_loot
 			hero.score_list.append(score)
-			print("Your score is {}".fomat(score))
+			print("Your score is {}".format(score))
 			update_score(hero_name, hero)
 			current_room.total_loot = 0
 			current_room.fight = False

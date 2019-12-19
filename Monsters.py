@@ -21,11 +21,11 @@ class Monster:
 
     def get_stats(self):
         monster_info = {
-            "monster": self.__class__.__name__
+            "monster": self.__class__.__name__,
             "initiative": self.initiative,
             "health": self.health,
             "attack": self.attack,
-            "agility": self.agility
+            "agility": self.agility,
             "appearance": self.appearance,
             "is_alive": self.is_alive
         }
