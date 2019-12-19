@@ -7,7 +7,7 @@ from colors import bcolors as c
 import time
 
 class Fight:
-    def __init__(self, hero, is_Ai=False):
+    def __init__(self, hero):
         self.hero_instance = hero
         self.character_fight_list = self.generate_monster()
         self.character_fight_list.append(hero)
@@ -18,7 +18,7 @@ class Fight:
         self.round = 0
 
         #IF AI MAFAKKA
-        self.is_Ai = is_Ai
+        self.is_Ai = False
 
         self.ai_is_playing = True
         self.game_over = False
@@ -27,24 +27,6 @@ class Fight:
         self.index = 0
 
         self.fight_commands = []
-
-        self.if_no_monsters_spawn()
-        self.no_monsters_spawned = False
-
-    def validate_user_input(self):
-
-        while True:
-            choice = input("Press 1 to attack and 2 to run")
-
-            if choice is '1' or choice is '2':
-                return choice
-            else:
-                print("Wrong format, try again.")
-                continue
-
-    def if_no_monsters_spawn(self):
-        if self.character_fight_list == 1:
-            self.no_monsters_spawned = True
 
     def try_to_run(self):
         escape_procent = self.character_fight_list[self.find_hero_index()].agility * 10
@@ -166,6 +148,7 @@ class Fight:
 
         while True:
             for i in self.character_fight_list:
+                #print(self.character_fight_list[self.find_hero_index()].agility)
                 self.hero_index = self.find_hero_index()
 
                 #Hero Fighting
@@ -244,7 +227,7 @@ class Fight:
                     clear_screen()
                     self.print_all()
                     self.fight_commands = []
-                    fight_or_run = self.validate_user_input()
+                    fight_or_run = input("Press 1 to attack and 2 to run inside loop")
                     temp_round_counter = 0
 
                     if fight_or_run == '2':
@@ -272,24 +255,20 @@ class Fight:
 
         k = self.hero_instance
 
-        #f = Fight(k)
-
-        if self.no_monsters_spawned == True:
-            game_stat = 'win'
-            #return game_stat
+        f = Fight(k)
 
         #If AI == False humans choose to play or run
-        if self.is_Ai == False:
-            self.print_all()
-            fight_or_run = self.validate_user_input()
+        if f.is_Ai == False:
+            f.print_all()
+            fight_or_run = input("Press 1 to attack and 2 to run main meny")
 
             #game_stat = True
 
             if fight_or_run == '1':
-                game_stat = self.fight_loop()
+                game_stat = f.fight_loop()
 
             elif fight_or_run == '2':
-                can_you_run = self.try_to_run()
+                can_you_run = f.try_to_run()
 
                 if can_you_run == True:
                     game_stat = 'escaped'
@@ -297,22 +276,22 @@ class Fight:
                 #If escape fails, players gets to fight shitty monsters
                 else:
                     print("NO ESCAPE!")
-                    game_stat = self.fight_loop()
+                    game_stat = f.fight_loop()
 
         #If AI is True, game runs
-        elif self.is_Ai == True:
-            self.print_all()
+        elif f.is_Ai == True:
+            f.print_all()
             #game_stat = f.fight_loop()
-            fight_or_run  = self.ai_choice()
+            fight_or_run  = f.ai_choice()
             print(f"AI main meny :: {fight_or_run}")
 
             if fight_or_run == '1':
                 #input("AI FIGHT")
-                game_stat = self.fight_loop()
+                game_stat = f.fight_loop()
 
             elif fight_or_run == '2':
                 #input("AI PUSSY GONE")
-                can_you_run = self.try_to_run()
+                can_you_run = f.try_to_run()
 
         #Outcome for both AI and human player
         if game_stat == 'win':
