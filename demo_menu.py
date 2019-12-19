@@ -10,9 +10,6 @@ from room import  *
 from Fight import  *
 from colors import *
 
-#maximize_console()
-#activate before compiling to .exe
-os.system('color 02')
 
 folder = Path("json_file")
 folder.mkdir(exist_ok=True)
@@ -444,6 +441,10 @@ if __name__ == "__main__":
 	oscars_hotfix = 0
 
 	while True:
+		#maximize_console()
+		#activate before compiling to .exe
+		os.system('color 02')
+
 		grid_size = 0
 		clear_screen()
 		print_slow_but_fast("""
