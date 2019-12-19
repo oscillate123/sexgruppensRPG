@@ -15,8 +15,9 @@ class room:
 		self.status = status
 		self.coordinate = coordinate
 		self.edge = self.if_edge()
+		self.hero = None
 		self.fight = None
-
+		
 	def room_characters_index(self):
 		room_index_dictionary = {
 			"room_character": self.room_character,
@@ -39,10 +40,22 @@ class room:
 	def is_edge(self):
 		self.status = self.edge_character
 
-	def fight_generator(self, hero):
-		# method for fight initialize
-		self.fight = Fight(hero)
-		return self.fight
+	def fight_generator(self, hero_instance):
+		# method for fight initialize if room follow criterias
+
+		if self.status == self.room_finished_character: # no fight if room is finished
+			self.fight = False
+			return self.fight
+		elif self.status == self.edge: # no fight if room is edge
+			self.fight = False
+			return self.fight
+		elif self.status == self.room_unfinished_character: # return the fight instance if unfinished room
+			return self.fight
+		elif self.status == self.room_character: # returns the fight instance
+			new_fight = Fight(hero=hero_instance)
+			self.fight = new_fight
+			return self.fight
+			
 		
 	def treasure(self):
 		# metod for trease initialize

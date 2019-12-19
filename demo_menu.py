@@ -329,7 +329,7 @@ def check_if_outside(position,class_object):
 
 
 
-def start_game(hero, grid_select, spawn_coordinates, hero_name):
+def start_game(hero, grid_select, spawn_coordinates, hero_name, oscars_hotfix):
 	game_loop = True
 
 
@@ -353,10 +353,16 @@ def start_game(hero, grid_select, spawn_coordinates, hero_name):
 		x, y = position
 
 		current_room = current_run.grid[y][x]
-		if current_room.fight == False: # what happens here? // oscar
-			break # why?? 
-			return "end" # why?? // oscar
+
+		if oscars_hotfix == 0: # om det är första rundan i spelet så kommer den att sätta första rummet som neutraliserat
+			current_room.fight == False
+			oscars_hotfix += 1
+
+		if current_room.fight == False:
+			# if the room is already "finished" or if it is "edge", if edge should be picked up a few lines above doe
+			fight_outcome = "win" # this is only so it will go down a few lines into the "elif  fight_outcome == "win":" section
 		else:
+			# if the room is "unfinished" or "untouched"
 			current_fight = current_run.grid[y][x].fight_generator(hero) # genererar en fight instans för dem x,y coordinates som anges
 			fight_outcome = current_fight.run_fight() # kör den fighteninstansen och ska returnera outcome för fighten
 
@@ -432,6 +438,9 @@ def ask_player_to_move(current_run, hero_name):
 # spawn_menu()
 
 if __name__ == "__main__":
+
+	oscars_hotfix = 0
+
 	while True:
 		grid_size = 0
 		clear_screen()
@@ -466,7 +475,7 @@ if __name__ == "__main__":
 			if hero_name_status == True:
 				grid_select = grid_menu()
 				spawn_coordinates = spawn_menu(grid_select)
-				the_game = start_game(hero_instance, grid_select, spawn_coordinates, hero_name)
+				the_game = start_game(hero_instance, grid_select, spawn_coordinates, hero_name, oscars_hotfix)
 				if the_game == "end":
 					continue
 				else:
@@ -477,7 +486,7 @@ if __name__ == "__main__":
 			hero_name_status, hero_name, hero_instance = load_hero()
 			grid_select = grid_menu()
 			spawn_coordinates = spawn_menu(grid_select)
-			the_game = start_game(hero_instance, grid_select, spawn_coordinates, hero_name)
+			the_game = start_game(hero_instance, grid_select, spawn_coordinates, hero_name, oscars_hotfix)
 			if the_game == "end":
 				continue
 			else:

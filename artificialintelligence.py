@@ -31,7 +31,7 @@ class AI:
 	def json_sorter(self, data):
 		return json.dumps(data, indent=4, sort_keys=True)
 
-	def test(self):
+	def give_random_menu(self):
 		pass
 
 
