@@ -9,13 +9,14 @@ import inspect
 
 class ai_main:
 	def __init__(self,):
-		self.map_size = int(input("GRID SIZE -->"))
+		self.map_size = 4
 		self.map = map(grid_size=self.map_size)
 		self.hero = Knight(hero_name="SKYNET")
 		self.ai = AI_class(hero_instance=self.hero, map_instance=self.map)
 		self.fight = Fight(hero=self.hero)
 
 	def main_loop(self):
+		pass
 
 
 	def text_file(self, attribute):
@@ -36,5 +37,6 @@ class ai_main:
 
 if __name__ == "__main__":
 	main = ai_main()
+	main.main_loop()
 
 	
