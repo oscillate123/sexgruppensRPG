@@ -69,7 +69,7 @@ class AI_class:
 	def ai_monsters_killed(self):
 		self.monsters_killed += 1
 
-	def ai_rooms_visited(self, coordinate):
+	def ai_rooms_add(self, coordinate):
 		if coordinate not in self.rooms_visited:
 			self.rooms_visited_coordinates.append(coordinate)
 

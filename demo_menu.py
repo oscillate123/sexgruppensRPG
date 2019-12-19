@@ -64,7 +64,7 @@ def load_hero():
 	if len(saved_character_list) != 0:
 		print_slow("Saved heroes: \n")
 		for item in saved_character_list:
-			print_slow(item)
+			print_slow(str(item))
 		print_slow("Write the name of the hero you want to play with!")
 		name_select = input("\n --> ")
 		for item in saved_character_list:

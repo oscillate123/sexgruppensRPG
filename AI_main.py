@@ -38,6 +38,7 @@ class ai_main:
 				current_coordinate = self.where_am_i() # hämta kordinater
 				new_coordinate = self.new_move_coordinate() # ny random kordinat runtomkring
 				self.update_old_room(coordinate=current_coordinate)
+				self.ai.rooms_visited_add(current_coordinate) # statics
 				self.mark_new_room(coordinate=new_coordinate)
 				self.round_count += 1 #add round count
 				room = self.get_room(new_coordinate)
