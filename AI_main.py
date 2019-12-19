@@ -16,6 +16,6 @@ ex_hero = Knight(hero_name="SKYNET")
 x = AI(hero_instance=ex_hero, map_instance=ex_map)
 
 print(x.ai_choice(math_result="dumb_retard_ai"))
-print(x.random_map_move())
+print(x.map_options())
 
 # x.api_theme_song_open_in_browser()

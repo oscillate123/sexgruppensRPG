@@ -3,6 +3,7 @@ import json
 from spotify import spotify
 import requests
 import webbrowser
+from room import room
 
 class AI:
 	def __init__(self, hero_instance, map_instance):
@@ -18,14 +19,18 @@ class AI:
 		self.treasure_collected = 0
 
 	def api_theme_song_open_in_browser(self):
-		auth = spotify().auth
-		headers = spotify().head
-		uri_id = "3dAUz8qeUL6pKf6gp6iemq"
-		url = f"https://api.spotify.com/v1/tracks/{uri_id}?market=SE"
-		response = requests.get(url=url, headers=headers) # api response
-		response_json = response.json() # make it json
-		theme_song = response_json.get("preview_url") # get the url of the song
-		webbrowser.open_new_tab(url=theme_song) # opens a tab and plays the song
+		try:
+			auth = spotify().auth
+			headers = spotify().head
+			uri_id = "3dAUz8qeUL6pKf6gp6iemq"
+			url = f"https://api.spotify.com/v1/tracks/{uri_id}?market=SE"
+			response = requests.get(url=url, headers=headers) # api response
+			response_json = response.json() # make it json
+			theme_song = response_json.get("preview_url") # get the url of the song
+			webbrowser.open_new_tab(url=theme_song) # opens a tab and plays the song
+		except Exception as e:
+			print("Update the Spotify-API!\n", e)
+
 
 	def ai_won_game_or_done(self):
 		print(self.theme_lyrics)
@@ -57,11 +62,12 @@ class AI:
 	def json_sorter(self, data):
 		return json.dumps(data, indent=4, sort_keys=True)
 
-	def random_map_move(self):
-		options = self.map.nerby_rooms()
+	def map_options(self):
+		options = self.map.ai_nerby_rooms()
 
-		print(self.json_sorter(options)) # should return different options in a dictionary
-		# TODO: LOOP through and choose one of the options based on default_health
+		return self.json_sorter(options)
+
+
 
 	def ai_choice(self, math_result):
 

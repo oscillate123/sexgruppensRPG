@@ -103,3 +103,28 @@ class map:
 			}
 		return nearby_cubiods_data
 
+	def ai_nerby_rooms(self):
+		# provides a dictionary with the data of above, below, right and left rooms
+
+		y_axis, x_axis = self.where_am_i()
+
+		ai_nearby_cubiods_data = {
+			'1': {
+				'coordinate': self.get_room(coordinate=[y_axis-1, x_axis]).coordinate,
+				'status': self.get_room(coordinate=[y_axis-1, x_axis]).status
+				},
+			'2': {
+				'coordinate': self.get_room(coordinate=[y_axis+1, x_axis]).coordinate,
+				'status': self.get_room(coordinate=[y_axis+1, x_axis]).status
+				},
+			'3': {
+				'coordinate': self.get_room(coordinate=[y_axis, x_axis+1]).coordinate,
+				'status': self.get_room(coordinate=[y_axis, x_axis+1]).status
+				},
+			'4': {
+				'coordinate': self.get_room(coordinate=[y_axis, x_axis-1]).coordinate,
+				'status': self.get_room(coordinate=[y_axis, x_axis-1]).status
+				}
+			}
+		return ai_nearby_cubiods_data
+
