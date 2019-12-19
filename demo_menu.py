@@ -65,6 +65,7 @@ def load_hero():
 	if len(saved_character_list) != 0:
 		print_slow("Saved heroes: \n")
 		for item in saved_character_list:
+			item = str(item)
 			print_slow(item)
 		print_slow("Write the name of the hero you want to play with!")
 		name_select = input("\n --> ")
@@ -77,20 +78,20 @@ def load_hero():
 						if name == name_select:
 							if dict_list[name]["Type"] == "Knight":
 								hero = Knight(name)
-								hero.score = dict_list[name]["Score"]
+								hero.score_list.append(dict_list[name]["Score"]) 
 								#created_character_list.append(Knight(name))
 								#print_slow(created_character_list)
+
 								
 								
 
 							elif dict_list[name]["Type"] == "Wizard":
 								hero = Wizard(name)
-								hero.score = dict_list[name]["Score"]
-
+								hero.score_list.append(dict_list[name]["Score"])
 							elif dict_list[name]["Type"] == "Rouge":
 								hero = Rouge(name)
-								hero.score = dict_list[name]["Score"]
-
+								hero.score_list.append(dict_list[name]["Score"])
+		saved_character_list.append(hero)
 		print_slow(f"The hero '{name_select}' has been selected!")
 		print_slow("-"*20)
 		input("Press enter to continue")
@@ -109,10 +110,11 @@ def save_character_to_json():
 		close_file.close()
 
 def update_score(hero_name, instance):
-	print_slow_but_fast("Autosaving...")
-	time_now = time.strftime("%m/%d Time %H:%M")
 	x	= sum(instance.score_list)
 	x = int(x)
+	print_slow("Your total score is: " + "{}".format(x))
+	print_slow_but_fast("Autosaving...")
+	time_now = time.strftime("%m/%d Time %H:%M")
 	dict_list[hero_name]["Score"] = x
 	dict_list[hero_name]["Time"] = time_now
 	saved_character_list[saved_character_list.index(instance)] = instance
@@ -372,7 +374,7 @@ def start_game(hero, grid_select, spawn_coordinates, hero_name, oscars_hotfix):
 		elif  fight_outcome == "win":
 			score = current_room.total_loot
 			hero.score_list.append(score)
-			print("Your score is {}".format(score))
+			print("Your points from this round: {}".format(score))
 			update_score(hero_name, hero)
 			current_room.total_loot = 0
 			current_room.fight = False
