@@ -1,21 +1,44 @@
-from artificialintelligence import AI
+from artificialintelligence import AI_class
 from map import map
 from room import room
 from Fight import Fight
 from Hero import Hero, Knight, Rouge, Wizard
 from Monsters import GiantSpider,Orc,Skeleton,Troll,Orc
+import random
+import inspect
 
-# map_size = input("map_size")
-map_size = 4
-ex_map = map(grid_size=4)
+class ai_main:
+	def __init__(self,):
 
-ex_map.update_room(coordinate=[1, 1], update="is_here")
+		self.map = map(grid_size=4)
+		self.hero = Knight(hero_name="SKYNET")
+		self.ai = AI_class(hero_instance=self.hero, map_instance=self.map)
+		self.fight = Fight(hero=self.hero)
 
-ex_hero = Knight(hero_name="SKYNET")
+	def print_methods(self, attribute):
+		x = inspect.getmembers(attribute, predicate=inspect.ismethod)
+		print()
+		print()
+		print(attribute.__class__.__name__)
+		for i in x:
+			for y in i:
+				if type(y) is str:
+					print(y)
 
-x = AI(hero_instance=ex_hero, map_instance=ex_map)
+	def print_all(self):
+		self.print_methods(self.map)
+		self.print_methods(self.hero)
+		self.print_methods(self.ai)
+		self.print_methods(self.fight)
 
-print(x.ai_choice(math_result="dumb_retard_ai"))
-print(x.map_options())
+	def text_file(self):
+		with open("struktur.txt", "w+") as open_file:
+			open_file.write(self.print_all())
 
-# x.api_theme_song_open_in_browser()
+if __name__ == "__main__":
+	input("Vilken hero")
+	main = ai_main()
+	main.print_all()
+	main.text_file()
+
+	

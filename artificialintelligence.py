@@ -4,8 +4,9 @@ from spotify import spotify
 import requests
 import webbrowser
 from room import room
+import inspect
 
-class AI:
+class AI_class:
 	def __init__(self, hero_instance, map_instance):
 		self.hero = hero_instance
 		self.map = map_instance
@@ -17,6 +18,13 @@ class AI:
 		self.rooms_visited_amount = len(self.rooms_visited_coordinates)
 		self.monsters_killed = 0
 		self.treasure_collected = 0
+
+	def return_methods(self):
+		temp = inspect.getmembers(AI_class, predicate=inspect.ismethod)
+		print()
+		for x in temp:
+			print(x)
+		print()
 
 	def api_theme_song_open_in_browser(self):
 		try:
@@ -64,10 +72,7 @@ class AI:
 
 	def map_options(self):
 		options = self.map.ai_nerby_rooms()
-
 		return self.json_sorter(options)
-
-
 
 	def ai_choice(self, math_result):
 
@@ -147,9 +152,9 @@ if __name__ == "__main__":
 	ex_map = map()
 	ex_map.update_room(coordinate=[1, 1], update="is_here")
 
-	x = AI(hero=ex_hero)
+	x = AI_class(hero=ex_hero)
 
 	print(x.ai_choice(math_result="dumb_retard_ai"))
 	print(x.random_map_move())
 
-	x.api_theme_song_open_in_browser()
+	x.ai_won_game_or_done()
