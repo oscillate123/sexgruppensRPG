@@ -8,6 +8,7 @@ import time
 
 class Fight:
     def __init__(self, hero):
+        self.hero_instance = hero
         self.character_fight_list = self.generate_monster()
         self.character_fight_list.append(hero)
         self.who_starts()
@@ -251,7 +252,7 @@ class Fight:
         can_you_run = ''
         game_stat = ''
 
-        k = Knight("Oscar")
+        k = self.hero_instance
 
         f = Fight(k)
 
