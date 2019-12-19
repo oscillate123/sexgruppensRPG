@@ -61,12 +61,12 @@ class Fight:
 
         for character in self.character_fight_list:
             if character.__class__.__name__ in chars:
-                all_fighters += "****************************\n" + " " + character.hero_name + " the " + character.__class__.__name__ + " " + self.hp_bar(character.health) + '\n'
+                all_fighters += "*"*35+"\n" + " " + character.hero_name + " the " + character.__class__.__name__ + " " + self.hp_bar(character.health) + '\n'
 
             else:
-                all_fighters += "****************************\n" + " " + character.__class__.__name__ + "  " + self.hp_bar(character.health) + '\n'
+                all_fighters += "*"*35+"\n" + " " + character.__class__.__name__ + "  " + self.hp_bar(character.health) + '\n'
 
-        print(all_fighters + "****************************\n\n")
+        print(all_fighters + "*"*35+"\n\n")
 
         for commands in self.fight_commands:
             print(commands)
@@ -210,7 +210,8 @@ class Fight:
                 if len(self.character_fight_list) == 1:
                     clear_screen()
                     self.print_all()
-                    print(c.blink + "You won the fight" + c.RESET)
+                    #print(c.blink + "You won the fight" + c.RESET)
+                    game_won_screen()
                     input("Press to continue your journey...")
                     return 'win'
 
@@ -295,12 +296,13 @@ class Fight:
         #Outcome for both AI and human player
         if game_stat == 'win':
             #More code here tomorrow
-            print("You win the fight")
+            #game_won_screen()
+            #print("HEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEELLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLOOOOOOOOOOOOOOOOOOOOOOOOOOO")
             return game_stat
 
         elif game_stat == 'died':
             #More code here tomorrow
-            print("You lost Game over")
+            game_over_screen()
             return game_stat
 
         elif game_stat == 'escaped':
@@ -308,4 +310,4 @@ class Fight:
             print("You escaped")
             return game_stat
 
-print("GAME DONE SKA SNYGGA TILL KODEN IMORRN JAJAJJA")
+#print("GAME DONE SKA SNYGGA TILL KODEN IMORRN JAJAJJA")

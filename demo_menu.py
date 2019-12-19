@@ -12,6 +12,7 @@ from colors import *
 from artificialintelligence import AI
 
 #maximize_console()
+#activate before compiling to .exe
 os.system('color 02')
 
 folder = Path("json_file")
