@@ -226,7 +226,7 @@ class Fight:
                     clear_screen()
                     self.print_all()
                     self.fight_commands = []
-                    fight_or_run = input("Press 1 to attack and 2 to run inside loop")
+                    fight_or_run = input("Press 1 to attack and 2 to run")
                     temp_round_counter = 0
 
                     if fight_or_run == '2':
@@ -259,7 +259,7 @@ class Fight:
         #If AI == False humans choose to play or run
         if f.is_Ai == False:
             f.print_all()
-            fight_or_run = input("Press 1 to attack and 2 to run main meny")
+            fight_or_run = input("Press 1 to attack and 2 to run")
 
             #game_stat = True
 
