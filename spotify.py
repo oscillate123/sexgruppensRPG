@@ -6,7 +6,7 @@ import webbrowser
 class spotify:
 
 	def __init__(self):
-		self.auth = "BQDpnme1nZwQK_EyP9jQT8WqG7LIWdX6qoxvsmexYhW9dPqyD1BUKg5qkE2hKRXSSKLP4m7EZXEf_hEtLPHPeDL9hwVfP1u-Jw63ktUcacnlctgNQ3XymEImzVrJTiVw-5XAYfrwGbFss0TbFvHqRpISKUQg8qgqkQk"
+		self.auth = "BQCZ0u7i6dqeHZv7G6CEyvMMK6zrJ1fDVh9qu3Oslu0UUiZtYskQnUMQ7riGdmb08A1tx-VOsWa3MuUWuZhfqmRyFm27xnI92a8juQjyWfDXINgO7ahTEaM0nxG4_sNzvsnhyg8CexfZgjDmU1A8GqZJNV_RY_b2LGg"
 		self.head = {
 			"Accept": "application/json",
 			"Content-Type": "application/json",

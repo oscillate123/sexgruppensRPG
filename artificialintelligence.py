@@ -1,18 +1,10 @@
-try:
-	import requests
-	import webbrowser
-	import random
-	import json
-	from Hero import *
-	from Fight import *
-	from room import *
-	from pathlib import Path
-	from spotify import spotify
-except Exception as e:
-	print(e, "run -> 'pip install requests' for dope features")
+from numpy.random import choice
+import json
+from spotify import spotify
+import requests
+import webbrowser
 
 class AI:
-
 	def __init__(self, hero_instance, map_instance):
 		self.hero = hero_instance
 		self.map = map_instance
@@ -34,6 +26,10 @@ class AI:
 		response_json = response.json() # make it json
 		theme_song = response_json.get("preview_url") # get the url of the song
 		webbrowser.open_new_tab(url=theme_song) # opens a tab and plays the song
+
+	def ai_won_game_or_done(self):
+		print(self.theme_lyrics)
+		self.api_theme_song_open_in_browser()
 
 	def ai_won_fight(self):
 		self.fights_won += 1
@@ -62,9 +58,9 @@ class AI:
 		return json.dumps(data, indent=4, sort_keys=True)
 
 	def random_map_move(self):
-		options = self.map_instance.nerby_rooms()
+		options = self.map.nerby_rooms()
 
-		print(json_sorter(options)) # should return different options in a dictionary
+		print(self.json_sorter(options)) # should return different options in a dictionary
 		# TODO: LOOP through and choose one of the options based on default_health
 
 	def ai_choice(self, math_result):
@@ -94,7 +90,7 @@ class AI:
 			monster_names.append(monster.__class__.__name__)
 
 		if total_attack/self.hero.health > 2 and self.hero.__class__.__name__ == "Wizard":
-			if len(monster_list) > 2
+			if len(monster_list) > 2:
 				if "Troll" in monster_names:
 					return "run"
 				else:
@@ -104,7 +100,7 @@ class AI:
 			return "run"
 
 		elif total_attack/self.hero.health > 2.5 and self.hero.__class__.__name__ == "Knight":
-			if len(monster_list) > 2
+			if len(monster_list) > 2:
 				if "Troll" in monster_names:
 					return "run"
 				else:
@@ -113,7 +109,7 @@ class AI:
 				return "fight"
 
 		elif total_attack/self.hero.health > 2.5 and self.hero.__class__.__name__ == "Rouge":
-			if len(monster_list) > 3
+			if len(monster_list) > 3:
 				if "Troll" in monster_names:
 					return "run"
 				else:
@@ -128,10 +124,23 @@ class AI:
 
 if __name__ == "__main__":
 
+	try:
+		import requests
+		import webbrowser
+		import random
+		import json
+		from Hero import *
+		from Fight import *
+		from room import *
+		from pathlib import Path
+		from spotify import spotify
+	except Exception as e:
+		print(e, "run -> 'pip install requests' for dope features")
+
 	ex_hero = Knight(name="dinmamma")
 	ex_map = map()
 	ex_map.update_room(coordinate=[1, 1], update="is_here")
-	
+
 	x = AI(hero=ex_hero)
 
 	print(x.ai_choice(math_result="dumb_retard_ai"))
