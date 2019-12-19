@@ -16,6 +16,7 @@ class Fight:
         self.next_monster = 99
         self.hero_index = 99
         self.round = 0
+        self.ai_choice_number = 0
 
         #IF AI MAFAKKA
         self.is_Ai = is_Ai
@@ -254,20 +255,20 @@ class Fight:
 
         k = self.hero_instance
 
-        f = Fight(k)
+        # f = Fight(k)
 
         #If AI == False humans choose to play or run
-        if f.is_Ai == False:
-            f.print_all()
+        if self.is_Ai == False:
+            self.print_all()
             fight_or_run = input("Press 1 to attack and 2 to run")
 
             #game_stat = True
 
             if fight_or_run == '1':
-                game_stat = f.fight_loop()
+                game_stat = self.fight_loop()
 
             elif fight_or_run == '2':
-                can_you_run = f.try_to_run()
+                can_you_run = self.try_to_run()
 
                 if can_you_run == True:
                     game_stat = 'escaped'
@@ -275,22 +276,23 @@ class Fight:
                 #If escape fails, players gets to fight shitty monsters
                 else:
                     print("NO ESCAPE!")
-                    game_stat = f.fight_loop()
+                    game_stat = self.fight_loop()
 
         #If AI is True, game runs
-        elif f.is_Ai == True:
-            f.print_all()
+        elif self.is_Ai == True:
+            self.print_all()
             #game_stat = f.fight_loop()
-            fight_or_run  = f.ai_choice()
+
+            fight_or_run = self.ai_choice_number
             print(f"AI main meny :: {fight_or_run}")
 
             if fight_or_run == '1':
                 #input("AI FIGHT")
-                game_stat = f.fight_loop()
+                game_stat = self.fight_loop()
 
             elif fight_or_run == '2':
                 #input("AI PUSSY GONE")
-                can_you_run = f.try_to_run()
+                can_you_run = self.try_to_run()
 
         #Outcome for both AI and human player
         if game_stat == 'win':

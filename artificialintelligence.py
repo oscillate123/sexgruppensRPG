@@ -91,13 +91,29 @@ class AI_class:
 
 	def map_options(self):
 		options = self.map.ai_nerby_rooms()
-		return options
+		returns = []
+
+		for word in options:
+			if options[word]["status"] == "O":
+				returns.append(options[word]["coordinate"])
+
+		if len(returns) == 0:
+			return "end"
+
+		return returns
 
 	def new_move(self):
-		options = self.map_options() # returns grid options in dict
-		move = randrange(1, 4) # random
-		temp_y = options[move] # get inner dict
-		coordinate = temp_y["coordinate"] #take out coordinate
+		options = self.map_options() # returns a list of lists, one element is a coordinate
+		if options == "end":
+			return options
+
+		if len(options) > 1:
+			move = randrange(0, len(options)) # random
+			coordinate = options[move]
+		else:
+			move = 0
+			coordinate = options[move]
+
 		return coordinate
 
 	def calc_spawnpoint(self, grid_select,spawn_point):

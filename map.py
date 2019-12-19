@@ -109,19 +109,19 @@ class map:
 		y_axis, x_axis = self.where_am_i()
 
 		ai_nearby_cubiods_data = {
-			1: {
+			"up": {
 				'coordinate': self.get_room(coordinate=[y_axis-1, x_axis]).coordinate,
 				'status': self.get_room(coordinate=[y_axis-1, x_axis]).status
 				},
-			2: {
+			"down": {
 				'coordinate': self.get_room(coordinate=[y_axis+1, x_axis]).coordinate,
 				'status': self.get_room(coordinate=[y_axis+1, x_axis]).status
 				},
-			3: {
+			"right": {
 				'coordinate': self.get_room(coordinate=[y_axis, x_axis+1]).coordinate,
 				'status': self.get_room(coordinate=[y_axis, x_axis+1]).status
 				},
-			4: {
+			"left": {
 				'coordinate': self.get_room(coordinate=[y_axis, x_axis-1]).coordinate,
 				'status': self.get_room(coordinate=[y_axis, x_axis-1]).status
 				}

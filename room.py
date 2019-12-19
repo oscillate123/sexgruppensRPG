@@ -40,7 +40,7 @@ class room:
 	def is_edge(self):
 		self.status = self.edge_character
 
-	def fight_generator(self, hero_instance):
+	def fight_generator(self, hero_instance, is_ai=False):
 		# method for fight initialize if room follow criterias
 
 		if self.status == self.room_finished_character: # no fight if room is finished
@@ -52,7 +52,7 @@ class room:
 		elif self.status == self.room_unfinished_character: # return the fight instance if unfinished room
 			return self.fight
 		elif self.status == self.room_character: # returns the fight instance
-			new_fight = Fight(hero=hero_instance)
+			new_fight = Fight(hero=hero_instance, is_Ai=is_ai)
 			self.fight = new_fight
 			return self.fight
 			
