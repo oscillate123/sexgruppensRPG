@@ -307,5 +307,3 @@ class Fight:
             #More code here tomorrow
             print("You escaped")
             return game_stat
-
-print("GAME DONE SKA SNYGGA TILL KODEN IMORRN JAJAJJA")
