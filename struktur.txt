@@ -1,3 +1,5 @@
+
+
 map
 __init__
 ai_nerby_rooms
@@ -24,11 +26,13 @@ ai_treasure_collected
 ai_won_fight
 ai_won_game_or_done
 api_theme_song_open_in_browser
+calc_spawnpoint
 fight_or_run
 json_sorter
 map_options
 return_game_stats
 return_methods
+spawn_select
 
 Fight
 __init__
@@ -43,3 +47,15 @@ print_all
 run_fight
 try_to_run
 who_starts
+
+room
+__init__
+fight_generator
+finished
+get_coordinate
+if_edge
+is_edge
+is_here
+room_characters_index
+treasure
+unfinished

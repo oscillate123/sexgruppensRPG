@@ -5,6 +5,7 @@ import requests
 import webbrowser
 from room import room
 import inspect
+from random import randrange
 
 class AI_class:
 	def __init__(self, hero_instance, map_instance):
@@ -18,6 +19,24 @@ class AI_class:
 		self.rooms_visited_amount = len(self.rooms_visited_coordinates)
 		self.monsters_killed = 0
 		self.treasure_collected = 0
+
+	def spawn_select(self, grid_select):
+		spawn_select = randrange(1, 4)
+
+		if spawn_select == 1:
+			spawn_point = "NW"
+			spawn_coordinates = [1, 1]
+		elif spawn_select == 2:
+			spawn_point = "NE"
+			spawn_coordinates = self.calc_spawnpoint(grid_select,spawn_point)
+		elif spawn_select == 3:
+			spawn_point = "SW"
+			spawn_coordinates = self.calc_spawnpoint(grid_select,spawn_point)
+		elif spawn_select == 4:
+			spawn_point = "SE"
+			spawn_coordinates = self.calc_spawnpoint(grid_select,spawn_point)
+
+		return spawn_coordinates
 
 	def return_methods(self):
 		temp = inspect.getmembers(AI_class, predicate=inspect.ismethod)
@@ -73,6 +92,41 @@ class AI_class:
 	def map_options(self):
 		options = self.map.ai_nerby_rooms()
 		return self.json_sorter(options)
+
+	def calc_spawnpoint(self, grid_select,spawn_point):
+		spawn_coordinates = []
+		if grid_select == 4:
+			if (spawn_point == "NE"):
+				spawn_coordinates = [1,4]
+				return spawn_coordinates
+			elif (spawn_point == "SW"):
+				spawn_coordinates = [4,1]
+				return spawn_coordinates
+			elif (spawn_point == "SE"):
+				spawn_coordinates = [4,4]
+				return spawn_coordinates
+
+		elif (grid_select==5):
+			if (spawn_point == "NE"):
+				spawn_coordinates = [1,5]
+				return spawn_coordinates
+			elif (spawn_point == "SW"):
+				spawn_coordinates = [5,1]
+				return spawn_coordinates
+			elif (spawn_point == "SE"):
+				spawn_coordinates = [5,5]
+				return spawn_coordinates
+
+		elif (grid_select==8):
+			if (spawn_point == "NE"):
+				spawn_coordinates = [1,8]
+				return spawn_coordinates
+			elif (spawn_point == "SW"):
+				spawn_coordinates = [8,1]
+				return spawn_coordinates
+			elif (spawn_point == "SE"):
+				spawn_coordinates = [8,8]
+			return spawn_coordinates
 
 	def ai_choice(self, math_result):
 

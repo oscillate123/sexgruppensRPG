@@ -8,15 +8,18 @@ import random
 import inspect
 
 class ai_main:
-	def __init__(self,):
-		self.map_size = 4
+	def __init__(self):
+		self.map_size = 8
 		self.map = map(grid_size=self.map_size)
 		self.hero = Knight(hero_name="SKYNET")
 		self.ai = AI_class(hero_instance=self.hero, map_instance=self.map)
 		self.fight = Fight(hero=self.hero)
+		self.room = room()
 
 	def main_loop(self):
-		pass
+		self.map.print_map()
+		spawn = self.ai.spawn_select(grid_select=self.map_size)
+		self.map
 
 
 	def text_file(self, attribute):
@@ -32,7 +35,7 @@ class ai_main:
 		with open("struktur.txt", "w+") as open_file:
 			open_file.write(string)
 	def text_all(self):
-		super_txt = self.text_file(self.map) + self.text_file(self.hero) + self.text_file(self.ai) + self.text_file(self.fight)
+		super_txt = self.text_file(self.map) + self.text_file(self.hero) + self.text_file(self.ai) + self.text_file(self.fight) + self.text_file(self.room)
 		self.to_text_file(string=super_txt)
 
 if __name__ == "__main__":
