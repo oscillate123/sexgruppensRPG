@@ -3,3 +3,15 @@
 *.json
 
 
+.vs/slnx.sqlite
+build/demo_menu/Analysis-00.toc
+build/demo_menu/base_library.zip
+build/demo_menu/demo_menu.exe.manifest
+build/demo_menu/EXE-00.toc
+build/demo_menu/PKG-00.pkg
+build/demo_menu/PKG-00.toc
+build/demo_menu/PYZ-00.pyz
+build/demo_menu/PYZ-00.toc
+build/demo_menu/warn-demo_menu.txt
+build/demo_menu/xref-demo_menu.html
+demo_menu.spec
