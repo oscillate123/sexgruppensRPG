@@ -91,7 +91,14 @@ class AI_class:
 
 	def map_options(self):
 		options = self.map.ai_nerby_rooms()
-		return self.json_sorter(options)
+		return options
+
+	def new_move(self):
+		options = self.map_options() # returns grid options in dict
+		move = randrange(1, 4) # random
+		temp_y = options[move] # get inner dict
+		coordinate = temp_y["coordinate"] #take out coordinate
+		return coordinate
 
 	def calc_spawnpoint(self, grid_select,spawn_point):
 		spawn_coordinates = []

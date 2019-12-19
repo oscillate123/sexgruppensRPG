@@ -6,21 +6,43 @@ from Hero import Hero, Knight, Rouge, Wizard
 from Monsters import GiantSpider,Orc,Skeleton,Troll,Orc
 import random
 import inspect
+import time
 
 class ai_main:
 	def __init__(self):
-		self.map_size = 8
+		self.map_size = 4
 		self.map = map(grid_size=self.map_size)
 		self.hero = Knight(hero_name="SKYNET")
 		self.ai = AI_class(hero_instance=self.hero, map_instance=self.map)
-		self.fight = Fight(hero=self.hero)
+		self.fight = Fight(hero=self.hero, is_Ai=True)
 		self.room = room()
+		self.round_count = 0
 
 	def main_loop(self):
-		self.map.print_map()
-		spawn = self.ai.spawn_select(grid_select=self.map_size)
-		self.map
+		if self.round_count == 0: # sets a random spawn point
+			spawn = self.ai.spawn_select(grid_select=self.map_size)
+			spawn = self.map.get_room(coordinate=spawn)
+			spawn.is_here()
+		self.pmap() # print map
 
+		current_coordinate = self.where_am_i()
+		new_coordinate = self.new_move_coordinate()
+
+		x = self.map.get_room(coordinate=new_coordinate)
+		print(x.status)
+		#rum.ishere()
+		#rum.finished()
+
+
+
+	def where_am_i(self):
+		return self.map.where_am_i(option="return")
+
+	def new_move_coordinate(self):
+		return self.ai.new_move()
+
+	def pmap(self):
+		self.map.print_map()
 
 	def text_file(self, attribute):
 		x = inspect.getmembers(attribute, predicate=inspect.ismethod)
@@ -41,5 +63,6 @@ class ai_main:
 if __name__ == "__main__":
 	main = ai_main()
 	main.main_loop()
+
 
 	

@@ -7,7 +7,7 @@ from colors import bcolors as c
 import time
 
 class Fight:
-    def __init__(self, hero):
+    def __init__(self, hero, is_Ai=False):
         self.hero_instance = hero
         self.character_fight_list = self.generate_monster()
         self.character_fight_list.append(hero)
@@ -18,7 +18,7 @@ class Fight:
         self.round = 0
 
         #IF AI MAFAKKA
-        self.is_Ai = False
+        self.is_Ai = is_Ai
 
         self.ai_is_playing = True
         self.game_over = False
