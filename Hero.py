@@ -12,6 +12,7 @@ class Hero:
 		self.type = type
 		self.time_saved = time_saved
 		self.dict = {"Initiative": initiative, "Health": health, "Attack": attack, "Score": score, "Type": type, "Time": time_saved}
+        self.default_health = health
 
 	def __str__(self):
 		return f"\n\nType : {self.type}\nName : {self.hero_name}\nScore : {self.score}\nTime Saved : {self.time_saved}"
