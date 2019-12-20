@@ -480,7 +480,7 @@ if __name__ == "__main__":
 	while True:
 		grid_size = 0
 		clear_screen()
-		print("""
+		print_slow("""
 
 
 				██████╗ ██╗   ██╗███╗   ██╗ ██████╗ ███████╗ ██████╗ ███╗   ██╗    ██████╗ ██╗   ██╗███╗   ██╗
@@ -493,13 +493,13 @@ if __name__ == "__main__":
 
 		""")
 		#print_slow(" \n Dungeon Run \n")
-		print_slow_but_fast("-"*50 + "Welcome to DUNGEON RUN choose an option to continue" + "-"*50)
+		print_slow("-"*50 + "Welcome to DUNGEON RUN choose an option to continue" + "-"*50)
 		print_slow_but_fast(" "*65+"-"*15)
 		#print_slow("Welcome to DUNGEON RUN choose an option to go continue")
-		print_slow_but_fast(" "*65+"# 1 New Game")
-		print_slow_but_fast(" "*65+"# 2 Load Game")
+		print_slow(" "*65+"# 1 New Game")
+		print_slow(" "*65+"# 2 Load Game")
 		print_slow(" "*65+"# 3 Release SKYNET")
-		print_slow_but_fast(" "*65+"# 4 Quit")
+		print_slow(" "*65+"# 4 Quit")
 		print(" "*65+"-"*15)
 		try:
 			sub_meny = int(input("\n"+" "*65+"-->"))
