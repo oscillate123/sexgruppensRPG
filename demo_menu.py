@@ -13,52 +13,6 @@ from colors import *
 from AI_main import ai_main
 
 
-folder = Path("json_file")
-folder.mkdir(exist_ok=True)
-
-
-
-try:
-	with open("json_file/saved_heroes.json", "r") as open_file:
-		dict_list = json.load(open_file)
-		saved_character_list = []
-		created_character_list = []
-		for value in dict_list:
-			if dict_list[value]["Type"] == "Knight":
-				knight = Knight(value)
-				knight.score = dict_list[value]["Score"]
-				knight.time_saved = dict_list[value]["Time"]
-				saved_character_list.append(knight)
-			elif dict_list[value]["Type"] == "Rouge":
-				rouge = Rouge(value)
-				rouge.score = dict_list[value]["Score"]
-				rouge.time_saved = dict_list[value]["Time"]
-				saved_character_list.append(rouge)
-			elif dict_list[value]["Type"] == "Wizard":
-				wizard = Wizard(value)
-				wizard.score = dict_list[value]["Score"]
-				wizard.time_saved = dict_list[value]["Time"]
-				saved_character_list.append(wizard)
-
-except FileNotFoundError:
-	with open("json_file/saved_heroes.json", "w+") as open_file:
-		open_file.write("{}")
-		dict_list = {}
-		saved_character_list = []
-		created_character_list = []
-		for value in dict_list:
-			if dict_list[value]["Type"] == "Knight":
-				knight = Knight(value)
-				knight.score = dict_list[value]["Score"]
-				saved_character_list.append(knight)
-			elif dict_list[value]["Type"] == "Rouge":
-				rouge = Rouge(value)
-				rouge.score = dict_list[value]["Score"]
-				saved_character_list.append(rouge)
-			elif dict_list[value]["Type"] == "Wizard":
-				wizard = Wizard(value)
-				wizard.score = dict_list[value]["Score"]
-				saved_character_list.append(wizard)
 
 # Here starts all the help functions for the program
 
@@ -486,6 +440,51 @@ if __name__ == "__main__":
 		#maximize_console()
 		#activate before compiling to .exe
 		os.system('color 02')
+		folder = Path("json_file")
+		folder.mkdir(exist_ok=True)
+
+	try:
+		with open("json_file/saved_heroes.json", "r") as open_file:
+			dict_list = json.load(open_file)
+			saved_character_list = []
+			created_character_list = []
+			for value in dict_list:
+				if dict_list[value]["Type"] == "Knight":
+					knight = Knight(value)
+					knight.score = dict_list[value]["Score"]
+					knight.time_saved = dict_list[value]["Time"]
+					saved_character_list.append(knight)
+				elif dict_list[value]["Type"] == "Rouge":
+					rouge = Rouge(value)
+					rouge.score = dict_list[value]["Score"]
+					rouge.time_saved = dict_list[value]["Time"]
+					saved_character_list.append(rouge)
+				elif dict_list[value]["Type"] == "Wizard":
+					wizard = Wizard(value)
+					wizard.score = dict_list[value]["Score"]
+					wizard.time_saved = dict_list[value]["Time"]
+					saved_character_list.append(wizard)
+
+	except FileNotFoundError:
+		with open("json_file/saved_heroes.json", "w+") as open_file:
+			open_file.write("{}")
+			dict_list = {}
+			saved_character_list = []
+			created_character_list = []
+			for value in dict_list:
+				if dict_list[value]["Type"] == "Knight":
+					knight = Knight(value)
+					knight.score = dict_list[value]["Score"]
+					saved_character_list.append(knight)
+				elif dict_list[value]["Type"] == "Rouge":
+					rouge = Rouge(value)
+					rouge.score = dict_list[value]["Score"]
+					saved_character_list.append(rouge)
+				elif dict_list[value]["Type"] == "Wizard":
+					wizard = Wizard(value)
+					wizard.score = dict_list[value]["Score"]
+					saved_character_list.append(wizard)
+
 
 		grid_size = 0
 		clear_screen()
