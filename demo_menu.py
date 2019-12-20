@@ -488,7 +488,7 @@ if __name__ == "__main__":
 
 		grid_size = 0
 		clear_screen()
-		print("""
+		print_slow("""
 
 
 				██████╗ ██╗   ██╗███╗   ██╗ ██████╗ ███████╗ ██████╗ ███╗   ██╗    ██████╗ ██╗   ██╗███╗   ██╗
@@ -501,7 +501,7 @@ if __name__ == "__main__":
 
 		""")
 		#print_slow(" \n Dungeon Run \n")
-		print_slow_but_fast("-"*50 + "Welcome to DUNGEON RUN choose an option to continue" + "-"*50)
+		print_slow("-"*50 + "Welcome to DUNGEON RUN choose an option to continue" + "-"*50)
 		print_slow_but_fast(" "*65+"-"*15)
 		#print_slow("Welcome to DUNGEON RUN choose an option to go continue")
 		print_slow_but_fast(" "*65+"# 1 New Game")

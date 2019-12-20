@@ -1,4 +1,10 @@
 # sexgruppensRPG
 
-Vi ska skapa ett RPG spel, baserat på instruktionerna från studentportalen.
-https://studentportal.nackademin.se/pluginfile.php/168797/mod_resource/content/1/Speldesign%20Dungeon%20Run.pdf 
+Console based RPG
+
+# run the game
+python demo_menu.py<br/>
+or<br/>
+python3 demo_menu.py<br/>
+<br/>
+for a better experience, run the code in a unix-based OS
