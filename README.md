@@ -1,4 +1,4 @@
-# sexgruppensRPG
+# Grupp 6 RPG game
 
 Console based RPG
 
