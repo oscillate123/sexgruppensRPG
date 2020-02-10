@@ -1,72 +1,27 @@
 from os import system, name
-
 import sys, time
 from map import map as map
 from Monsters import *
 from Hero import *
 import json
 from other_functions import *
+from other_functions import clear_screen
 from pathlib import Path
 from room import  *
 from Fight import  *
 from colors import *
-from artificialintelligence import AI
+from AI_main import ai_main
 
-#maximize_console()
-os.system('color 02')
 
-folder = Path("json_file")
-folder.mkdir(exist_ok=True)
-try:
-	with open("json_file/saved_heroes.json", "r") as open_file:
-		dict_list = json.load(open_file)
-		saved_character_list = []
-		created_character_list = []
-		for value in dict_list:
-			if dict_list[value]["Type"] == "Knight":
-				knight = Knight(value)
-				knight.score = dict_list[value]["Score"]
-				knight.time_saved = dict_list[value]["Time"]
-				saved_character_list.append(knight)
-			elif dict_list[value]["Type"] == "Rouge":
-				rouge = Rouge(value)
-				rouge.score = dict_list[value]["Score"]
-				rouge.time_saved = dict_list[value]["Time"]
-				saved_character_list.append(rouge)
-			elif dict_list[value]["Type"] == "Wizard":
-				wizard = Wizard(value)
-				wizard.score = dict_list[value]["Score"]
-				wizard.time_saved = dict_list[value]["Time"]
-				saved_character_list.append(wizard)
-
-except FileNotFoundError:
-	with open("json_file/saved_heroes.json", "w+") as open_file:
-		open_file.write("{}")
-		dict_list = {}
-		saved_character_list = []
-		created_character_list = []
-		for value in dict_list:
-			if dict_list[value]["Type"] == "Knight":
-				knight = Knight(value)
-				knight.score = dict_list[value]["Score"]
-				saved_character_list.append(knight)
-			elif dict_list[value]["Type"] == "Rouge":
-				rouge = Rouge(value)
-				rouge.score = dict_list[value]["Score"]
-				saved_character_list.append(rouge)
-			elif dict_list[value]["Type"] == "Wizard":
-				wizard = Wizard(value)
-				wizard.score = dict_list[value]["Score"]
-				saved_character_list.append(wizard)
 
 # Here starts all the help functions for the program
 
 def load_hero():
+
 	if len(saved_character_list) != 0:
 		print_slow("Saved heroes: \n")
 		for item in saved_character_list:
-			item = str(item)
-			print_slow(item)
+			print_slow(str(item))
 		print_slow("Write the name of the hero you want to play with!")
 		name_select = input("\n --> ")
 		for item in saved_character_list:
@@ -82,6 +37,7 @@ def load_hero():
 								#created_character_list.append(Knight(name))
 								#print_slow(created_character_list)
 
+								
 								
 								
 
@@ -115,6 +71,8 @@ def update_score(hero_name, instance):
 	print_slow("Your total score is: " + "{}".format(x))
 	print_slow_but_fast("Autosaving...")
 	time_now = time.strftime("%m/%d Time %H:%M")
+	instance.score = x
+	instance.time_saved = time_now
 	dict_list[hero_name]["Score"] = x
 	dict_list[hero_name]["Time"] = time_now
 	saved_character_list[saved_character_list.index(instance)] = instance
@@ -256,7 +214,7 @@ def hero_menu():
 		if choice == "9":
 			continue
 		if hero_select == 9:
-			break
+			return False, "hero_name", "hero_instance" 
 		if hero_selected is True:
 			return True, hero_name, hero_instance
 
@@ -431,7 +389,42 @@ def ask_player_to_move(current_run, hero_name):
 	elif (move_choice == "L"):
 		print_slow("Who are you kidding we know you have nothing else to do")
 		time.sleep(3)
-		exit() 
+		exit()
+
+def ai_grid_select():
+    clear_screen()
+    print_slow("-"*25)
+    print_slow("A true AI needs a map to explore, please choose a grid size suitable for SKYNET to destroy")
+    print_slow("The available options are as follows :")
+    print_slow("# 4 for 4x4 grid")
+    print_slow("# 5 for 5x5 grid")
+    print_slow("# 8 for 8x8 grid")
+    print_slow("-"*25)
+    try:
+        grid_select = int(input('\n --> '))
+    except ValueError:
+        print_slow("Bad input")
+
+    if grid_select != 4 and grid_select != 5 and grid_select != 8:
+        print_slow("Wrong input please follow the instructions correctly")
+    else:
+        return grid_select
+
+def ai_hero_menu():
+    print_slow("-"*25)
+    print_slow("# 1 for Knight")
+    print_slow("# 2 for Wizard")
+    print_slow("# 3 for Rogue")
+    choice = input("Pick a hero that SKYNET will use")
+
+    if choice == "1":
+        ai_hero = Knight(hero_name="SKYNET")
+    elif choice == "2":
+        ai_hero = Wizard(hero_name="SKYNET")
+    elif choice == "3":
+        ai_hero = Rouge(hero_name="SKYNET")
+
+    return ai_hero
 
 
 #start_menu()
@@ -444,9 +437,58 @@ if __name__ == "__main__":
 	oscars_hotfix = 0
 
 	while True:
+		#maximize_console()
+		#activate before compiling to .exe
+		os.system('color 02')
+		folder = Path("json_file")
+		folder.mkdir(exist_ok=True)
+
+	try:
+		with open("json_file/saved_heroes.json", "r") as open_file:
+			dict_list = json.load(open_file)
+			saved_character_list = []
+			created_character_list = []
+			for value in dict_list:
+				if dict_list[value]["Type"] == "Knight":
+					knight = Knight(value)
+					knight.score = dict_list[value]["Score"]
+					knight.time_saved = dict_list[value]["Time"]
+					saved_character_list.append(knight)
+				elif dict_list[value]["Type"] == "Rouge":
+					rouge = Rouge(value)
+					rouge.score = dict_list[value]["Score"]
+					rouge.time_saved = dict_list[value]["Time"]
+					saved_character_list.append(rouge)
+				elif dict_list[value]["Type"] == "Wizard":
+					wizard = Wizard(value)
+					wizard.score = dict_list[value]["Score"]
+					wizard.time_saved = dict_list[value]["Time"]
+					saved_character_list.append(wizard)
+
+	except FileNotFoundError:
+		with open("json_file/saved_heroes.json", "w+") as open_file:
+			open_file.write("{}")
+			dict_list = {}
+			saved_character_list = []
+			created_character_list = []
+			for value in dict_list:
+				if dict_list[value]["Type"] == "Knight":
+					knight = Knight(value)
+					knight.score = dict_list[value]["Score"]
+					saved_character_list.append(knight)
+				elif dict_list[value]["Type"] == "Rouge":
+					rouge = Rouge(value)
+					rouge.score = dict_list[value]["Score"]
+					saved_character_list.append(rouge)
+				elif dict_list[value]["Type"] == "Wizard":
+					wizard = Wizard(value)
+					wizard.score = dict_list[value]["Score"]
+					saved_character_list.append(wizard)
+
+
 		grid_size = 0
 		clear_screen()
-		print_slow_but_fast("""
+		print_slow("""
 
 
 				██████╗ ██╗   ██╗███╗   ██╗ ██████╗ ███████╗ ██████╗ ███╗   ██╗    ██████╗ ██╗   ██╗███╗   ██╗
@@ -459,13 +501,14 @@ if __name__ == "__main__":
 
 		""")
 		#print_slow(" \n Dungeon Run \n")
-		print_slow_but_fast("-"*50 + "Welcome to DUNGEON RUN choose an option to continue" + "-"*50)
+		print_slow("-"*50 + "Welcome to DUNGEON RUN choose an option to continue" + "-"*50)
 		print_slow_but_fast(" "*65+"-"*15)
 		#print_slow("Welcome to DUNGEON RUN choose an option to go continue")
-		print_slow(" "*65+"# 1 New Game")
-		print_slow(" "*65+"# 2 Load Game")
-		print_slow(" "*65+"# 3 Quit")
-		print_slow(" "*65+"-"*15)
+		print_slow_but_fast(" "*65+"# 1 New Game")
+		print_slow_but_fast(" "*65+"# 2 Load Game")
+		print_slow_but_fast(" "*65+"# 3 Release SKYNET")
+		print_slow_but_fast(" "*65+"# 4 Quit")
+		print(" "*65+"-"*15)
 		try:
 			sub_meny = int(input("\n"+" "*65+"-->"))
 		except ValueError:
@@ -496,5 +539,12 @@ if __name__ == "__main__":
 			continue
 
 		elif (sub_meny == 3):
+			clear_screen()
+			hero_instance = ai_hero_menu()
+			grid_select = grid_menu()
+			main = ai_main(grid_size=grid_select, hero_instance=hero_instance)
+			main.main_loop()
+
+		elif (sub_meny == 4):
 			print_slow("If you refer a friend, you will unlock a special character. Cya!")
 			exit()
